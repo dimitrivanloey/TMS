@@ -1,0 +1,136 @@
+{% extends "unit_logs/base.html" %}
+
+{% block content %}
+
+<style>
+    .flex-container {
+        display: flex;
+        flex-wrap: wrap;
+        align-content: center;
+    }
+    .flex-container > div {
+        width: 100px;
+        margin: 5px;
+        text-align: center;
+        line-height: 25px;
+        font-size: 30px;
+        font-family: Arial, Helvetica, sans-serif;
+        flex-basis: 8%;
+    }
+
+    a {
+        width: 100px;
+    }
+
+    
+</style>
+
+
+    
+<div class="pb-2 mb-2 border-bottom">
+    <h3>Winx</h3>
+</div>
+
+<div class="flex-container">
+    {% for winx in winxes %}
+            <div>
+            <a class="btn btn-light" href="{% url 'unit_logs:winx' winx.id %}">
+            {{ winx }}
+            </a>
+        </div>
+    {% endfor %}
+</div>
+
+
+<br>
+
+
+<div class="pb-2 mb-2 border-bottom">
+    <h3>Enable</h3>
+</div>
+
+<div class="flex-container">
+    {% for enable in enables %}
+        <div>
+            <a class="btn btn-light" href="{% url 'unit_logs:enable' enable.id %}">
+            {{ enable }}
+            </a>
+        </div>
+    {% endfor %}
+</div>
+
+
+<br>
+
+<div class="pb-2 mb-2 border-bottom">
+    <h3>Arkle</h3>
+</div>
+
+<div class="flex-container">
+    {% for arkle in arkles %}
+        <div>
+            <a class="btn btn-light" href="{% url 'unit_logs:arkle' arkle.id %}">
+            {{ arkle }}
+            </a>
+        </div>
+    {% endfor %}
+</div>
+
+
+<br>
+
+
+<div class="pb-2 mb-2 border-bottom">
+    <h3>Denman</h3>
+</div>
+
+<div class="flex-container">
+    {% for denman in denmans %}
+        <div>
+            <a class="btn btn-light" href="{% url 'unit_logs:denman' denman.id %}">
+            {{ denman }}
+            </a>
+        </div>
+    {% endfor %}
+</div>
+
+
+<br>
+
+
+<div class="pb-2 mb-2 border-bottom">
+    <h3>Kauto</h3>
+</div>
+
+<div class="flex-container">
+    {% for kauto in kautos %}
+            <div>
+                <a class="btn btn-light" href="{% url 'unit_logs:kauto' kauto.id %}">
+                    {{ kauto }}
+                </a>
+            </div>
+    {% endfor %}
+</div>
+
+
+<br>
+
+
+<div class="pb-2 mb-2 border-bottom">
+    <h3>Frankel</h3>
+</div>
+
+<div class="flex-container">
+    {% for frankel in frankels %}
+        <div>
+            <a class="btn btn-light" href="{% url 'unit_logs:frankel' frankel.id %}">
+            {{ frankel }}
+            </a>
+        </div>
+    {% endfor %}
+</div>
+
+
+
+
+{% endblock content %}

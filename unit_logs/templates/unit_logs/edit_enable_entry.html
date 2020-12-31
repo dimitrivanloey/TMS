@@ -1,0 +1,38 @@
+{% extends "unit_logs/base.html" %}
+{% load bootstrap4 %}
+
+{% block content %} 
+
+<div class="card mb-3">
+    <h4 class="card-header">
+
+
+<a href="{% url 'unit_logs:enable' enable.id %}">{{ enable }}</a>
+
+</h4>
+
+<div class="card-body">
+
+
+
+<form class="form" action="{% url 'unit_logs:edit_enable_entry' entry.id %}" method='post'>
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% buttons %}
+    <button name="submit" class="btn btn-primary btn-block">Save changes</button>
+    {% endbuttons %}
+</form>
+
+<form method="POST" action="{% url 'unit_logs:delete_enable_entry' entry.id %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-secondary btn-block">Delete</button>
+</form>
+
+
+
+
+
+</div>
+</div>
+
+{% endblock content %} 

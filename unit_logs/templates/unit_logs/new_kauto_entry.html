@@ -1,0 +1,26 @@
+{% extends "unit_logs/base.html" %}
+{% load bootstrap4 %}
+
+{% block content %} 
+
+<div class="card mb-3">
+
+<h4 class="card-header"><a href="{% url 'unit_logs:kauto' kauto.id %}">{{ kauto }}</a></h4>
+
+<div class="card-body">
+
+<p>Add a new entry:</p>
+
+<form class="form" action="{% url 'unit_logs:new_kauto_entry' kauto.id %}" method="post">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% buttons %}
+    <button name="submit" class="btn btn-primary btn-block">Add entry</button>
+    {% endbuttons %}
+</form>
+
+</div>
+
+</div>
+
+{% endblock content %}

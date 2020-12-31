@@ -1,0 +1,21 @@
+{% extends "unit_logs/base.html" %}
+{% load bootstrap4 %}
+
+{% block content %}
+
+<div class="card mb-3">
+    <h4 class="card-header">
+    Add a new Kauto</h4>
+
+<div class="card-body">
+
+    <form action="{% url 'unit_logs:new_kauto' %}" method='POST'>
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+        <button name="submit" class="btn btn-primary btn-block">Add Kauto</button>
+        {% endbuttons %}
+    </form>
+</div>
+</div>
+    {% endblock content %}
