@@ -25,22 +25,27 @@
     
 </style>
 
+<div class="pb-2 mb-2 border-bottom">
+    <h1>Welcome to the Tracker Management System</h1>
+</div>
+   <br>
+    <p>Total number of trackers in service: {{ total_in_service }} ({{ percentage_total_in_service }}%)</p>
+    <p>Total numbers of trackers in repair: {{ total_in_repair }} ({{ percentage_total_in_repair }}%)</p>
+    <p>Total number of trackers not in service: {{ total_not_in_service }} ({{ percentage_total_not_in_service }}%)</p>
+    <p><strong>Total number of trackers: {{ total_trackers }}</strong></p>
 
-    
+
+<br>
+<br>
+
 <div class="pb-2 mb-2 border-bottom">
     <h3>Winx</h3>
+    
 </div>
-
-<div class="flex-container">
-    {% for winx in winxes %}
-            <div>
-            <a class="btn btn-light" href="{% url 'unit_logs:winx' winx.id %}">
-            {{ winx }}
-            </a>
-        </div>
-    {% endfor %}
-</div>
-
+    <p>Winxes in service: {{ winxes_in_service }}</p>
+    <p>Winxes in repair: {{ winxes_in_repair }}</p>
+    <p>Winxes not in service: {{ winxes_not_in_service }}</p>
+    <p><strong>Total number of Winxes: {{ winxes_total }}</strong></p>
 
 <br>
 
@@ -48,34 +53,20 @@
 <div class="pb-2 mb-2 border-bottom">
     <h3>Enable</h3>
 </div>
-
-<div class="flex-container">
-    {% for enable in enables %}
-        <div>
-            <a class="btn btn-light" href="{% url 'unit_logs:enable' enable.id %}">
-            {{ enable }}
-            </a>
-        </div>
-    {% endfor %}
-</div>
-
+    <p>Enables in service: {{ enables_in_service }}</p>
+    <p>Enables in repair: {{ enables_in_repair }}</p>
+    <p>Enables not in service: {{ enables_not_in_service }}</p>
+    <p><strong>Total number of Enables: {{ enables_total }}</strong></p>
 
 <br>
 
 <div class="pb-2 mb-2 border-bottom">
     <h3>Arkle</h3>
 </div>
-
-<div class="flex-container">
-    {% for arkle in arkles %}
-        <div>
-            <a class="btn btn-light" href="{% url 'unit_logs:arkle' arkle.id %}">
-            {{ arkle }}
-            </a>
-        </div>
-    {% endfor %}
-</div>
-
+    <p>Arkles in service: {{ arkles_in_service }}</p>
+    <p>Arkles in repair: {{ arkles_in_repair }}</p>
+    <p>Arkles not in service: {{ arkles_not_in_service }}</p>
+    <p><strong>Total number of Arkles: {{ arkles_total }}</strong></p>
 
 <br>
 
@@ -83,17 +74,10 @@
 <div class="pb-2 mb-2 border-bottom">
     <h3>Denman</h3>
 </div>
-
-<div class="flex-container">
-    {% for denman in denmans %}
-        <div>
-            <a class="btn btn-light" href="{% url 'unit_logs:denman' denman.id %}">
-            {{ denman }}
-            </a>
-        </div>
-    {% endfor %}
-</div>
-
+    <p>Denmans in service: {{ denmans_in_service }}</p>
+    <p>Denmans in repair: {{ denmans_in_repair }}</p>
+    <p>Denmans not in service: {{ denmans_not_in_service }}</p>
+    <p><strong>Total number of Denmans: {{ denmans_total }}</strong></p>
 
 <br>
 
@@ -101,17 +85,10 @@
 <div class="pb-2 mb-2 border-bottom">
     <h3>Kauto</h3>
 </div>
-
-<div class="flex-container">
-    {% for kauto in kautos %}
-            <div>
-                <a class="btn btn-light" href="{% url 'unit_logs:kauto' kauto.id %}">
-                    {{ kauto }}
-                </a>
-            </div>
-    {% endfor %}
-</div>
-
+    <p>Kautos in service: {{ kautos_in_service }}</p>
+    <p>Kautos in repair: {{ kautos_in_repair }}</p>
+    <p>Kautos not in service: {{ kautos_not_in_service }}</p>
+    <p><strong>Total number of Kautos: {{ kautos_total }}</strong></p>
 
 <br>
 
@@ -119,18 +96,9 @@
 <div class="pb-2 mb-2 border-bottom">
     <h3>Frankel</h3>
 </div>
-
-<div class="flex-container">
-    {% for frankel in frankels %}
-        <div>
-            <a class="btn btn-light" href="{% url 'unit_logs:frankel' frankel.id %}">
-            {{ frankel }}
-            </a>
-        </div>
-    {% endfor %}
-</div>
-
-
-
+    <p>Frankels in service: {{ frankels_in_service }}</p>
+    <p>Frankels in repair: {{ frankels_in_repair }}</p>
+    <p>Frankels not in service: {{ frankels_not_in_service }}</p>
+    <p><strong>Total number of Frankels: {{ frankels_total }}</strong></p>
 
 {% endblock content %}

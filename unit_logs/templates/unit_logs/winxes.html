@@ -38,9 +38,19 @@
 <div class="flex-container">
     {% for winx in winxes %}
             <div>
+            {% if winx.status == 'IN SERVICE' %}
             <a class="btn btn-light" href="{% url 'unit_logs:winx' winx.id %}">
             {{ winx }}
             </a>
+            {% elif winx.status == 'NOT IN SERVICE' %}
+            <a class="btn btn-dark" href="{% url 'unit_logs:winx' winx.id %}">
+                {{ winx }}
+            </a>
+            {% else %}
+            <a class="btn btn-warning" href="{% url 'unit_logs:winx' winx.id %}">
+                {{ winx }}
+            </a>
+            {% endif %}
         </div>
     {% endfor %}
 </div>

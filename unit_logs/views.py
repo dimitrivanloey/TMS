@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.clickjacking import xframe_options_exempt
+from django.db.models import Count
 
 from datetime import datetime as dt
 import datetime
@@ -64,12 +65,93 @@ def kauto_page(request):
 @login_required
 def index(request):
     winxes = Winx.objects.order_by('number')
+    winxes_total = Winx.objects.count()
+    winxes_in_service = Winx.objects.filter(status='IN SERVICE').count()
+    winxes_not_in_service = Winx.objects.filter(status='NOT IN SERVICE').count()
+    winxes_in_repair = Winx.objects.filter(status='IN REPAIR').count()
+
+    enables_total = Enable.objects.count()
+    enables_in_service = Enable.objects.filter(status='IN SERVICE').count()
+    enables_not_in_service = Enable.objects.filter(status='NOT IN SERVICE').count()
+    enables_in_repair = Enable.objects.filter(status='IN REPAIR').count()
+
+    arkles_total = Arkle.objects.count()
+    arkles_in_service = Arkle.objects.filter(status='IN SERVICE').count()
+    arkles_not_in_service = Arkle.objects.filter(status='NOT IN SERVICE').count()
+    arkles_in_repair = Arkle.objects.filter(status='IN REPAIR').count()
+
+    denmans_total = Denman.objects.count()
+    denmans_in_service = Denman.objects.filter(status='IN SERVICE').count()
+    denmans_not_in_service = Denman.objects.filter(status='NOT IN SERVICE').count()
+    denmans_in_repair = Denman.objects.filter(status='IN REPAIR').count()
+
+    kautos_total = Kauto.objects.count()
+    kautos_in_service = Kauto.objects.filter(status='IN SERVICE').count()
+    kautos_not_in_service = Kauto.objects.filter(status='NOT IN SERVICE').count()
+    kautos_in_repair = Kauto.objects.filter(status='IN REPAIR').count()
+
+    frankels_total = Frankel.objects.count()
+    frankels_in_service = Frankel.objects.filter(status='IN SERVICE').count()
+    frankels_not_in_service = Frankel.objects.filter(status='NOT IN SERVICE').count()
+    frankels_in_repair = Frankel.objects.filter(status='IN REPAIR').count()
+
+    total_trackers = winxes_total + enables_total + arkles_total + denmans_total + kautos_total + frankels_total
+    total_in_service = winxes_in_service + enables_in_service + arkles_in_service + denmans_in_service + kautos_in_service + frankels_in_service
+    total_not_in_service = winxes_not_in_service + enables_not_in_service + arkles_not_in_service + denmans_not_in_service + kautos_not_in_service + frankels_not_in_service
+    total_in_repair = winxes_in_repair + enables_in_repair + arkles_in_repair + denmans_in_repair + kautos_in_repair + frankels_in_repair
+
+    percentage_total_in_service = round( total_in_service/ total_trackers * 100, 2)
+    percentage_total_not_in_service = round( total_not_in_service/ total_trackers * 100, 2)
+    percentage_total_in_repair = round( total_in_repair/ total_trackers * 100, 2)
+
+
     arkles = Arkle.objects.order_by('number')
     denmans = Denman.objects.order_by('number')
     enables = Enable.objects.order_by('number')
     frankels = Frankel.objects.order_by('number')
     kautos = Kauto.objects.order_by('number')
-    context = {'winxes' : winxes, 'arkles' : arkles, 'denmans' : denmans, 'enables' : enables, 'frankels' : frankels, 'kautos' : kautos}
+
+    context = {
+        'total_trackers': total_trackers,
+        'total_in_service': total_in_service,
+        'total_not_in_service': total_not_in_service,
+        'total_in_repair': total_in_repair,
+        'percentage_total_in_service': percentage_total_in_service,
+        'percentage_total_not_in_service': percentage_total_not_in_service,
+        'percentage_total_in_repair': percentage_total_in_repair,
+        'winxes' : winxes, 
+        'arkles' : arkles, 
+        'denmans' : denmans, 
+        'enables' : enables, 
+        'frankels' : frankels, 
+        'kautos' : kautos, 
+        'winxes_total': winxes_total, 
+        'winxes_in_service': winxes_in_service,
+        'winxes_not_in_service': winxes_not_in_service,
+        'winxes_in_repair': winxes_in_repair,
+        'enables_total': enables_total, 
+        'enables_in_service': enables_in_service,
+        'enables_not_in_service': enables_not_in_service,
+        'enables_in_repair': enables_in_repair,
+        'arkles_total': arkles_total, 
+        'arkles_in_service': arkles_in_service,
+        'arkles_not_in_service': arkles_not_in_service,
+        'arkles_in_repair': arkles_in_repair,
+        'denmans_total': denmans_total, 
+        'denmans_in_service': denmans_in_service,
+        'denmans_not_in_service': denmans_not_in_service,
+        'denmans_in_repair': denmans_in_repair,
+        'kautos_total': kautos_total, 
+        'kautos_in_service': kautos_in_service,
+        'kautos_not_in_service': kautos_not_in_service,
+        'kautos_in_repair': kautos_in_repair,
+        'frankels_total': frankels_total, 
+        'frankels_in_service': frankels_in_service,
+        'frankels_not_in_service': frankels_not_in_service,
+        'frankels_in_repair': frankels_in_repair
+
+
+    }
     return render(request, 'unit_logs/index.html', context)
 
 
@@ -78,8 +160,7 @@ def index(request):
 @xframe_options_exempt
 @login_required
 def winxes(request):
-    winxes = Winx.objects.order_by('-date_added', '-status', 'number')
-    
+    winxes = Winx.objects.order_by('number')
     context = {'winxes' : winxes}
     return render(request, 'unit_logs/winxes.html', context)
 
@@ -177,7 +258,7 @@ def frankel(request, frankel_id):
 @xframe_options_exempt
 @login_required
 def arkles(request):
-    arkles = Arkle.objects.order_by('-date_added', '-status', 'number')
+    arkles = Arkle.objects.order_by('number')
     context = {'arkles' : arkles}
     return render(request, 'unit_logs/arkles.html', context)
 
@@ -186,7 +267,7 @@ def arkles(request):
 @xframe_options_exempt
 @login_required
 def denmans(request):
-    denmans = Denman.objects.order_by('-date_added', '-status', 'number')
+    denmans = Denman.objects.order_by('number')
     context = {'denmans' : denmans}
     return render(request, 'unit_logs/denmans.html', context)
 
@@ -196,7 +277,7 @@ def denmans(request):
 @xframe_options_exempt
 @login_required
 def enables(request):
-    enables = Enable.objects.order_by('-date_added', '-status', 'number')
+    enables = Enable.objects.order_by('number')
     context = {'enables' : enables}
     return render(request, 'unit_logs/enables.html', context)
 
@@ -205,7 +286,7 @@ def enables(request):
 @xframe_options_exempt
 @login_required
 def frankels(request):
-    frankels = Frankel.objects.order_by('-date_added', '-status', 'number')
+    frankels = Frankel.objects.order_by('number')
     context = {'frankels' : frankels}
     return render(request, 'unit_logs/frankels.html', context)
 
@@ -214,7 +295,7 @@ def frankels(request):
 @xframe_options_exempt
 @login_required
 def kautos(request):
-    kautos = Kauto.objects.order_by('-date_added', '-status', 'number')
+    kautos = Kauto.objects.order_by('number')
     context = {'kautos' : kautos}
     return render(request, 'unit_logs/kautos.html', context)
 
@@ -691,3 +772,4 @@ def delete_frankel_entry(request, entry_id):
     if request.method == 'POST':
         entry.delete()
         return redirect('unit_logs:frankel', frankel_id=frankel.id)
+

@@ -4,6 +4,7 @@ class Winx(models.Model):
 
     STATUS_CHOICES = {
         ('IN SERVICE', 'In Service'),
+        ('IN REPAIR', 'In Repair'),
         ('NOT IN SERVICE', 'Not In Service'),
     }
 
@@ -21,6 +22,7 @@ class Enable(models.Model):
 
     STATUS_CHOICES = {
         ('IN SERVICE', 'In Service'),
+        ('IN REPAIR', 'In Repair'),
         ('NOT IN SERVICE', 'Not In Service'),
     }
 
@@ -38,6 +40,7 @@ class Arkle(models.Model):
 
     STATUS_CHOICES = {
         ('IN SERVICE', 'In Service'),
+        ('IN REPAIR', 'In Repair'),
         ('NOT IN SERVICE', 'Not In Service'),
     }
 
@@ -55,6 +58,7 @@ class Denman(models.Model):
 
     STATUS_CHOICES = {
         ('IN SERVICE', 'In Service'),
+        ('IN REPAIR', 'In Repair'),
         ('NOT IN SERVICE', 'Not In Service'),
     }
 
@@ -73,6 +77,7 @@ class Kauto(models.Model):
 
     STATUS_CHOICES = {
         ('IN SERVICE', 'In Service'),
+        ('IN REPAIR', 'In Repair'),
         ('NOT IN SERVICE', 'Not In Service'),
     }
 
@@ -90,6 +95,7 @@ class Frankel(models.Model):
 
     STATUS_CHOICES = {
         ('IN SERVICE', 'In Service'),
+        ('IN REPAIR', 'In Repair'),
         ('NOT IN SERVICE', 'Not In Service'),
     }
 
@@ -106,7 +112,7 @@ class Frankel(models.Model):
 class Entry(models.Model):
 
     STATUS_CHOICES = {
-        ('In Service', 'In Service'),
+        ('Good Performance', 'Good Performance'),
         ('Failed Battery', 'Failed Battery'),
         ('Damaged Case', 'Damaged Case'),
         ('No Solid White', 'No Solid White'),
@@ -119,6 +125,7 @@ class Entry(models.Model):
         ('In Repair', 'In Repair'),
         ('Refurb', 'Refurb'),
         ('Never Worked', 'Refurb'),
+        ('Returned for Investigation', 'Returned for Investigation'),
     }
 
     VENUES = {
@@ -161,8 +168,8 @@ class Entry(models.Model):
 
     winx = models.ForeignKey(Winx, on_delete=models.CASCADE)
     date_added = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=18, choices=STATUS_CHOICES, default='In Service')
-    venue = models.CharField(max_length=18, choices=VENUES, default='Kempton Park')
+    status = models.CharField(max_length=30, choices=STATUS_CHOICES, default='In Service')
+    venue = models.CharField(max_length=18, choices=VENUES, default='Kempton Park', blank=True, null=True)
     comments = models.TextField(blank=True)
 
     class Meta:
@@ -175,7 +182,7 @@ class Entry(models.Model):
 class Enable_Entry(models.Model):
 
     STATUS_CHOICES = {
-        ('In Service', 'In Service'),
+        ('Good Performance', 'Good Performance'),
         ('Failed Battery', 'Failed Battery'),
         ('Damaged Case', 'Damaged Case'),
         ('No Solid White', 'No Solid White'),
@@ -188,6 +195,7 @@ class Enable_Entry(models.Model):
         ('In Repair', 'In Repair'),
         ('Refurb', 'Refurb'),
         ('Never Worked', 'Refurb'),
+        ('Returned for Investigation', 'Returned for Investigation'),
     }
 
     VENUES = {
@@ -230,8 +238,8 @@ class Enable_Entry(models.Model):
 
     enable = models.ForeignKey(Enable, on_delete=models.CASCADE)
     date_added = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=18, choices=STATUS_CHOICES, default='In Service')
-    venue = models.CharField(max_length=18, choices=VENUES, default='Kempton Park')
+    status = models.CharField(max_length=30, choices=STATUS_CHOICES, default='In Service')
+    venue = models.CharField(max_length=18, choices=VENUES, default='Kempton Park', blank=True, null=True)
     comments = models.TextField(blank=True)
 
     class Meta:
@@ -244,7 +252,7 @@ class Enable_Entry(models.Model):
 class Arkle_Entry(models.Model):
 
     STATUS_CHOICES = {
-        ('In Service', 'In Service'),
+        ('Good Performance', 'Good Performance'),
         ('Failed Battery', 'Failed Battery'),
         ('Damaged Case', 'Damaged Case'),
         ('No Solid White', 'No Solid White'),
@@ -257,6 +265,7 @@ class Arkle_Entry(models.Model):
         ('In Repair', 'In Repair'),
         ('Refurb', 'Refurb'),
         ('Never Worked', 'Refurb'),
+        ('Returned for Investigation', 'Returned for Investigation'),
     }
 
     VENUES = {
@@ -299,8 +308,8 @@ class Arkle_Entry(models.Model):
 
     arkle = models.ForeignKey(Arkle, on_delete=models.CASCADE)
     date_added = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=18, choices=STATUS_CHOICES, default='In Service')
-    venue = models.CharField(max_length=18, choices=VENUES, default='Kempton Park')
+    status = models.CharField(max_length=30, choices=STATUS_CHOICES, default='In Service')
+    venue = models.CharField(max_length=18, choices=VENUES, default='Kempton Park', blank=True, null=True)
     comments = models.TextField(blank=True)
 
     class Meta:
@@ -312,7 +321,7 @@ class Arkle_Entry(models.Model):
 class Denman_Entry(models.Model):
 
     STATUS_CHOICES = {
-        ('In Service', 'In Service'),
+        ('Good Performance', 'Good Performance'),
         ('Failed Battery', 'Failed Battery'),
         ('Damaged Case', 'Damaged Case'),
         ('No Solid White', 'No Solid White'),
@@ -325,6 +334,7 @@ class Denman_Entry(models.Model):
         ('In Repair', 'In Repair'),
         ('Refurb', 'Refurb'),
         ('Never Worked', 'Refurb'),
+        ('Returned for Investigation', 'Returned for Investigation'),
     }
 
     VENUES = {
@@ -367,8 +377,8 @@ class Denman_Entry(models.Model):
 
     denman = models.ForeignKey(Denman, on_delete=models.CASCADE)
     date_added = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=18, choices=STATUS_CHOICES, default='In Service')
-    venue = models.CharField(max_length=18, choices=VENUES, default='Kempton Park')
+    status = models.CharField(max_length=30, choices=STATUS_CHOICES, default='In Service')
+    venue = models.CharField(max_length=18, choices=VENUES, default='Kempton Park', blank=True, null=True)
     comments = models.TextField(blank=True)
 
     class Meta:
@@ -380,7 +390,7 @@ class Denman_Entry(models.Model):
 class Kauto_Entry(models.Model):
 
     STATUS_CHOICES = {
-        ('In Service', 'In Service'),
+        ('Good Performance', 'Good Performance'),
         ('Failed Battery', 'Failed Battery'),
         ('Damaged Case', 'Damaged Case'),
         ('No Solid White', 'No Solid White'),
@@ -393,6 +403,7 @@ class Kauto_Entry(models.Model):
         ('In Repair', 'In Repair'),
         ('Refurb', 'Refurb'),
         ('Never Worked', 'Refurb'),
+        ('Returned for Investigation', 'Returned for Investigation'),
     }
 
     VENUES = {
@@ -435,8 +446,8 @@ class Kauto_Entry(models.Model):
 
     kauto = models.ForeignKey(Kauto, on_delete=models.CASCADE)
     date_added = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=18, choices=STATUS_CHOICES, default='In Service')
-    venue = models.CharField(max_length=18, choices=VENUES, default='Kempton Park')
+    status = models.CharField(max_length=30, choices=STATUS_CHOICES, default='In Service')
+    venue = models.CharField(max_length=18, choices=VENUES, default='Kempton Park', blank=True, null=True)
     comments = models.TextField(blank=True)
 
     class Meta:
@@ -448,7 +459,7 @@ class Kauto_Entry(models.Model):
 class Frankel_Entry(models.Model):
 
     STATUS_CHOICES = {
-        ('In Service', 'In Service'),
+        ('Good Performance', 'Good Performance'),
         ('Failed Battery', 'Failed Battery'),
         ('Damaged Case', 'Damaged Case'),
         ('No Solid White', 'No Solid White'),
@@ -461,6 +472,7 @@ class Frankel_Entry(models.Model):
         ('In Repair', 'In Repair'),
         ('Refurb', 'Refurb'),
         ('Never Worked', 'Refurb'),
+        ('Returned for Investigation', 'Returned for Investigation'),
     }
 
     VENUES = {
@@ -503,8 +515,8 @@ class Frankel_Entry(models.Model):
 
     frankel = models.ForeignKey(Frankel, on_delete=models.CASCADE)
     date_added = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=18, choices=STATUS_CHOICES, default='In Service')
-    venue = models.CharField(max_length=18, choices=VENUES, default='Kempton Park')
+    status = models.CharField(max_length=30, choices=STATUS_CHOICES, default='In Service')
+    venue = models.CharField(max_length=18, choices=VENUES, default='Kempton Park', blank=True, null=True)
     comments = models.TextField(blank=True)
 
     class Meta:

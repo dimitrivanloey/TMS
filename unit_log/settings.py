@@ -82,8 +82,8 @@ DATABASES = {
         'NAME': 'unitdb',
         'CLIENT': {
             'name': 'unitdb',
-            'host': MONGODB_URI,
-            #'host': 'mongodb+srv://dimitrivanloey:Caemaex01@cluster0.uystz.mongodb.net/unitdb?retryWrites=true&w=majority',
+            #'host': MONGODB_URI,
+            'host': 'mongodb+srv://dimitrivanloey:Caemaex01@cluster0.uystz.mongodb.net/unitdb?retryWrites=true&w=majority',
             'username': 'dimitrivanloey',
             'password':'Caemaex01',
             "authMechanism": "SCRAM-SHA-1",
