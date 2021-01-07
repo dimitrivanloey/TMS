@@ -169,10 +169,11 @@ def winxes(request):
 def winx(request, winx_id):
     winx = Winx.objects.get(id=winx_id)
     entries = winx.entry_set.order_by('-date_added')
+    entries_count = winx.entry_set.filter(status= 'Good Performance').count()
     
     if request.method == 'GET':
         form = WinxForm(instance=winx)
-        context = {'winx': winx, 'form':form, 'entries':entries}
+        context = {'winx': winx, 'form':form, 'entries':entries, 'entries_count': entries_count}
         return render(request, 'unit_logs/winx_unit.html', context)
     else:
         form = WinxForm(request.POST, instance=winx)

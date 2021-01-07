@@ -111,21 +111,21 @@ class Frankel(models.Model):
 
 class Entry(models.Model):
 
-    STATUS_CHOICES = {
-        ('Good Performance', 'Good Performance'),
-        ('Failed Battery', 'Failed Battery'),
-        ('Damaged Case', 'Damaged Case'),
-        ('No Solid White', 'No Solid White'),
-        ('No Solid Orange', 'No Solid Orange'),
-        ('Connector Broken', 'Connector Broken'),
-        ('Switch Broken', 'Switch Broken'),
-        ('Missing', 'Missing'),
-        ('Stick', 'Stick'),
-        ('Failed', 'Failed'),
-        ('In Repair', 'In Repair'),
-        ('Refurb', 'Refurb'),
-        ('Never Worked', 'Refurb'),
-        ('Returned for Investigation', 'Returned for Investigation'),
+
+    STATUS = {
+        ('On course - Test: No Solid White', 'On course - Test: No Solid White'),
+        ('On course - Test: No Orange', 'On course - Test: No Orange'),
+        ('On course - Test: Broken Switch', 'On course - Test: Broken Switch'),
+        ('On course - Test: Broken Connector', 'On course - Test: Broken Connector'),
+        ('Out of Service and returned for Refurb', 'Out of Service and returned for Refurb'),
+        ('On course - Racing: Not to course', 'On course - racing: Not to course'),
+        ('On course - Racing: Stuck on track', 'On course - racing: Stuck on track'),
+        ('On course - Racing: Good Performance', 'On course - racing: Good Performance'),
+        ('In Refurb: Send for mechanical repair', 'In Refurb: Send for mechanical repair'),
+        ('In Refurb: No reply from modem', 'In Refurb: No reply from modem'),
+        ('In Refurb: Broken beyond repair', 'In Refurb: Broken beyond repair'),
+        ('In Refurb: Fixed and returning to course', 'In Refurb: Fixed and returning to course'),
+        ('On course - Test: No Red', 'On course - Test: No Red'),
     }
 
     VENUES = {
@@ -168,12 +168,13 @@ class Entry(models.Model):
 
     winx = models.ForeignKey(Winx, on_delete=models.CASCADE)
     date_added = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=30, choices=STATUS_CHOICES, default='In Service')
-    venue = models.CharField(max_length=18, choices=VENUES, default='Kempton Park', blank=True, null=True)
+    status = models.CharField(max_length=40, choices=STATUS, blank=True, null=True)
+    venue = models.CharField(max_length=18, choices=VENUES, blank=True, null=True)
     comments = models.TextField(blank=True)
 
     class Meta:
         verbose_name_plural = 'entries'
+
 
     def __str__(self):
         return f"Entry: {self.date_added}"
@@ -182,20 +183,19 @@ class Entry(models.Model):
 class Enable_Entry(models.Model):
 
     STATUS_CHOICES = {
-        ('Good Performance', 'Good Performance'),
-        ('Failed Battery', 'Failed Battery'),
-        ('Damaged Case', 'Damaged Case'),
-        ('No Solid White', 'No Solid White'),
-        ('No Solid Orange', 'No Solid Orange'),
-        ('Connector Broken', 'Connector Broken'),
-        ('Switch Broken', 'Switch Broken'),
-        ('Missing', 'Missing'),
-        ('Stick', 'Stick'),
-        ('Failed', 'Failed'),
-        ('In Repair', 'In Repair'),
-        ('Refurb', 'Refurb'),
-        ('Never Worked', 'Refurb'),
-        ('Returned for Investigation', 'Returned for Investigation'),
+        ('On course - Test: No Solid White', 'On course - Test: No Solid White'),
+        ('On course - Test: No Orange', 'On course - Test: No Orange'),
+        ('On course - Test: Broken Switch', 'On course - Test: Broken Switch'),
+        ('On course - Test: Broken Connector', 'On course - Test: Broken Connector'),
+        ('Out of Service and returned for Refurb', 'Out of Service and returned for Refurb'),
+        ('On course - Racing: Not to course', 'On course - racing: Not to course'),
+        ('On course - Racing: Stuck on track', 'On course - racing: Stuck on track'),
+        ('On course - Racing: Good Performance', 'On course - racing: Good Performance'),
+        ('In Refurb: Send for mechanical repair', 'In Refurb: Send for mechanical repair'),
+        ('In Refurb: No reply from modem', 'In Refurb: No reply from modem'),
+        ('In Refurb: Broken beyond repair', 'In Refurb: Broken beyond repair'),
+        ('In Refurb: Fixed and returning to course', 'In Refurb: Fixed and returning to course'),
+        ('On course - Test: No Red', 'On course - Test: No Red'),
     }
 
     VENUES = {
@@ -238,7 +238,7 @@ class Enable_Entry(models.Model):
 
     enable = models.ForeignKey(Enable, on_delete=models.CASCADE)
     date_added = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=30, choices=STATUS_CHOICES, default='In Service')
+    status = models.CharField(max_length=40, choices=STATUS_CHOICES, default='In Service')
     venue = models.CharField(max_length=18, choices=VENUES, default='Kempton Park', blank=True, null=True)
     comments = models.TextField(blank=True)
 
@@ -252,20 +252,19 @@ class Enable_Entry(models.Model):
 class Arkle_Entry(models.Model):
 
     STATUS_CHOICES = {
-        ('Good Performance', 'Good Performance'),
-        ('Failed Battery', 'Failed Battery'),
-        ('Damaged Case', 'Damaged Case'),
-        ('No Solid White', 'No Solid White'),
-        ('No Solid Orange', 'No Solid Orange'),
-        ('Connector Broken', 'Connector Broken'),
-        ('Switch Broken', 'Switch Broken'),
-        ('Missing', 'Missing'),
-        ('Stick', 'Stick'),
-        ('Failed', 'Failed'),
-        ('In Repair', 'In Repair'),
-        ('Refurb', 'Refurb'),
-        ('Never Worked', 'Refurb'),
-        ('Returned for Investigation', 'Returned for Investigation'),
+        ('On course - Test: No Solid White', 'On course - Test: No Solid White'),
+        ('On course - Test: No Orange', 'On course - Test: No Orange'),
+        ('On course - Test: Broken Switch', 'On course - Test: Broken Switch'),
+        ('On course - Test: Broken Connector', 'On course - Test: Broken Connector'),
+        ('Out of Service and returned for Refurb', 'Out of Service and returned for Refurb'),
+        ('On course - Racing: Not to course', 'On course - racing: Not to course'),
+        ('On course - Racing: Stuck on track', 'On course - racing: Stuck on track'),
+        ('On course - Racing: Good Performance', 'On course - racing: Good Performance'),
+        ('In Refurb: Send for mechanical repair', 'In Refurb: Send for mechanical repair'),
+        ('In Refurb: No reply from modem', 'In Refurb: No reply from modem'),
+        ('In Refurb: Broken beyond repair', 'In Refurb: Broken beyond repair'),
+        ('In Refurb: Fixed and returning to course', 'In Refurb: Fixed and returning to course'),
+        ('On course - Test: No Red', 'On course - Test: No Red'),
     }
 
     VENUES = {
@@ -308,7 +307,7 @@ class Arkle_Entry(models.Model):
 
     arkle = models.ForeignKey(Arkle, on_delete=models.CASCADE)
     date_added = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=30, choices=STATUS_CHOICES, default='In Service')
+    status = models.CharField(max_length=40, choices=STATUS_CHOICES, default='In Service')
     venue = models.CharField(max_length=18, choices=VENUES, default='Kempton Park', blank=True, null=True)
     comments = models.TextField(blank=True)
 
@@ -321,20 +320,19 @@ class Arkle_Entry(models.Model):
 class Denman_Entry(models.Model):
 
     STATUS_CHOICES = {
-        ('Good Performance', 'Good Performance'),
-        ('Failed Battery', 'Failed Battery'),
-        ('Damaged Case', 'Damaged Case'),
-        ('No Solid White', 'No Solid White'),
-        ('No Solid Orange', 'No Solid Orange'),
-        ('Connector Broken', 'Connector Broken'),
-        ('Switch Broken', 'Switch Broken'),
-        ('Missing', 'Missing'),
-        ('Stick', 'Stick'),
-        ('Failed', 'Failed'),
-        ('In Repair', 'In Repair'),
-        ('Refurb', 'Refurb'),
-        ('Never Worked', 'Refurb'),
-        ('Returned for Investigation', 'Returned for Investigation'),
+        ('On course - Test: No Solid White', 'On course - Test: No Solid White'),
+        ('On course - Test: No Orange', 'On course - Test: No Orange'),
+        ('On course - Test: Broken Switch', 'On course - Test: Broken Switch'),
+        ('On course - Test: Broken Connector', 'On course - Test: Broken Connector'),
+        ('Out of Service and returned for Refurb', 'Out of Service and returned for Refurb'),
+        ('On course - Racing: Not to course', 'On course - racing: Not to course'),
+        ('On course - Racing: Stuck on track', 'On course - racing: Stuck on track'),
+        ('On course - Racing: Good Performance', 'On course - racing: Good Performance'),
+        ('In Refurb: Send for mechanical repair', 'In Refurb: Send for mechanical repair'),
+        ('In Refurb: No reply from modem', 'In Refurb: No reply from modem'),
+        ('In Refurb: Broken beyond repair', 'In Refurb: Broken beyond repair'),
+        ('In Refurb: Fixed and returning to course', 'In Refurb: Fixed and returning to course'),
+        ('On course - Test: No Red', 'On course - Test: No Red'),
     }
 
     VENUES = {
@@ -377,7 +375,7 @@ class Denman_Entry(models.Model):
 
     denman = models.ForeignKey(Denman, on_delete=models.CASCADE)
     date_added = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=30, choices=STATUS_CHOICES, default='In Service')
+    status = models.CharField(max_length=40, choices=STATUS_CHOICES, default='In Service')
     venue = models.CharField(max_length=18, choices=VENUES, default='Kempton Park', blank=True, null=True)
     comments = models.TextField(blank=True)
 
@@ -390,20 +388,19 @@ class Denman_Entry(models.Model):
 class Kauto_Entry(models.Model):
 
     STATUS_CHOICES = {
-        ('Good Performance', 'Good Performance'),
-        ('Failed Battery', 'Failed Battery'),
-        ('Damaged Case', 'Damaged Case'),
-        ('No Solid White', 'No Solid White'),
-        ('No Solid Orange', 'No Solid Orange'),
-        ('Connector Broken', 'Connector Broken'),
-        ('Switch Broken', 'Switch Broken'),
-        ('Missing', 'Missing'),
-        ('Stick', 'Stick'),
-        ('Failed', 'Failed'),
-        ('In Repair', 'In Repair'),
-        ('Refurb', 'Refurb'),
-        ('Never Worked', 'Refurb'),
-        ('Returned for Investigation', 'Returned for Investigation'),
+        ('On course - Test: No Solid White', 'On course - Test: No Solid White'),
+        ('On course - Test: No Orange', 'On course - Test: No Orange'),
+        ('On course - Test: Broken Switch', 'On course - Test: Broken Switch'),
+        ('On course - Test: Broken Connector', 'On course - Test: Broken Connector'),
+        ('Out of Service and returned for Refurb', 'Out of Service and returned for Refurb'),
+        ('On course - Racing: Not to course', 'On course - racing: Not to course'),
+        ('On course - Racing: Stuck on track', 'On course - racing: Stuck on track'),
+        ('On course - Racing: Good Performance', 'On course - racing: Good Performance'),
+        ('In Refurb: Send for mechanical repair', 'In Refurb: Send for mechanical repair'),
+        ('In Refurb: No reply from modem', 'In Refurb: No reply from modem'),
+        ('In Refurb: Broken beyond repair', 'In Refurb: Broken beyond repair'),
+        ('In Refurb: Fixed and returning to course', 'In Refurb: Fixed and returning to course'),
+        ('On course - Test: No Red', 'On course - Test: No Red'),
     }
 
     VENUES = {
@@ -446,7 +443,7 @@ class Kauto_Entry(models.Model):
 
     kauto = models.ForeignKey(Kauto, on_delete=models.CASCADE)
     date_added = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=30, choices=STATUS_CHOICES, default='In Service')
+    status = models.CharField(max_length=40, choices=STATUS_CHOICES, default='In Service')
     venue = models.CharField(max_length=18, choices=VENUES, default='Kempton Park', blank=True, null=True)
     comments = models.TextField(blank=True)
 
@@ -459,20 +456,19 @@ class Kauto_Entry(models.Model):
 class Frankel_Entry(models.Model):
 
     STATUS_CHOICES = {
-        ('Good Performance', 'Good Performance'),
-        ('Failed Battery', 'Failed Battery'),
-        ('Damaged Case', 'Damaged Case'),
-        ('No Solid White', 'No Solid White'),
-        ('No Solid Orange', 'No Solid Orange'),
-        ('Connector Broken', 'Connector Broken'),
-        ('Switch Broken', 'Switch Broken'),
-        ('Missing', 'Missing'),
-        ('Stick', 'Stick'),
-        ('Failed', 'Failed'),
-        ('In Repair', 'In Repair'),
-        ('Refurb', 'Refurb'),
-        ('Never Worked', 'Refurb'),
-        ('Returned for Investigation', 'Returned for Investigation'),
+        ('On course - Test: No Solid White', 'On course - Test: No Solid White'),
+        ('On course - Test: No Orange', 'On course - Test: No Orange'),
+        ('On course - Test: Broken Switch', 'On course - Test: Broken Switch'),
+        ('On course - Test: Broken Connector', 'On course - Test: Broken Connector'),
+        ('Out of Service and returned for Refurb', 'Out of Service and returned for Refurb'),
+        ('On course - Racing: Not to course', 'On course - racing: Not to course'),
+        ('On course - Racing: Stuck on track', 'On course - racing: Stuck on track'),
+        ('On course - Racing: Good Performance', 'On course - racing: Good Performance'),
+        ('In Refurb: Send for mechanical repair', 'In Refurb: Send for mechanical repair'),
+        ('In Refurb: No reply from modem', 'In Refurb: No reply from modem'),
+        ('In Refurb: Broken beyond repair', 'In Refurb: Broken beyond repair'),
+        ('In Refurb: Fixed and returning to course', 'In Refurb: Fixed and returning to course'),
+        ('On course - Test: No Red', 'On course - Test: No Red'),
     }
 
     VENUES = {
@@ -515,7 +511,7 @@ class Frankel_Entry(models.Model):
 
     frankel = models.ForeignKey(Frankel, on_delete=models.CASCADE)
     date_added = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=30, choices=STATUS_CHOICES, default='In Service')
+    status = models.CharField(max_length=40, choices=STATUS_CHOICES, default='In Service')
     venue = models.CharField(max_length=18, choices=VENUES, default='Kempton Park', blank=True, null=True)
     comments = models.TextField(blank=True)
 
