@@ -31,24 +31,26 @@
 
     
 <div class="pb-2 mb-2 border-bottom">
+    <a class="btn btn-dark" href="{% url 'unit_logs:new_other' %}" role="button">Add Unit</a>
    
-    <a class="btn btn-dark" href="{% url 'unit_logs:new_frankel' %}" role="button">Add Frankel</a>
+    
+    
 </div>
 
 <div class="flex-container">
-    {% for frankel in frankels %}
+    {% for other in others %}
     <div>
-        {% if frankel.status == 'IN SERVICE' %}
-        <a class="btn btn-success" href="{% url 'unit_logs:frankel' frankel.id %}">
-        {{ frankel }}
+        {% if other.status == 'IN SERVICE' %}
+        <a class="btn btn-success" href="{% url 'unit_logs:other' other.id %}">
+        {{ other }}
         </a>
-        {% elif frankel.status == 'NOT IN SERVICE' %}
-        <a class="btn btn-danger" href="{% url 'unit_logs:frankel' frankel.id %}">
-            {{ frankel }}
+        {% elif other.status == 'NOT IN SERVICE' %}
+        <a class="btn btn-danger" href="{% url 'unit_logs:other' other.id %}">
+            {{ other }}
         </a>
         {% else %}
-        <a class="btn btn-warning" href="{% url 'unit_logs:frankel' frankel.id %}">
-            {{ frankel }}
+        <a class="btn btn-warning" href="{% url 'unit_logs:other' other.id %}">
+            {{ other }}
         </a>
         {% endif %}
     </div>

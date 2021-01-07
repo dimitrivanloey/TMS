@@ -6,9 +6,10 @@ from django.db.models import Count
 from datetime import datetime as dt
 import datetime
 
-from .models import Winx, Arkle, Denman, Enable, Frankel, Kauto, Entry
-from .forms import WinxForm, ArkleForm, DenmanForm, EnableForm, FrankelForm, KautoForm, EntryForm, EnableEntryForm, ArkleEntryForm, DenmanEntryForm, KautoEntryForm, FrankelEntryForm
-from unit_logs.models import Arkle_Entry, Denman_Entry, Enable_Entry, Frankel_Entry, Kauto_Entry
+from .models import Winx, Arkle, Denman, Enable, Frankel, Kauto, Entry, Other
+from .forms import WinxForm, ArkleForm, DenmanForm, EnableForm, FrankelForm, KautoForm, OtherForm, EntryForm, EnableEntryForm, ArkleEntryForm, DenmanEntryForm, KautoEntryForm, FrankelEntryForm
+from unit_logs.models import Arkle_Entry, Denman_Entry, Enable_Entry, Frankel_Entry, Kauto_Entry, Other_Entry
+from unit_logs.forms import OtherEntryForm
 
 
 today = datetime.date.today()
@@ -258,6 +259,21 @@ def frankel(request, frankel_id):
 
 @xframe_options_exempt
 @login_required
+def other(request, other_id):
+    other = Other.objects.get(id=other_id)
+    entries = other.other_entry_set.order_by('-date_added')
+
+    if request.method == 'GET':
+        form = OtherForm(instance=other)
+        context = {'other': other, 'form':form, 'entries':entries}
+        return render(request, 'unit_logs/other_unit.html', context)
+    else:
+        form = OtherForm(request.POST, instance=other)
+        form.save()
+        return redirect('unit_logs:others')
+
+@xframe_options_exempt
+@login_required
 def arkles(request):
     arkles = Arkle.objects.order_by('number')
     context = {'arkles' : arkles}
@@ -273,15 +289,12 @@ def denmans(request):
     return render(request, 'unit_logs/denmans.html', context)
 
 
-
-
 @xframe_options_exempt
 @login_required
 def enables(request):
     enables = Enable.objects.order_by('number')
     context = {'enables' : enables}
     return render(request, 'unit_logs/enables.html', context)
-
 
 
 @xframe_options_exempt
@@ -300,6 +313,13 @@ def kautos(request):
     context = {'kautos' : kautos}
     return render(request, 'unit_logs/kautos.html', context)
 
+
+@xframe_options_exempt
+@login_required
+def others(request):
+    others = Other.objects.order_by('number')
+    context = {'others' : others}
+    return render(request, 'unit_logs/others.html', context)
 
 
 @xframe_options_exempt
@@ -415,6 +435,24 @@ def new_kauto(request):
     context = {'form': form}
     return render(request, 'unit_logs/new_kauto.html', context)
 
+@xframe_options_exempt
+@login_required
+def new_other(request):
+    """Add a new other"""
+    if request.method != 'POST':
+        # No data submitted, create a blank form
+        form = OtherForm()
+    else:
+        # POST data submitted; process data
+        form = OtherForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('unit_logs:others')
+
+    # Display a blank or invalid form
+    context = {'form': form}
+    return render(request, 'unit_logs/new_other.html', context)
+
 
 @xframe_options_exempt
 @login_required
@@ -468,6 +506,14 @@ def deletekauto(request, kauto_id):
     if request.method == 'POST':
         kauto.delete()
         return redirect('unit_logs:kautos')
+
+@xframe_options_exempt
+@login_required
+def deleteother(request, other_id):
+    other = Other.objects.get(id=other_id)
+    if request.method == 'POST':
+        other.delete()
+        return redirect('unit_logs:others')
 
 
 @xframe_options_exempt
@@ -602,6 +648,28 @@ def new_frankel_entry(request, frankel_id):
     # Display a blank or invalid form
     context = {'frankel': frankel, 'form': form}
     return render(request, 'unit_logs/new_frankel_entry.html', context)
+
+@xframe_options_exempt
+@login_required
+def new_other_entry(request, other_id):
+    """Add a new entry for a particular other"""
+    other = Other.objects.get(id=other_id)
+
+    if request.method != 'POST':
+        # No data submitted, create a blank form
+        form = OtherEntryForm()
+    else:
+        # POST data submitted; process data
+        form = OtherEntryForm(data=request.POST)
+        if form.is_valid():
+            new_other_entry = form.save(commit=False)
+            new_other_entry.other = other
+            new_other_entry.save()
+            return redirect('unit_logs:other', other_id=other_id)
+
+    # Display a blank or invalid form
+    context = {'other': other, 'form': form}
+    return render(request, 'unit_logs/new_other_entry.html', context)
 
 
 # Edit winx entry pages
@@ -774,3 +842,31 @@ def delete_frankel_entry(request, entry_id):
         entry.delete()
         return redirect('unit_logs:frankel', frankel_id=frankel.id)
 
+
+# Edit other entry pages
+@xframe_options_exempt
+@login_required
+def edit_other_entry(request, entry_id):
+    """Edit an exiting other entry"""
+    entry = Other_Entry.objects.get(id=entry_id)
+    other = entry.other
+
+    if request.method != 'POST':
+        form = OtherEntryForm(instance=entry)
+    else:
+        form = OtherEntryForm(instance=entry, data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('unit_logs:other', other_id=other.id)
+
+    context = {'entry': entry, 'other': other, 'form': form}
+    return render(request, 'unit_logs/edit_other_entry.html', context)
+
+@xframe_options_exempt
+@login_required
+def delete_other_entry(request, entry_id):
+    entry = Other_Entry.objects.get(id=entry_id)
+    other = entry.other
+    if request.method == 'POST':
+        entry.delete()
+        return redirect('unit_logs:other', other_id=other.id)
