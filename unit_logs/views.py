@@ -100,9 +100,14 @@ def index(request):
     total_not_in_service = winxes_not_in_service + enables_not_in_service + arkles_not_in_service + denmans_not_in_service + kautos_not_in_service + frankels_not_in_service
     total_in_repair = winxes_in_repair + enables_in_repair + arkles_in_repair + denmans_in_repair + kautos_in_repair + frankels_in_repair
 
-    percentage_total_in_service = round( total_in_service/ total_trackers * 100, 2)
-    percentage_total_not_in_service = round( total_not_in_service/ total_trackers * 100, 2)
-    percentage_total_in_repair = round( total_in_repair/ total_trackers * 100, 2)
+    if total_trackers == 0:
+        percentage_total_in_repair = 1
+        percentage_total_in_service = 1
+        percentage_total_not_in_service = 1
+    else:
+        percentage_total_in_service = round( total_in_service/ total_trackers * 100, 2)
+        percentage_total_not_in_service = round( total_not_in_service/ total_trackers * 100, 2)
+        percentage_total_in_repair = round( total_in_repair/ total_trackers * 100, 2)
 
 
     arkles = Arkle.objects.order_by('number')

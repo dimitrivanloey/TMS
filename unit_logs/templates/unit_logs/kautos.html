@@ -38,9 +38,19 @@
 <div class="flex-container">
     {% for kauto in kautos %}
             <div>
-            <a class="btn btn-light" href="{% url 'unit_logs:kauto' kauto.id %}">
-            {{ kauto }}
-            </a>
+                {% if kauto.status == 'In Service' %}
+                <a class="btn btn-success" href="{% url 'unit_logs:kauto' kauto.id %}">
+                {{ kauto }}
+                </a>
+                {% elif kauto.status == 'Not In Service' %}
+                <a class="btn btn-danger" href="{% url 'unit_logs:kauto' kauto.id %}">
+                {{ kauto }}
+                </a>
+                {% else %}
+                <a class="btn btn-warning" href="{% url 'unit_logs:kauto' kauto.id %}">
+                {{ kauto }}
+                </a>
+                {% endif %}
         </div>
     {% endfor %}
 </div>

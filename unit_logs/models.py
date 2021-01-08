@@ -3,14 +3,14 @@ from django.db import models
 class Winx(models.Model):
 
     STATUS_CHOICES = {
-        ('IN SERVICE', 'In Service'),
-        ('IN REPAIR', 'In Repair'),
-        ('NOT IN SERVICE', 'Not In Service'),
+        ('In Service', 'In Service'),
+        ('In Repair', 'In Repair'),
+        ('Not In Service', 'Not In Service'),
     }
 
     number = models.PositiveSmallIntegerField(unique=True)
     date_added = models.DateField(auto_now_add=True)
-    status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='IN SERVICE')
+    status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='In Service')
 
     def __str__(self):
         """Returning a sring representation of the model"""
@@ -21,14 +21,14 @@ class Winx(models.Model):
 class Enable(models.Model):
 
     STATUS_CHOICES = {
-        ('IN SERVICE', 'In Service'),
-        ('IN REPAIR', 'In Repair'),
-        ('NOT IN SERVICE', 'Not In Service'),
+        ('In Service', 'In Service'),
+        ('In Repair', 'In Repair'),
+        ('Not In Service', 'Not In Service'),
     }
 
     number = models.PositiveSmallIntegerField(unique=True)
     date_added = models.DateField(auto_now_add=True)
-    status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='IN SERVICE')
+    status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='In Service')
 
     def __str__(self):
         """Returning a sring representation of the model"""
@@ -39,14 +39,14 @@ class Enable(models.Model):
 class Arkle(models.Model):
 
     STATUS_CHOICES = {
-        ('IN SERVICE', 'In Service'),
-        ('IN REPAIR', 'In Repair'),
-        ('NOT IN SERVICE', 'Not In Service'),
+        ('In Service', 'In Service'),
+        ('In Repair', 'In Repair'),
+        ('Not In Service', 'Not In Service'),
     }
 
     number = models.PositiveSmallIntegerField(unique=True)
     date_added = models.DateField(auto_now_add=True)
-    status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='IN SERVICE')
+    status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='In Service')
 
     def __str__(self):
         """Returning a sring representation of the model"""
@@ -57,14 +57,14 @@ class Arkle(models.Model):
 class Denman(models.Model):
 
     STATUS_CHOICES = {
-        ('IN SERVICE', 'In Service'),
-        ('IN REPAIR', 'In Repair'),
-        ('NOT IN SERVICE', 'Not In Service'),
+        ('In Service', 'In Service'),
+        ('In Repair', 'In Repair'),
+        ('Not In Service', 'Not In Service'),
     }
 
     number = models.PositiveSmallIntegerField(unique=True)
     date_added = models.DateField(auto_now_add=True)
-    status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='IN SERVICE')
+    status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='In Service')
 
     def __str__(self):
         """Returning a sring representation of the model"""
@@ -76,14 +76,14 @@ class Denman(models.Model):
 class Kauto(models.Model):
 
     STATUS_CHOICES = {
-        ('IN SERVICE', 'In Service'),
-        ('IN REPAIR', 'In Repair'),
-        ('NOT IN SERVICE', 'Not In Service'),
+        ('In Service', 'In Service'),
+        ('In Repair', 'In Repair'),
+        ('Not In Service', 'Not In Service'),
     }
 
     number = models.PositiveSmallIntegerField(unique=True)
     date_added = models.DateField(auto_now_add=True)
-    status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='IN SERVICE')
+    status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='In Service')
 
     def __str__(self):
         """Returning a sring representation of the model"""
@@ -94,14 +94,14 @@ class Kauto(models.Model):
 class Frankel(models.Model):
 
     STATUS_CHOICES = {
-        ('IN SERVICE', 'In Service'),
-        ('IN REPAIR', 'In Repair'),
-        ('NOT IN SERVICE', 'Not In Service'),
+        ('In Service', 'In Service'),
+        ('In Repair', 'In Repair'),
+        ('Not In Service', 'Not In Service'),
     }
 
     number = models.PositiveSmallIntegerField(unique=True)
     date_added = models.DateField(auto_now_add=True)
-    status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='IN SERVICE')
+    status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='In Service')
 
     def __str__(self):
         """Returning a sring representation of the model"""

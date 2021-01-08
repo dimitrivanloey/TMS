@@ -21,7 +21,7 @@
     a {
         width: 100px;
     }
-    .btn-primary {
+    .btn-dark {
         width: 125px;
     }
 
@@ -32,15 +32,25 @@
     
 <div class="pb-2 mb-2 border-bottom">
    
-    <a class="btn btn-primary" href="{% url 'unit_logs:new_enable' %}" role="button">Add Enable</a>
+    <a class="btn btn-dark" href="{% url 'unit_logs:new_enable' %}" role="button">Add Enable</a>
 </div>
 
 <div class="flex-container">
     {% for enable in enables %}
             <div>
-            <a class="btn btn-light" href="{% url 'unit_logs:enable' enable.id %}">
-            {{ enable }}
-            </a>
+                {% if enable.status == 'In Service' %}
+                <a class="btn btn-success" href="{% url 'unit_logs:enable' enable.id %}">
+                {{ enable }}
+                </a>
+                {% elif enable.status == 'Not In Service' %}
+                <a class="btn btn-danger" href="{% url 'unit_logs:enable' enable.id %}">
+                {{ enable }}
+                </a>
+                {% else %}
+                <a class="btn btn-warning" href="{% url 'unit_logs:enable' enable.id %}">
+                {{ enable }}
+                </a>
+                {% endif %}
         </div>
     {% endfor %}
 </div>

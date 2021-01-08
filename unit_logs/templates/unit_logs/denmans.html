@@ -21,7 +21,7 @@
     a {
         width: 100px;
     }
-    .btn-primary {
+    .btn-dark {
         width: 125px;
     }
 
@@ -32,15 +32,25 @@
     
 <div class="pb-2 mb-2 border-bottom">
    
-    <a class="btn btn-primary" href="{% url 'unit_logs:new_denman' %}" role="button">Add Denman</a>
+    <a class="btn btn-dark" href="{% url 'unit_logs:new_denman' %}" role="button">Add Denman</a>
 </div>
 
 <div class="flex-container">
     {% for denman in denmans %}
             <div>
-            <a class="btn btn-light" href="{% url 'unit_logs:denman' denman.id %}">
-            {{ denman }}
-            </a>
+                {% if denman.status == 'In Service' %}
+                <a class="btn btn-success" href="{% url 'unit_logs:denman' denman.id %}">
+                {{ denman }}
+                </a>
+                {% elif denman.status == 'Not In Service' %}
+                <a class="btn btn-danger" href="{% url 'unit_logs:denman' denman.id %}">
+                {{ denman }}
+                </a>
+                {% else %}
+                <a class="btn btn-warning" href="{% url 'unit_logs:denman' denman.id %}">
+                {{ denman }}
+                </a>
+                {% endif %}
         </div>
     {% endfor %}
 </div>
