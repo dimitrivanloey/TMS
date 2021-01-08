@@ -21,7 +21,7 @@
     a {
         width: 100px;
     }
-    .btn-dark {
+    .btn-primary {
         width: 125px;
     }
 
@@ -32,26 +32,16 @@
     
 <div class="pb-2 mb-2 border-bottom">
    
-    <a class="btn btn-dark" href="{% url 'unit_logs:new_frankel' %}" role="button">Add Frankel</a>
+    <a class="btn btn-primary" href="{% url 'unit_logs:new_frankel' %}" role="button">Add Frankel</a>
 </div>
 
 <div class="flex-container">
     {% for frankel in frankels %}
-    <div>
-        {% if frankel.status == 'IN SERVICE' %}
-        <a class="btn btn-success" href="{% url 'unit_logs:frankel' frankel.id %}">
-        {{ frankel }}
-        </a>
-        {% elif frankel.status == 'NOT IN SERVICE' %}
-        <a class="btn btn-danger" href="{% url 'unit_logs:frankel' frankel.id %}">
+            <div>
+            <a class="btn btn-light" href="{% url 'unit_logs:frankel' frankel.id %}">
             {{ frankel }}
-        </a>
-        {% else %}
-        <a class="btn btn-warning" href="{% url 'unit_logs:frankel' frankel.id %}">
-            {{ frankel }}
-        </a>
-        {% endif %}
-    </div>
+            </a>
+        </div>
     {% endfor %}
 </div>
 

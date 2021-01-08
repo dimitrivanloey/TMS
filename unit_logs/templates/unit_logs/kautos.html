@@ -21,7 +21,7 @@
     a {
         width: 100px;
     }
-    .btn-dark {
+    .btn-primary {
         width: 125px;
     }
 
@@ -32,26 +32,16 @@
     
 <div class="pb-2 mb-2 border-bottom">
    
-    <a class="btn btn-dark" href="{% url 'unit_logs:new_kauto' %}" role="button">Add Kauto</a>
+    <a class="btn btn-primary" href="{% url 'unit_logs:new_kauto' %}" role="button">Add Kauto</a>
 </div>
 
 <div class="flex-container">
     {% for kauto in kautos %}
-    <div>
-        {% if kauto.status == 'IN SERVICE' %}
-        <a class="btn btn-success" href="{% url 'unit_logs:kauto' kauto.id %}">
-        {{ kauto }}
-        </a>
-        {% elif kauto.status == 'NOT IN SERVICE' %}
-        <a class="btn btn-danger" href="{% url 'unit_logs:kauto' kauto.id %}">
+            <div>
+            <a class="btn btn-light" href="{% url 'unit_logs:kauto' kauto.id %}">
             {{ kauto }}
-        </a>
-        {% else %}
-        <a class="btn btn-warning" href="{% url 'unit_logs:kauto' kauto.id %}">
-            {{ kauto }}
-        </a>
-        {% endif %}
-    </div>
+            </a>
+        </div>
     {% endfor %}
 </div>
 
