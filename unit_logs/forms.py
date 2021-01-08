@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Winx, Enable, Arkle, Denman, Kauto, Frankel, Entry, Enable_Entry, Arkle_Entry, Denman_Entry, Kauto_Entry, Frankel_Entry
+from .models import Winx, Enable, Arkle, Denman, Kauto, Frankel, Entry, Enable_Entry, Arkle_Entry, Denman_Entry, Kauto_Entry, Frankel_Entry, Other, Other_Entry
 
 class WinxForm(forms.ModelForm):
     class Meta:
@@ -60,4 +60,14 @@ class KautoEntryForm(forms.ModelForm):
 class FrankelEntryForm(forms.ModelForm):
     class Meta:
         model = Frankel_Entry
+        fields = ['status', 'venue', 'comments']
+
+class OtherForm(forms.ModelForm):
+    class Meta:
+        model = Other
+        fields = ['number', 'status']
+
+class OtherEntryForm(forms.ModelForm):
+    class Meta:
+        model = Other_Entry
         fields = ['status', 'venue', 'comments']

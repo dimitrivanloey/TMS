@@ -12,6 +12,9 @@ urlpatterns = [
     path('winxes/', views.winxes, name ='winxes'),
     path('winxes/<int:winx_id>/', views.winx, name='winx'),
     path('winx/', views.winx_page, name ='winx_page'),
+    # Other page
+    path('others/', views.others, name ='others'),
+    path('others/<int:other_id>/', views.other, name='other'),
     # Arkle
     path('arkles/', views.arkles, name ='arkles'),
     path('arkles/<int:arkle_id>/', views.arkle, name='arkle'),
@@ -44,6 +47,8 @@ urlpatterns = [
     path('new_frankel/', views.new_frankel, name='new_frankel'),
     # Page for adding a new kauto
     path('new_kauto/', views.new_kauto, name='new_kauto'),
+    # Page for adding a new other
+    path('new_other/', views.new_other, name='new_other'),
     # Delete units
     path('winxes/<int:winx_id>/delete', views.deletewinx, name='deletewinx'),
     path('arkles/<int:arkle_id>/delete', views.deletearkle, name='deletearkle'),
@@ -51,6 +56,7 @@ urlpatterns = [
     path('enables/<int:enable_id>/delete', views.deleteenable, name='deleteenable'),
     path('frankels/<int:frankel_id>/delete', views.deletefrankel, name='deletefrankel'),
     path('kautos/<int:kauto_id>/delete', views.deletekauto, name='deletekauto'),
+    path('others/<int:other_id>/delete', views.deleteother, name='deleteother'),
     
     # New Winx entry
     path('new_winx_entry/<int:winx_id>', views.new_winx_entry, name='new_winx_entry'),
@@ -64,6 +70,8 @@ urlpatterns = [
     path('new_kauto_entry/<int:kauto_id>', views.new_kauto_entry, name='new_kauto_entry'),
     # New Frankel entry
     path('new_frankel_entry/<int:frankel_id>', views.new_frankel_entry, name='new_frankel_entry'),
+    # New Other entry
+    path('new_other_entry/<int:other_id>', views.new_other_entry, name='new_other_entry'),
 
     # Edit winx entry
     path('edit_winx_entry/<int:entry_id>', views.edit_winx_entry, name='edit_winx_entry'),
@@ -88,6 +96,10 @@ urlpatterns = [
     # Edit frankel entry
     path('edit_frankel_entry/<int:entry_id>', views.edit_frankel_entry, name='edit_frankel_entry'),
     path('delete_frankel_entry/<int:entry_id>', views.delete_frankel_entry, name='delete_frankel_entry'),
+
+    # Edit other entry
+    path('edit_other_entry/<int:entry_id>', views.edit_other_entry, name='edit_other_entry'),
+    path('delete_other_entry/<int:entry_id>', views.delete_other_entry, name='delete_other_entry'),
     
 ]
 

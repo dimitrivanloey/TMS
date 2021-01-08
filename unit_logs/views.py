@@ -6,9 +6,9 @@ from django.db.models import Count
 from datetime import datetime as dt
 import datetime
 
-from .models import Winx, Arkle, Denman, Enable, Frankel, Kauto, Entry
-from .forms import WinxForm, ArkleForm, DenmanForm, EnableForm, FrankelForm, KautoForm, EntryForm, EnableEntryForm, ArkleEntryForm, DenmanEntryForm, KautoEntryForm, FrankelEntryForm
-from unit_logs.models import Arkle_Entry, Denman_Entry, Enable_Entry, Frankel_Entry, Kauto_Entry
+from .models import Winx, Arkle, Denman, Enable, Frankel, Kauto, Entry, Other
+from .forms import WinxForm, ArkleForm, DenmanForm, EnableForm, FrankelForm, KautoForm, EntryForm, EnableEntryForm, ArkleEntryForm, DenmanEntryForm, KautoEntryForm, FrankelEntryForm, OtherForm, OtherEntryForm
+from unit_logs.models import Arkle_Entry, Denman_Entry, Enable_Entry, Frankel_Entry, Kauto_Entry, Other_Entry
 
 
 today = datetime.date.today()
@@ -66,39 +66,44 @@ def kauto_page(request):
 def index(request):
     winxes = Winx.objects.order_by('number')
     winxes_total = Winx.objects.count()
-    winxes_in_service = Winx.objects.filter(status='IN SERVICE').count()
-    winxes_not_in_service = Winx.objects.filter(status='NOT IN SERVICE').count()
-    winxes_in_repair = Winx.objects.filter(status='IN REPAIR').count()
+    winxes_in_service = Winx.objects.filter(status='In Service').count()
+    winxes_not_in_service = Winx.objects.filter(status='Not In Service').count()
+    winxes_in_repair = Winx.objects.filter(status='In Repair').count()
 
     enables_total = Enable.objects.count()
-    enables_in_service = Enable.objects.filter(status='IN SERVICE').count()
-    enables_not_in_service = Enable.objects.filter(status='NOT IN SERVICE').count()
-    enables_in_repair = Enable.objects.filter(status='IN REPAIR').count()
+    enables_in_service = Enable.objects.filter(status='In Service').count()
+    enables_not_in_service = Enable.objects.filter(status='Not In Service').count()
+    enables_in_repair = Enable.objects.filter(status='In Repair').count()
 
     arkles_total = Arkle.objects.count()
-    arkles_in_service = Arkle.objects.filter(status='IN SERVICE').count()
-    arkles_not_in_service = Arkle.objects.filter(status='NOT IN SERVICE').count()
-    arkles_in_repair = Arkle.objects.filter(status='IN REPAIR').count()
+    arkles_in_service = Arkle.objects.filter(status='In Service').count()
+    arkles_not_in_service = Arkle.objects.filter(status='Not In Service').count()
+    arkles_in_repair = Arkle.objects.filter(status='In Repair').count()
 
     denmans_total = Denman.objects.count()
-    denmans_in_service = Denman.objects.filter(status='IN SERVICE').count()
-    denmans_not_in_service = Denman.objects.filter(status='NOT IN SERVICE').count()
-    denmans_in_repair = Denman.objects.filter(status='IN REPAIR').count()
+    denmans_in_service = Denman.objects.filter(status='In Service').count()
+    denmans_not_in_service = Denman.objects.filter(status='Not In Service').count()
+    denmans_in_repair = Denman.objects.filter(status='In Repair').count()
 
     kautos_total = Kauto.objects.count()
-    kautos_in_service = Kauto.objects.filter(status='IN SERVICE').count()
-    kautos_not_in_service = Kauto.objects.filter(status='NOT IN SERVICE').count()
-    kautos_in_repair = Kauto.objects.filter(status='IN REPAIR').count()
+    kautos_in_service = Kauto.objects.filter(status='In Service').count()
+    kautos_not_in_service = Kauto.objects.filter(status='Not In Service').count()
+    kautos_in_repair = Kauto.objects.filter(status='In Repair').count()
 
     frankels_total = Frankel.objects.count()
-    frankels_in_service = Frankel.objects.filter(status='IN SERVICE').count()
-    frankels_not_in_service = Frankel.objects.filter(status='NOT IN SERVICE').count()
-    frankels_in_repair = Frankel.objects.filter(status='IN REPAIR').count()
+    frankels_in_service = Frankel.objects.filter(status='In Service').count()
+    frankels_not_in_service = Frankel.objects.filter(status='Not In Service').count()
+    frankels_in_repair = Frankel.objects.filter(status='In Repair').count()
 
-    total_trackers = winxes_total + enables_total + arkles_total + denmans_total + kautos_total + frankels_total
-    total_in_service = winxes_in_service + enables_in_service + arkles_in_service + denmans_in_service + kautos_in_service + frankels_in_service
-    total_not_in_service = winxes_not_in_service + enables_not_in_service + arkles_not_in_service + denmans_not_in_service + kautos_not_in_service + frankels_not_in_service
-    total_in_repair = winxes_in_repair + enables_in_repair + arkles_in_repair + denmans_in_repair + kautos_in_repair + frankels_in_repair
+    others_total = Other.objects.count()
+    others_in_service = Other.objects.filter(status='In Service').count()
+    others_not_in_service = Other.objects.filter(status='Not In Service').count()
+    others_in_repair = Other.objects.filter(status='In Repair').count()
+
+    total_trackers = winxes_total + enables_total + arkles_total + denmans_total + kautos_total + frankels_total + others_total
+    total_in_service = winxes_in_service + enables_in_service + arkles_in_service + denmans_in_service + kautos_in_service + frankels_in_service + others_in_service
+    total_not_in_service = winxes_not_in_service + enables_not_in_service + arkles_not_in_service + denmans_not_in_service + kautos_not_in_service + frankels_not_in_service + others_not_in_service
+    total_in_repair = winxes_in_repair + enables_in_repair + arkles_in_repair + denmans_in_repair + kautos_in_repair + frankels_in_repair + others_in_repair
 
     if total_trackers == 0:
         percentage_total_in_repair = 1
@@ -153,7 +158,11 @@ def index(request):
         'frankels_total': frankels_total, 
         'frankels_in_service': frankels_in_service,
         'frankels_not_in_service': frankels_not_in_service,
-        'frankels_in_repair': frankels_in_repair
+        'frankels_in_repair': frankels_in_repair,
+        'others_total': others_total, 
+        'others_in_service': others_in_service,
+        'others_not_in_service': others_not_in_service,
+        'others_in_repair': others_in_repair
 
 
     }
@@ -168,6 +177,32 @@ def winxes(request):
     winxes = Winx.objects.order_by('number')
     context = {'winxes' : winxes}
     return render(request, 'unit_logs/winxes.html', context)
+
+@xframe_options_exempt
+@login_required
+def others(request):
+    others = Other.objects.order_by('number')
+    context = {'others' : others}
+    return render(request, 'unit_logs/others.html', context)
+
+@xframe_options_exempt
+@login_required
+def other(request, other_id):
+    other = Other.objects.get(id=other_id)
+    entries = other.other_entry_set.order_by('-date_added')
+    context = {'other': other, 'entries': entries}
+
+    if request.method == 'GET':
+        form = OtherForm(instance=other)
+        context = {'other': other, 'form':form, 'entries':entries}
+        return render(request, 'unit_logs/other_unit.html', context)
+    else:
+        form = OtherForm(request.POST, instance=other)
+        form.save()
+        return redirect('unit_logs:others')
+
+    #return render(request, 'unit_logs/other_unit.html', context)
+
 
 @xframe_options_exempt
 @login_required
@@ -325,6 +360,24 @@ def new_winx(request):
     context = {'form': form}
     return render(request, 'unit_logs/new_winx.html', context)
 
+@xframe_options_exempt
+@login_required
+def new_other(request):
+    """Add a new other"""
+    if request.method != 'POST':
+        # No data submitted, create a blank form
+        form = OtherForm()
+    else:
+        # POST data submitted; process data
+        form = OtherForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('unit_logs:others')
+
+    # Display a blank or invalid form
+    context = {'form': form}
+    return render(request, 'unit_logs/new_other.html', context)
+
 
 @xframe_options_exempt
 @login_required
@@ -447,6 +500,14 @@ def deletedenman(request, denman_id):
         denman.delete()
         return redirect('unit_logs:denmans')
 
+@xframe_options_exempt
+@login_required
+def deleteother(request, other_id):
+    other = Other.objects.get(id=other_id)
+    if request.method == 'POST':
+        other.delete()
+        return redirect('unit_logs:others')
+
 
 @xframe_options_exempt
 @login_required
@@ -518,6 +579,28 @@ def new_enable_entry(request, enable_id):
     # Display a blank or invalid form
     context = {'enable': enable, 'form': form}
     return render(request, 'unit_logs/new_enable_entry.html', context)
+
+@xframe_options_exempt
+@login_required
+def new_other_entry(request, other_id):
+    """Add a new entry for a particular other"""
+    other = Other.objects.get(id=other_id)
+
+    if request.method != 'POST':
+        # No data submitted, create a blank form
+        form = EntryForm()
+    else:
+        # POST data submitted; process data
+        form = OtherEntryForm(data=request.POST)
+        if form.is_valid():
+            new_other_entry = form.save(commit=False)
+            new_other_entry.other = other
+            new_other_entry.save()
+            return redirect('unit_logs:other', other_id=other_id)
+
+    # Display a blank or invalid form
+    context = {'other': other, 'form': form}
+    return render(request, 'unit_logs/new_other_entry.html', context)
 
 @xframe_options_exempt
 @login_required
@@ -657,6 +740,25 @@ def edit_enable_entry(request, entry_id):
     context = {'entry': entry, 'enable': enable, 'form': form}
     return render(request, 'unit_logs/edit_enable_entry.html', context)
 
+# Edit other entry pages
+@xframe_options_exempt
+@login_required
+def edit_other_entry(request, entry_id):
+    """Edit an exiting other entry"""
+    entry = Other_Entry.objects.get(id=entry_id)
+    other = entry.other
+
+    if request.method != 'POST':
+        form = OtherEntryForm(instance=entry)
+    else:
+        form = OtherEntryForm(instance=entry, data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('unit_logs:other', other_id=other.id)
+
+    context = {'entry': entry, 'other': other, 'form': form}
+    return render(request, 'unit_logs/edit_other_entry.html', context)
+
 @xframe_options_exempt
 @login_required
 def delete_enable_entry(request, entry_id):
@@ -665,6 +767,15 @@ def delete_enable_entry(request, entry_id):
     if request.method == 'POST':
         entry.delete()
         return redirect('unit_logs:enable', enable_id=enable.id)
+
+@xframe_options_exempt
+@login_required
+def delete_other_entry(request, entry_id):
+    entry = Other_Entry.objects.get(id=entry_id)
+    other = entry.other
+    if request.method == 'POST':
+        entry.delete()
+        return redirect('unit_logs:other', other_id=other.id)
 
 # Edit arkle entry pages
 @xframe_options_exempt

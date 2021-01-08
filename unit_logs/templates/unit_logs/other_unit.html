@@ -1,0 +1,47 @@
+{% extends "unit_logs/base.html" %}
+{% load bootstrap4 %}
+
+{% block content %} 
+
+<div class="card mb-3">
+    <h4 class="card-header">
+        {{ error }}
+
+    {{ other }} 
+    </h4>
+
+    <div class="card-body">
+        
+
+        <p>
+            <a class="btn btn-primary" href="{% url 'unit_logs:new_other_entry' other.id %}" role="button">New Entry</a>
+        </p>
+
+            {% for entry in entries %}
+
+            <a href="{% url 'unit_logs:edit_other_entry' entry.id %}">{{ entry.date_added|date:'M d, Y H:i' }} - {{ entry.venue }} - {{entry.status}} {{ entry.comments|linebreaks }}</a>
+
+
+            {% endfor %}
+
+            <form method="POST" class="form">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                {% buttons %}
+                <button type="submit" class="btn btn-primary btn-block">Save</button>
+                {% endbuttons %}
+            </form>
+
+            
+            <form method="POST" action="{% url 'unit_logs:deleteother' other.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-secondary btn-block">Delete</button>
+            </form>
+        
+    
+    </div>
+</div>
+
+
+
+{% endblock content %}

@@ -1,0 +1,60 @@
+{% extends "unit_logs/base.html" %}
+
+{% block content %} 
+
+<style>
+    .flex-container {
+        display: flex;
+        flex-wrap: wrap;
+        align-content: center;
+    }
+    .flex-container > div {
+        width: 100px;
+        margin: 5px;
+        text-align: center;
+        line-height: 25px;
+        font-size: 30px;
+        font-family: Arial, Helvetica, sans-serif;
+        flex-basis: 8%;
+    }
+
+    a {
+        width: 100px;
+    }
+    .btn-dark {
+        width: 125px;
+    }
+
+    
+</style>
+
+
+    
+<div class="pb-2 mb-2 border-bottom">
+   
+    <a class="btn btn-dark" href="{% url 'unit_logs:new_other' %}" role="button">Add Unit</a>
+</div>
+
+<div class="flex-container">
+    {% for other in others %}
+
+    <div>
+        {% if other.status == 'In Service' %}
+        <a class="btn btn-success" href="{% url 'unit_logs:other' other.id %}">
+        {{ other }}
+        </a>
+        {% elif other.status == 'Not In Service' %}
+        <a class="btn btn-danger" href="{% url 'unit_logs:other' other.id %}">
+        {{ other }}
+        </a>
+        {% else %}
+        <a class="btn btn-warning" href="{% url 'unit_logs:other' other.id %}">
+        {{ other }}
+        </a>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+
+
+{% endblock content %}
