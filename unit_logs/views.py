@@ -96,10 +96,15 @@ def index(request):
     frankels_not_in_service = Frankel.objects.filter(status='NOT IN SERVICE').count()
     frankels_in_repair = Frankel.objects.filter(status='IN REPAIR').count()
 
-    total_trackers = winxes_total + enables_total + arkles_total + denmans_total + kautos_total + frankels_total
-    total_in_service = winxes_in_service + enables_in_service + arkles_in_service + denmans_in_service + kautos_in_service + frankels_in_service
-    total_not_in_service = winxes_not_in_service + enables_not_in_service + arkles_not_in_service + denmans_not_in_service + kautos_not_in_service + frankels_not_in_service
-    total_in_repair = winxes_in_repair + enables_in_repair + arkles_in_repair + denmans_in_repair + kautos_in_repair + frankels_in_repair
+    others_total = Other.objects.count()
+    others_in_service = Other.objects.filter(status='IN SERVICE').count()
+    others_not_in_service = Other.objects.filter(status='NOT IN SERVICE').count()
+    others_in_repair = Other.objects.filter(status='IN REPAIR').count()
+
+    total_trackers = winxes_total + enables_total + arkles_total + denmans_total + kautos_total + frankels_total + others_total
+    total_in_service = winxes_in_service + enables_in_service + arkles_in_service + denmans_in_service + kautos_in_service + frankels_in_service + others_in_service
+    total_not_in_service = winxes_not_in_service + enables_not_in_service + arkles_not_in_service + denmans_not_in_service + kautos_not_in_service + frankels_not_in_service + others_not_in_service
+    total_in_repair = winxes_in_repair + enables_in_repair + arkles_in_repair + denmans_in_repair + kautos_in_repair + frankels_in_repair + others_in_repair
 
     percentage_total_in_service = round( total_in_service/ total_trackers * 100, 2)
     percentage_total_not_in_service = round( total_not_in_service/ total_trackers * 100, 2)
@@ -149,7 +154,11 @@ def index(request):
         'frankels_total': frankels_total, 
         'frankels_in_service': frankels_in_service,
         'frankels_not_in_service': frankels_not_in_service,
-        'frankels_in_repair': frankels_in_repair
+        'frankels_in_repair': frankels_in_repair,
+        'others_total': others_total, 
+        'others_in_service': others_in_service,
+        'others_not_in_service': others_not_in_service,
+        'others_in_repair': others_in_repair
 
 
     }

@@ -18,7 +18,7 @@
 
         {% for entry in entries %}
 
-        {{ entry.date_added|date:'M d, Y H:i' }} - {{ entry.venue }} - {{entry.status}} {{ entry.comments|linebreaks }}
+        <a href="{% url 'unit_logs:edit_other_entry' entry.id %}">{{ entry.date_added|date:'M d, Y H:i' }} - {{ entry.venue }} - {{entry.status}} {{ entry.comments|linebreaks }}</a>
 
 
         {% endfor %}

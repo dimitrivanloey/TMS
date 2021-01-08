@@ -3,9 +3,9 @@ from django.db import models
 class Winx(models.Model):
 
     STATUS_CHOICES = {
-        ('IN SERVICE', 'In Service'),
-        ('IN REPAIR', 'In Repair'),
-        ('NOT IN SERVICE', 'Not In Service'),
+        ('In Service', 'In Service'),
+        ('In Repair', 'In Repair'),
+        ('Not In Service', 'Not In Service'),
     }
 
     number = models.PositiveSmallIntegerField(unique=True)
@@ -21,9 +21,9 @@ class Winx(models.Model):
 class Enable(models.Model):
 
     STATUS_CHOICES = {
-        ('IN SERVICE', 'In Service'),
-        ('IN REPAIR', 'In Repair'),
-        ('NOT IN SERVICE', 'Not In Service'),
+        ('In Service', 'In Service'),
+        ('In Repair', 'In Repair'),
+        ('Not In Service', 'Not In Service'),
     }
 
     number = models.PositiveSmallIntegerField(unique=True)
@@ -39,9 +39,9 @@ class Enable(models.Model):
 class Arkle(models.Model):
 
     STATUS_CHOICES = {
-        ('IN SERVICE', 'In Service'),
-        ('IN REPAIR', 'In Repair'),
-        ('NOT IN SERVICE', 'Not In Service'),
+        ('In Service', 'In Service'),
+        ('In Repair', 'In Repair'),
+        ('Not In Service', 'Not In Service'),
     }
 
     number = models.PositiveSmallIntegerField(unique=True)
@@ -57,9 +57,9 @@ class Arkle(models.Model):
 class Denman(models.Model):
 
     STATUS_CHOICES = {
-        ('IN SERVICE', 'In Service'),
-        ('IN REPAIR', 'In Repair'),
-        ('NOT IN SERVICE', 'Not In Service'),
+        ('In Service', 'In Service'),
+        ('In Repair', 'In Repair'),
+        ('Not In Service', 'Not In Service'),
     }
 
     number = models.PositiveSmallIntegerField(unique=True)
@@ -76,9 +76,9 @@ class Denman(models.Model):
 class Kauto(models.Model):
 
     STATUS_CHOICES = {
-        ('IN SERVICE', 'In Service'),
-        ('IN REPAIR', 'In Repair'),
-        ('NOT IN SERVICE', 'Not In Service'),
+        ('In Service', 'In Service'),
+        ('In Repair', 'In Repair'),
+        ('Not In Service', 'Not In Service'),
     }
 
     number = models.PositiveSmallIntegerField(unique=True)
@@ -94,9 +94,9 @@ class Kauto(models.Model):
 class Frankel(models.Model):
 
     STATUS_CHOICES = {
-        ('IN SERVICE', 'In Service'),
-        ('IN REPAIR', 'In Repair'),
-        ('NOT IN SERVICE', 'Not In Service'),
+        ('In Service', 'In Service'),
+        ('In Repair', 'In Repair'),
+        ('Not In Service', 'Not In Service'),
     }
 
     number = models.PositiveSmallIntegerField(unique=True)
@@ -111,9 +111,9 @@ class Frankel(models.Model):
 class Other(models.Model):
 
     STATUS_CHOICES = {
-        ('IN SERVICE', 'In Service'),
-        ('IN REPAIR', 'In Repair'),
-        ('NOT IN SERVICE', 'Not In Service'),
+        ('In Service', 'In Service'),
+        ('In Repair', 'In Repair'),
+        ('Not In Service', 'Not In Service'),
     }
 
     number = models.PositiveSmallIntegerField(unique=True)

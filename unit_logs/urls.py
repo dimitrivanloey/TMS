@@ -98,7 +98,7 @@ urlpatterns = [
     path('delete_frankel_entry/<int:entry_id>', views.delete_frankel_entry, name='delete_frankel_entry'),
 
     # Edit other entry
-    path('edit_other_entry/<int:other_id>', views.edit_other_entry, name='edit_other_entry'),
+    path('edit_other_entry/<int:entry_id>', views.edit_other_entry, name='edit_other_entry'),
     path('delete_other_entry/<int:entry_id>', views.delete_other_entry, name='delete_other_entry'),
     
 ]
