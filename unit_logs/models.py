@@ -9,7 +9,7 @@ class Winx(models.Model):
     }
 
     number = models.PositiveSmallIntegerField(unique=True)
-    date_added = models.DateField(auto_now_add=True)
+    date_added = models.DateField(auto_now=True)
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='In Service')
 
     def __str__(self):
@@ -27,7 +27,7 @@ class Enable(models.Model):
     }
 
     number = models.PositiveSmallIntegerField(unique=True)
-    date_added = models.DateField(auto_now_add=True)
+    date_added = models.DateField(auto_now=True)
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='In Service')
 
     def __str__(self):
@@ -45,7 +45,7 @@ class Arkle(models.Model):
     }
 
     number = models.PositiveSmallIntegerField(unique=True)
-    date_added = models.DateField(auto_now_add=True)
+    date_added = models.DateField(auto_now=True)
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='In Service')
 
     def __str__(self):
@@ -63,7 +63,7 @@ class Denman(models.Model):
     }
 
     number = models.PositiveSmallIntegerField(unique=True)
-    date_added = models.DateField(auto_now_add=True)
+    date_added = models.DateField(auto_now=True)
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='In Service')
 
     def __str__(self):
@@ -82,7 +82,7 @@ class Kauto(models.Model):
     }
 
     number = models.PositiveSmallIntegerField(unique=True)
-    date_added = models.DateField(auto_now_add=True)
+    date_added = models.DateField(auto_now=True)
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='In Service')
 
     def __str__(self):
@@ -100,7 +100,7 @@ class Frankel(models.Model):
     }
 
     number = models.PositiveSmallIntegerField(unique=True)
-    date_added = models.DateField(auto_now_add=True)
+    date_added = models.DateField(auto_now=True)
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='In Service')
 
     def __str__(self):

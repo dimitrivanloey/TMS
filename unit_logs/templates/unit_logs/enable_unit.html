@@ -3,26 +3,42 @@
 
 {% block content %} 
 
-<div class="card mb-3">
-    <h4 class="card-header">
-        {{ error }}
+<style>
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+    }
+    a {
+        color:black;
+    }
+</style>
 
-    {{ enable }} 
+<div class="card mb-3">
+    <div class="card-header">
+        {{ error }}
+    <h4>
+    {{ enable }} - {{ enable.status }} since {{ enable.date_added }} 
+    {% if delta.days == 1 %}
+        ({{ delta.days }} day)
+        {% else %}
+        ({{ delta.days }} days)
+        {% endif %}
     </h4>
+    <a class="btn btn-info" href="{% url 'unit_logs:new_enable_entry' enable.id %}" role="button">Add Entry</a>
+      
+    </div>
+
+
 
     <div class="card-body">
 
-        <p>
-            <a class="btn btn-primary" href="{% url 'unit_logs:new_enable_entry' enable.id %}" role="button">New Entry</a>
-        </p>
 
         {% for entry in entries %}
 
         <a href="{% url 'unit_logs:edit_enable_entry' entry.id %}">{{ entry.date_added|date:'M d, Y H:i' }} - {{ entry.venue }} - {{entry.status}} {{ entry.comments|linebreaks }}</a>
-
-
-            
+      
         {% endfor %}
+        <br>
 
         <form method="POST" class="form">
             {% csrf_token %}

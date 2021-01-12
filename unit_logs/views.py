@@ -185,16 +185,21 @@ def others(request):
     context = {'others' : others}
     return render(request, 'unit_logs/others.html', context)
 
+# Individual Other Page
 @xframe_options_exempt
 @login_required
 def other(request, other_id):
     other = Other.objects.get(id=other_id)
+    d0 = dt.now().date()
+    d1 = other.date_added
+    delta = d0 - d1
+
     entries = other.other_entry_set.order_by('-date_added')
     context = {'other': other, 'entries': entries}
 
     if request.method == 'GET':
         form = OtherForm(instance=other)
-        context = {'other': other, 'form':form, 'entries':entries}
+        context = {'other': other, 'form':form, 'entries':entries, 'delta': delta}
         return render(request, 'unit_logs/other_unit.html', context)
     else:
         form = OtherForm(request.POST, instance=other)
@@ -203,93 +208,116 @@ def other(request, other_id):
 
     #return render(request, 'unit_logs/other_unit.html', context)
 
-
+# Individual Winx Page
 @xframe_options_exempt
 @login_required
 def winx(request, winx_id):
     winx = Winx.objects.get(id=winx_id)
+    d0 = dt.now().date()
+    d1 = winx.date_added
+    delta = d0 - d1
+
     entries = winx.entry_set.order_by('-date_added')
-    entries_count = winx.entry_set.filter(status= 'Good Performance').count()
+    entries_count = winx.entry_set.filter(status= 'On Course - Racing: Good Performance').count()
     
     if request.method == 'GET':
         form = WinxForm(instance=winx)
-        context = {'winx': winx, 'form':form, 'entries':entries, 'entries_count': entries_count}
+        context = {'winx': winx, 'form':form, 'entries':entries, 'entries_count': entries_count, 'delta': delta}
         return render(request, 'unit_logs/winx_unit.html', context)
     else:
         form = WinxForm(request.POST, instance=winx)
         form.save()
         return redirect('unit_logs:winxes')
-    
+
+# Individual Enable Page   
 @xframe_options_exempt
 @login_required
 def enable(request, enable_id):
     enable = Enable.objects.get(id=enable_id)
     entries = enable.enable_entry_set.order_by('-date_added')
+    d0 = dt.now().date()
+    d1 = enable.date_added
+    delta = d0 - d1
 
     if request.method == 'GET':
         form = EnableForm(instance=enable)
-        context = {'enable': enable, 'form':form, 'entries':entries}
+        context = {'enable': enable, 'form':form, 'entries':entries, 'delta': delta}
         return render(request, 'unit_logs/enable_unit.html', context)
     else:
         form = EnableForm(request.POST, instance=enable)
         form.save()
         return redirect('unit_logs:enables')
 
+# Individual Arkle Page  
 @xframe_options_exempt
 @login_required
 def arkle(request, arkle_id):
     arkle = Arkle.objects.get(id=arkle_id)
     entries = arkle.arkle_entry_set.order_by('-date_added')
+    d0 = dt.now().date()
+    d1 = arkle.date_added
+    delta = d0 - d1
 
     if request.method == 'GET':
         form = ArkleForm(instance=arkle)
-        context = {'arkle': arkle, 'form':form, 'entries':entries}
+        context = {'arkle': arkle, 'form':form, 'entries':entries, 'delta': delta}
         return render(request, 'unit_logs/arkle_unit.html', context)
     else:
         form = ArkleForm(request.POST, instance=arkle)
         form.save()
         return redirect('unit_logs:arkles')
-        
+
+# Individual Denman Page          
 @xframe_options_exempt
 @login_required
 def denman(request, denman_id):
     denman = Denman.objects.get(id=denman_id)
     entries = denman.denman_entry_set.order_by('-date_added')
+    d0 = dt.now().date()
+    d1 = denman.date_added
+    delta = d0 - d1
 
     if request.method == 'GET':
         form = DenmanForm(instance=denman)
-        context = {'denman': denman, 'form':form, 'entries':entries}
+        context = {'denman': denman, 'form':form, 'entries':entries, 'delta': delta}
         return render(request, 'unit_logs/denman_unit.html', context)
     else:
         form = DenmanForm(request.POST, instance=denman)
         form.save()
         return redirect('unit_logs:denmans')
 
+# Individual Kauto Page  
 @xframe_options_exempt
 @login_required
 def kauto(request, kauto_id):
     kauto = Kauto.objects.get(id=kauto_id)
     entries = kauto.kauto_entry_set.order_by('-date_added')
+    d0 = dt.now().date()
+    d1 = kauto.date_added
+    delta = d0 - d1
 
     if request.method == 'GET':
         form = KautoForm(instance=kauto)
-        context = {'kauto': kauto, 'form':form, 'entries':entries}
+        context = {'kauto': kauto, 'form':form, 'entries':entries, 'delta': delta}
         return render(request, 'unit_logs/kauto_unit.html', context)
     else:
         form = KautoForm(request.POST, instance=kauto)
         form.save()
         return redirect('unit_logs:kautos')
 
-
+# Individual Frankel Page  
 @xframe_options_exempt
 @login_required
 def frankel(request, frankel_id):
     frankel = Frankel.objects.get(id=frankel_id)
     entries = frankel.frankel_entry_set.order_by('-date_added')
+    d0 = dt.now().date()
+    d1 = frankel.date_added
+    delta = d0 - d1
 
     if request.method == 'GET':
         form = FrankelForm(instance=frankel)
-        context = {'frankel': frankel, 'form':form, 'entries':entries}
+        context = {'frankel': frankel, 'form':form, 'entries':entries, 'delta': delta}
         return render(request, 'unit_logs/frankel_unit.html', context)
     else:
         form = FrankelForm(request.POST, instance=frankel)

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'unit_logs',
     'users',
     'bootstrap4',
+    'django.contrib.humanize'
 ]
 
 MIDDLEWARE = [
