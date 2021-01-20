@@ -1,0 +1,93 @@
+{% extends "unit_logs/base.html" %}
+{% load unit_extras %}
+
+
+{% block content %} 
+
+<div class="pb-2 mb-2 border-bottom">
+    <h1>Trackers in Repair</h1>
+</div>
+   <br>
+    <p>Total number of Winx in repair: {{ winx_count }} </p>
+    <p>Total number of Enable in repair: {{ enable_count }} </p>
+    <p>Total number of Arkle in repair: {{ arkle_count }} </p>
+    <p>Total number of Denman in repair: {{ denman_count }} </p>
+    <p><strong>Total number of trackers in repair: {{ total_in_repair }}</strong></p>
+    <p><strong>Average Days in Repair: {{ average }}</strong></p>
+
+
+<br>
+<br>
+
+<div class="pb-2 mb-2 border-bottom">
+    <h2>Arkle in Repair</h2>
+</div>
+
+<ul>
+    {% for a in arkle %}
+    <li>{{ a }} since {{ a.date_added }} - {{ a.date_added|timesince }} ({{ a.date_added|day_diff }})</li>
+   
+    {% empty %}
+    <li>No Arkle has been added yet.</li>
+    {% endfor %}
+</ul>
+<p>Total Days: {{ arkle_teller }} (Average: {{ average_arkle }})</p>
+
+<br>
+<br>
+
+<div class="pb-2 mb-2 border-bottom">
+    <h2>Denman in Repair</h2>
+</div>
+
+<ul>
+    {% for d in denman %}
+    <li>{{ d }} since {{ d.date_added }} - {{ d.date_added|timesince }} ({{ d.date_added|day_diff }})</li>
+   
+    {% empty %}
+    <li>No Denman has been added yet.</li>
+    {% endfor %}
+</ul>
+<p>Total Days: {{ denman_teller }} (Average: {{ average_denman }})</p>
+
+<br>
+<br>
+
+
+
+<div class="pb-2 mb-2 border-bottom">
+    <h2>Enable in Repair</h2>
+</div>
+
+<ul>
+    {% for e in enable %}
+    <li>{{ e }} since {{ e.date_added }} - {{ e.date_added|timesince }} ({{ e.date_added|day_diff }})</li>
+   
+    {% empty %}
+    <li>No Enable has been added yet.</li>
+    {% endfor %}
+</ul>
+<p>Total Days: {{ enable_teller }} (Average: {{ average_enable }})</p>
+
+<br>
+<br>
+
+<div class="pb-2 mb-2 border-bottom">
+    <h2>Winx in Repair</h2>
+</div>
+
+<ul>
+    {% for w in winx %}
+    <li>{{ w }} since {{ w.date_added }} - {{ w.date_added|timesince }} ({{ w.date_added|day_diff }})</li>
+   
+    {% empty %}
+    <li>No Winx has been added yet.</li>
+    {% endfor %}
+</ul>
+<p>Total Days: {{ winx_teller }} (Average: {{ average_winx }})</p>
+
+<br>
+<br>
+
+
+{% endblock content %}

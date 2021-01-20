@@ -100,6 +100,9 @@ urlpatterns = [
     # Edit other entry
     path('edit_other_entry/<int:entry_id>', views.edit_other_entry, name='edit_other_entry'),
     path('delete_other_entry/<int:entry_id>', views.delete_other_entry, name='delete_other_entry'),
+
+    # Page that shows all the trackers in repair
+    path('trackers_in_repair/', views.trackers_in_repair, name='trackers_in_repair'),
     
 ]
 

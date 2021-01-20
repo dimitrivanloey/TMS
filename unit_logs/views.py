@@ -2,8 +2,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.clickjacking import xframe_options_exempt
 from django.db.models import Count
+from django.db.models import Avg, F, Max, Min, Sum
 
 from datetime import datetime as dt
+from datetime import timedelta
 import datetime
 
 from .models import Winx, Arkle, Denman, Enable, Frankel, Kauto, Entry, Other
@@ -69,6 +71,7 @@ def index(request):
     winxes_in_service = Winx.objects.filter(status='In Service').count()
     winxes_not_in_service = Winx.objects.filter(status='Not In Service').count()
     winxes_in_repair = Winx.objects.filter(status='In Repair').count()
+    
 
     enables_total = Enable.objects.count()
     enables_in_service = Enable.objects.filter(status='In Service').count()
@@ -162,7 +165,8 @@ def index(request):
         'others_total': others_total, 
         'others_in_service': others_in_service,
         'others_not_in_service': others_not_in_service,
-        'others_in_repair': others_in_repair
+        'others_in_repair': others_in_repair,
+        
 
 
     }
@@ -917,4 +921,80 @@ def delete_frankel_entry(request, entry_id):
     if request.method == 'POST':
         entry.delete()
         return redirect('unit_logs:frankel', frankel_id=frankel.id)
+
+
+@xframe_options_exempt
+@login_required
+def trackers_in_repair(request):
+    # Winx
+    winx = Winx.objects.filter(status='In Repair')
+    winx_count = Winx.objects.filter(status='In Repair').count()
+    winx_teller = 0
+    for w in Winx.objects.all().filter(status='In Repair'):
+        d0 = dt.now().date()
+        d1 = w.date_added
+        delta = d0 - d1
+        winx_teller = winx_teller + delta.days
+    if winx_count == 0:
+        winx_count = 1
+    else:
+        average_winx = round(winx_teller / winx_count, 2)
+
+    # Enable
+    enable = Enable.objects.filter(status='In Repair')
+    enable_count = Enable.objects.filter(status='In Repair').count()
+    enable_teller = 0
+    for e in Enable.objects.all().filter(status='In Repair'):
+        d0 = dt.now().date()
+        d1 = e.date_added
+        delta = d0 - d1
+        enable_teller = enable_teller + delta.days
+    if enable_count == 0:
+        enable_count = 1
+    else:
+        average_enable = round(enable_teller / enable_count, 2)
+
+    # Arkle
+    arkle = Arkle.objects.filter(status='In Repair')
+    arkle_count = Arkle.objects.filter(status='In Repair').count()
+    arkle_teller = 0
+    for a in Arkle.objects.all().filter(status='In Repair'):
+        d0 = dt.now().date()
+        d1 = a.date_added
+        delta = d0 - d1
+        arkle_teller = arkle_teller + delta.days
+    if arkle_count == 0:
+        arkle_count = 1
+    else:
+        average_arkle = round(arkle_teller / arkle_count, 2)
+
+    # Denman
+    denman = Denman.objects.filter(status='In Repair')
+    denman_count = Denman.objects.filter(status='In Repair').count()
+    denman_teller = 0
+    for d in Denman.objects.all().filter(status='In Repair'):
+        d0 = dt.now().date()
+        d1 = d.date_added
+        delta = d0 - d1
+        denman_teller = denman_teller + delta.days
+    if denman_count == 0:
+        denman_count = 1
+    else:
+        average_denman = round(denman_teller / denman_count, 2)
+
+    total_in_repair = arkle_count + winx_count + enable_count + denman_count
+    total_number_of_days = winx_teller + enable_teller + arkle_teller + denman_teller
+    
+    
+    
+    context = {'winx': winx, 'delta': delta, 'd0': d0, 'd1': d1, 'winx_teller': winx_teller, 'winx_count': winx_count, 
+        'average_winx': average_winx, 'enable_teller': enable_teller, 'enable_count': enable_count, 'enable': enable,
+        'average_enable': average_enable, 'arkle': arkle, 'arkle_teller': arkle_teller, 'arkle_count': arkle_count, 'arkle': arkle,
+        'average_arkle': average_arkle, 'total_in_repair': total_in_repair, 'denman': denman, 'denman_teller': denman_teller, 
+        'arkle_count': arkle_count, 'arkle': arkle,
+        'average_denman': average_denman, 'denman_count': denman_count}
+    
+    
+    return render(request, 'unit_logs/trackers_in_repair.html', context)
+
 
