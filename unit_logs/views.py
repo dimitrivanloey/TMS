@@ -930,6 +930,7 @@ def trackers_in_repair(request):
     winx = Winx.objects.filter(status='In Repair')
     winx_count = Winx.objects.filter(status='In Repair').count()
     winx_teller = 0
+    average_winx = 0
     for w in Winx.objects.all().filter(status='In Repair'):
         d0 = dt.now().date()
         d1 = w.date_added
@@ -944,6 +945,7 @@ def trackers_in_repair(request):
     enable = Enable.objects.filter(status='In Repair')
     enable_count = Enable.objects.filter(status='In Repair').count()
     enable_teller = 0
+    average_enable = 0
     for e in Enable.objects.all().filter(status='In Repair'):
         d0 = dt.now().date()
         d1 = e.date_added
@@ -958,6 +960,7 @@ def trackers_in_repair(request):
     arkle = Arkle.objects.filter(status='In Repair')
     arkle_count = Arkle.objects.filter(status='In Repair').count()
     arkle_teller = 0
+    average_arkle = 0
     for a in Arkle.objects.all().filter(status='In Repair'):
         d0 = dt.now().date()
         d1 = a.date_added
@@ -972,6 +975,7 @@ def trackers_in_repair(request):
     denman = Denman.objects.filter(status='In Repair')
     denman_count = Denman.objects.filter(status='In Repair').count()
     denman_teller = 0
+    average_denman = 0
     for d in Denman.objects.all().filter(status='In Repair'):
         d0 = dt.now().date()
         d1 = d.date_added
@@ -987,6 +991,7 @@ def trackers_in_repair(request):
     frankel = Frankel.objects.filter(status='In Repair')
     frankel_count = Frankel.objects.filter(status='In Repair').count()
     frankel_teller = 0
+    average_frankel = 0
     for f in Frankel.objects.all().filter(status='In Repair'):
         d0 = dt.now().date()
         d1 = f.date_added
@@ -1001,6 +1006,7 @@ def trackers_in_repair(request):
     kauto = Kauto.objects.filter(status='In Repair')
     kauto_count = Kauto.objects.filter(status='In Repair').count()
     kauto_teller = 0
+    average_kauto = 0
     for k in Kauto.objects.all().filter(status='In Repair'):
         d0 = dt.now().date()
         d1 = k.date_added
@@ -1017,6 +1023,7 @@ def trackers_in_repair(request):
     other = Other.objects.filter(status='In Repair')
     other_count = Other.objects.filter(status='In Repair').count()
     other_teller = 0
+    average_other = 0
     for o in Other.objects.all().filter(status='In Repair'):
         d0 = dt.now().date()
         d1 = o.date_added
