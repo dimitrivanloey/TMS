@@ -982,12 +982,6 @@ def trackers_in_repair(request):
     else:
         average_denman = round(denman_teller / denman_count, 2)
 
-    total_count = arkle_count + winx_count + enable_count + denman_count
-    teller_all = winx_teller + enable_teller + arkle_teller + denman_teller
-    if total_count == 0:
-        total_count = 1
-    else:
-        average_all = round(teller_all / total_count, 2)
 
     # Frankel
     frankel = Frankel.objects.filter(status='In Repair')
@@ -1018,12 +1012,6 @@ def trackers_in_repair(request):
         average_kauto = round(kauto_teller / kauto_count, 2)
 
 
-    total_count = arkle_count + winx_count + enable_count + denman_count + frankel_count + kauto_count
-    teller_all = winx_teller + enable_teller + arkle_teller + denman_teller + frankel_teller + frankel_count
-    if total_count == 0:
-        total_count = 1
-    else:
-        average_all = round(teller_all / total_count, 2)
 
     # Other
     other = Other.objects.filter(status='In Repair')
