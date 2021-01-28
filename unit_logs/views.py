@@ -1037,14 +1037,10 @@ def trackers_in_repair(request):
     
     
     
-    context = {'winx': winx, 'delta': delta, 'd0': d0, 'd1': d1, 'winx_teller': winx_teller, 'winx_count': winx_count, 
-        'average_winx': average_winx, 'enable_teller': enable_teller, 'enable_count': enable_count, 'enable': enable,
-        'average_enable': average_enable, 'arkle': arkle, 'arkle_teller': arkle_teller, 'arkle_count': arkle_count, 'arkle': arkle,
-        'average_arkle': average_arkle, 'total_count': total_count, 'average_all': average_all, 'denman': denman, 'denman_teller': denman_teller, 
-        'arkle_count': arkle_count, 'arkle': arkle,
-        'average_denman': average_denman, 'denman_count': denman_count, 'teller_all': teller_all, 'frankel': frankel, 
-        'average_frankel': average_frankel, 'frankel_count': frankel_count, 'kauto': kauto, 
-        'average_kauto': average_kauto, 'kauto_count': kauto_count, 'other': other, 'other_count': other_count, 'other_teller': other_teller, 'average_other': average_other}
+    context = {'arkle': arkle, 'denman': denman, 'enable': enable, 'winx': winx, 'frankel': frankel, 'kauto': kauto, 'other': other,
+        'arkle_count': arkle_count, 'denman_count': denman_count, 'enable_count': enable_count, 'winx_count': winx_count, 'frankel_count': frankel_count, 'kauto_count': kauto_count,'other_count': other_count,
+        'average_arkle': average_arkle, 'average_denman': average_denman, 'average_enable': average_enable, 'average_winx': average_winx, 'average_frankel': average_frankel, 'average_kauto': average_kauto,'average_other': average_other,
+        'total_count': total_count, 'average_all': average_all}
     
     
     return render(request, 'unit_logs/trackers_in_repair.html', context)
