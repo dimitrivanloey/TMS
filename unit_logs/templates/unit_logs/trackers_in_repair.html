@@ -4,6 +4,15 @@
 
 {% block content %} 
 
+<style>
+    table, th, td {
+      padding: 2px;
+    }
+    table {
+      border-spacing: 5px;
+    }
+    </style>
+
 <div class="pb-2 mb-2 border-bottom">
     <h1>Trackers in Repair</h1>
 </div>
@@ -26,14 +35,16 @@
     <h2>Arkle</h2>
 </div>
 
-<ul>
+<table>
     {% for a in arkle %}
-    <li>{{ a }} since {{ a.date_added }} - {{ a.date_added|timesince }} ({{ a.date_added|day_diff }})</li>
+    <tr><td>{{ a }}</td> <td>  since {{ a.date_added }}</td> <td> ({{ a.date_added|timesince }}) ({{ a.date_added|day_diff }})
+    </td></tr>
    
     {% empty %}
-    <li>No Arkle has been added yet.</li>
+    <tr>No Arkle has been added yet.</tr>
     {% endfor %}
-</ul>
+</table>
+<br>
 <p>Average days: {{ average_arkle }}</p>
 
 <br>
@@ -43,14 +54,16 @@
     <h2>Denman</h2>
 </div>
 
-<ul>
+<table>
     {% for d in denman %}
-    <li>{{ d }} since {{ d.date_added }} - {{ d.date_added|timesince }} ({{ d.date_added|day_diff }})</li>
+    <tr><td>{{ d }}</td> <td>  since {{ d.date_added }}</td> <td> ({{ d.date_added|timesince }}) ({{ d.date_added|day_diff }})
+    </td></tr>
    
     {% empty %}
     <li>No Denman has been added yet.</li>
     {% endfor %}
-</ul>
+</table>
+<br>
 <p>Average days: {{ average_denman }}</p>
 
 <br>
@@ -62,14 +75,16 @@
     <h2>Enable</h2>
 </div>
 
-<ul>
+<table>
     {% for e in enable %}
-    <li>{{ e }} since {{ e.date_added }} - {{ e.date_added|timesince }} ({{ e.date_added|day_diff }})</li>
+    <tr><td>{{ e }}</td> <td>  since {{ e.date_added }}</td> <td> ({{ e.date_added|timesince }}) ({{ e.date_added|day_diff }})
+    </td></tr>
    
     {% empty %}
     <li>No Enable has been added yet.</li>
     {% endfor %}
-</ul>
+</table>
+<br>
 <p>Average days: {{ average_enable }}</p>
 
 <br>
@@ -79,14 +94,16 @@
     <h2>Winx</h2>
 </div>
 
-<ul>
+<table>
     {% for w in winx %}
-    <li>{{ w }} since {{ w.date_added }} - {{ w.date_added|timesince }} ({{ w.date_added|day_diff }})</li>
+    <tr><td>{{ w }}</td> <td>  since {{ w.date_added }}</td> <td> ({{ w.date_added|timesince }}) ({{ w.date_added|day_diff }})
+    </td></tr>
    
     {% empty %}
     <li>No Winx has been added yet.</li>
     {% endfor %}
-</ul>
+</table>
+<br>
 <p>Average days: {{ average_winx }}</p>
 
 <br>
@@ -96,14 +113,16 @@
     <h2>Frankel</h2>
 </div>
 
-<ul>
+<table>
     {% for f in frankel %}
-    <li>{{ f }} since {{ f.date_added }} - {{ f.date_added|timesince }} ({{ f.date_added|day_diff }})</li>
+    <tr><td>{{ f }}</td> <td>  since {{ f.date_added }}</td> <td> ({{ f.date_added|timesince }}) ({{ f.date_added|day_diff }})
+    </td></tr>
    
     {% empty %}
     <li>No Frankel has been added yet.</li>
     {% endfor %}
-</ul>
+</table>
+<br>
 <p>Average days: {{ average_frankel }}</p>
 
 <br>
@@ -113,14 +132,16 @@
     <h2>Kauto</h2>
 </div>
 
-<ul>
+<table>
     {% for k in kauto %}
-    <li>{{ k }} since {{ k.date_added }} - {{ k.date_added|timesince }} ({{ k.date_added|day_diff }})</li>
+    <tr><td>{{ k }}</td> <td>  since {{ k.date_added }}</td> <td> ({{ k.date_added|timesince }}) ({{ k.date_added|day_diff }})
+    </td></tr>
    
     {% empty %}
     <li>No Kauto has been added yet.</li>
     {% endfor %}
-</ul>
+</table>
+<br>
 <p>Average days: {{ average_kauto }}</p>
 
 <br>
@@ -130,14 +151,16 @@
     <h2>Other</h2>
 </div>
 
-<ul>
+<table>
     {% for o in other %}
-    <li>{{ o }} since {{ o.date_added }} - {{ o.date_added|timesince }} ({{ o.date_added|day_diff }})</li>
+    <tr><td>{{ o }}</td> <td>  since {{ o.date_added }}</td> <td> ({{ o.date_added|timesince }}) ({{ o.date_added|day_diff }})
+    </td></tr>
    
     {% empty %}
     <li>No Other Unit has been added yet.</li>
     {% endfor %}
-</ul>
+</table>
+<br>
 <p>Average days: {{ average_other }}</p>
 
 {% endblock content %}
