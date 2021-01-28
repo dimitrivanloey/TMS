@@ -927,7 +927,7 @@ def delete_frankel_entry(request, entry_id):
 @login_required
 def trackers_in_repair(request):
     # Winx
-    winx = Winx.objects.filter(status='In Repair')
+    winx = Winx.objects.filter(status='In Repair').order_by('number')
     winx_count = Winx.objects.filter(status='In Repair').count()
     winx_teller = 0
     average_winx = 0
@@ -942,7 +942,7 @@ def trackers_in_repair(request):
         average_winx = round(winx_teller / winx_count, 2)
 
     # Enable
-    enable = Enable.objects.filter(status='In Repair')
+    enable = Enable.objects.filter(status='In Repair').order_by('number')
     enable_count = Enable.objects.filter(status='In Repair').count()
     enable_teller = 0
     average_enable = 0
@@ -957,7 +957,7 @@ def trackers_in_repair(request):
         average_enable = round(enable_teller / enable_count, 2)
 
     # Arkle
-    arkle = Arkle.objects.filter(status='In Repair')
+    arkle = Arkle.objects.filter(status='In Repair').order_by('number')
     arkle_count = Arkle.objects.filter(status='In Repair').count()
     arkle_teller = 0
     average_arkle = 0
@@ -972,7 +972,7 @@ def trackers_in_repair(request):
         average_arkle = round(arkle_teller / arkle_count, 2)
 
     # Denman
-    denman = Denman.objects.filter(status='In Repair')
+    denman = Denman.objects.filter(status='In Repair').order_by('number')
     denman_count = Denman.objects.filter(status='In Repair').count()
     denman_teller = 0
     average_denman = 0
@@ -988,7 +988,7 @@ def trackers_in_repair(request):
 
 
     # Frankel
-    frankel = Frankel.objects.filter(status='In Repair')
+    frankel = Frankel.objects.filter(status='In Repair').order_by('number')
     frankel_count = Frankel.objects.filter(status='In Repair').count()
     frankel_teller = 0
     average_frankel = 0
@@ -1003,7 +1003,7 @@ def trackers_in_repair(request):
         average_frankel = round(frankel_teller / frankel_count, 2)
 
     # Kauto
-    kauto = Kauto.objects.filter(status='In Repair')
+    kauto = Kauto.objects.filter(status='In Repair').order_by('number')
     kauto_count = Kauto.objects.filter(status='In Repair').count()
     kauto_teller = 0
     average_kauto = 0
@@ -1020,7 +1020,7 @@ def trackers_in_repair(request):
 
 
     # Other
-    other = Other.objects.filter(status='In Repair')
+    other = Other.objects.filter(status='In Repair').order_by('number')
     other_count = Other.objects.filter(status='In Repair').count()
     other_teller = 0
     average_other = 0
