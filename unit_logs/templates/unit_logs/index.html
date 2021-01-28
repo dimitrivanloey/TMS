@@ -20,6 +20,7 @@
 
     a {
         width: 100px;
+        color: black;
     }
 
     
@@ -30,7 +31,7 @@
 </div>
    <br>
     <p>Total number of trackers in service: {{ total_in_service }} ({{ percentage_total_in_service }}%)</p>
-    <p>Total number of trackers in repair: {{ total_in_repair }} ({{ percentage_total_in_repair }}%)</p>
+    <p><a href="{% url 'unit_logs:trackers_in_repair' %}">Total number of trackers in repair: {{ total_in_repair }} ({{ percentage_total_in_repair }}%)</a></p>
     <p>Total number of trackers not in service: {{ total_not_in_service }} ({{ percentage_total_not_in_service }}%)</p>
     <p><strong>Total number of trackers: {{ total_trackers }}</strong></p>
     <p>Average: {{ winxes_in_repair_dates_avg }}</p>

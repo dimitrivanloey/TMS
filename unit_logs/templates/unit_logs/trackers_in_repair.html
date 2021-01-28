@@ -8,19 +8,22 @@
     <h1>Trackers in Repair</h1>
 </div>
    <br>
+   <p>Total number of Arkle in repair: {{ arkle_count }} </p>
+   <p>Total number of Denman in repair: {{ denman_count }} </p>
+   <p>Total number of Enable in repair: {{ enable_count }} </p>
     <p>Total number of Winx in repair: {{ winx_count }} </p>
-    <p>Total number of Enable in repair: {{ enable_count }} </p>
-    <p>Total number of Arkle in repair: {{ arkle_count }} </p>
-    <p>Total number of Denman in repair: {{ denman_count }} </p>
-    <p><strong>Total number of trackers in repair: {{ total_in_repair }}</strong></p>
-    <p><strong>Average Days in Repair: {{ average }}</strong></p>
+    <p>Total number of Frankel in repair: {{ frankel_count }} </p>
+    <p>Total number of Kauto in repair: {{ kauto_count }} </p>
+    <p>Total number of Other Units in repair: {{ other_count }} </p>
+    <p><strong>Total number of trackers in repair: {{ total_count }}</strong></p>
+    <p><strong>Average Days in Repair: {{ average_all }}</strong></p>
 
 
 <br>
 <br>
 
 <div class="pb-2 mb-2 border-bottom">
-    <h2>Arkle in Repair</h2>
+    <h2>Arkle</h2>
 </div>
 
 <ul>
@@ -31,13 +34,13 @@
     <li>No Arkle has been added yet.</li>
     {% endfor %}
 </ul>
-<p>Total Days: {{ arkle_teller }} (Average: {{ average_arkle }})</p>
+<p>Average days: {{ average_arkle }}</p>
 
 <br>
 <br>
 
 <div class="pb-2 mb-2 border-bottom">
-    <h2>Denman in Repair</h2>
+    <h2>Denman</h2>
 </div>
 
 <ul>
@@ -48,7 +51,7 @@
     <li>No Denman has been added yet.</li>
     {% endfor %}
 </ul>
-<p>Total Days: {{ denman_teller }} (Average: {{ average_denman }})</p>
+<p>Average days: {{ average_denman }}</p>
 
 <br>
 <br>
@@ -56,7 +59,7 @@
 
 
 <div class="pb-2 mb-2 border-bottom">
-    <h2>Enable in Repair</h2>
+    <h2>Enable</h2>
 </div>
 
 <ul>
@@ -67,13 +70,13 @@
     <li>No Enable has been added yet.</li>
     {% endfor %}
 </ul>
-<p>Total Days: {{ enable_teller }} (Average: {{ average_enable }})</p>
+<p>Average days: {{ average_enable }}</p>
 
 <br>
 <br>
 
 <div class="pb-2 mb-2 border-bottom">
-    <h2>Winx in Repair</h2>
+    <h2>Winx</h2>
 </div>
 
 <ul>
@@ -84,10 +87,57 @@
     <li>No Winx has been added yet.</li>
     {% endfor %}
 </ul>
-<p>Total Days: {{ winx_teller }} (Average: {{ average_winx }})</p>
+<p>Average days: {{ average_winx }}</p>
 
 <br>
 <br>
 
+<div class="pb-2 mb-2 border-bottom">
+    <h2>Frankel</h2>
+</div>
+
+<ul>
+    {% for f in frankel %}
+    <li>{{ f }} since {{ f.date_added }} - {{ f.date_added|timesince }} ({{ f.date_added|day_diff }})</li>
+   
+    {% empty %}
+    <li>No Frankel has been added yet.</li>
+    {% endfor %}
+</ul>
+<p>Average days: {{ average_frankel }}</p>
+
+<br>
+<br>
+
+<div class="pb-2 mb-2 border-bottom">
+    <h2>Kauto</h2>
+</div>
+
+<ul>
+    {% for k in kauto %}
+    <li>{{ k }} since {{ k.date_added }} - {{ k.date_added|timesince }} ({{ k.date_added|day_diff }})</li>
+   
+    {% empty %}
+    <li>No Kauto has been added yet.</li>
+    {% endfor %}
+</ul>
+<p>Average days: {{ average_kauto }}</p>
+
+<br>
+<br>
+
+<div class="pb-2 mb-2 border-bottom">
+    <h2>Other</h2>
+</div>
+
+<ul>
+    {% for o in other %}
+    <li>{{ o }} since {{ o.date_added }} - {{ o.date_added|timesince }} ({{ o.date_added|day_diff }})</li>
+   
+    {% empty %}
+    <li>No Other Unit has been added yet.</li>
+    {% endfor %}
+</ul>
+<p>Average days: {{ average_other }}</p>
 
 {% endblock content %}

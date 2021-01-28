@@ -531,7 +531,7 @@ class Other(models.Model):
     }
 
     number = models.PositiveSmallIntegerField(unique=True)
-    date_added = models.DateField(auto_now_add=True)
+    date_added = models.DateField(auto_now=True)
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='In Service')
 
     def __str__(self):

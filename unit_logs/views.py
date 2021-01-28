@@ -982,17 +982,81 @@ def trackers_in_repair(request):
     else:
         average_denman = round(denman_teller / denman_count, 2)
 
-    total_in_repair = arkle_count + winx_count + enable_count + denman_count
-    total_number_of_days = winx_teller + enable_teller + arkle_teller + denman_teller
+    total_count = arkle_count + winx_count + enable_count + denman_count
+    teller_all = winx_teller + enable_teller + arkle_teller + denman_teller
+    if total_count == 0:
+        total_count = 1
+    else:
+        average_all = round(teller_all / total_count, 2)
+
+    # Frankel
+    frankel = Frankel.objects.filter(status='In Repair')
+    frankel_count = Frankel.objects.filter(status='In Repair').count()
+    frankel_teller = 0
+    for f in Frankel.objects.all().filter(status='In Repair'):
+        d0 = dt.now().date()
+        d1 = f.date_added
+        delta = d0 - d1
+        frankel_teller = frankel_teller + delta.days
+    if frankel_count == 0:
+        frankel_count = 1
+    else:
+        average_frankel = round(frankel_teller / frankel_count, 2)
+
+    # Kauto
+    kauto = Kauto.objects.filter(status='In Repair')
+    kauto_count = Kauto.objects.filter(status='In Repair').count()
+    kauto_teller = 0
+    for k in Kauto.objects.all().filter(status='In Repair'):
+        d0 = dt.now().date()
+        d1 = k.date_added
+        delta = d0 - d1
+        kauto_teller = kauto_teller + delta.days
+    if kauto_count == 0:
+        kauto_count = 1
+    else:
+        average_kauto = round(kauto_teller / kauto_count, 2)
+
+
+    total_count = arkle_count + winx_count + enable_count + denman_count + frankel_count + kauto_count
+    teller_all = winx_teller + enable_teller + arkle_teller + denman_teller + frankel_teller + frankel_count
+    if total_count == 0:
+        total_count = 1
+    else:
+        average_all = round(teller_all / total_count, 2)
+
+    # Other
+    other = Other.objects.filter(status='In Repair')
+    other_count = Other.objects.filter(status='In Repair').count()
+    other_teller = 0
+    for o in Other.objects.all().filter(status='In Repair'):
+        d0 = dt.now().date()
+        d1 = o.date_added
+        delta = d0 - d1
+        other_teller = other_teller + delta.days
+    if other_count == 0:
+        other_count = 1
+    else:
+        average_other = round(other_teller / other_count, 2)
+
+
+    total_count = arkle_count + winx_count + enable_count + denman_count + frankel_count + kauto_count + other_count
+    teller_all = winx_teller + enable_teller + arkle_teller + denman_teller + frankel_teller + frankel_teller + other_teller
+    if total_count == 0:
+        total_count = 1
+    else:
+        average_all = round(teller_all / total_count, 2)
     
     
     
     context = {'winx': winx, 'delta': delta, 'd0': d0, 'd1': d1, 'winx_teller': winx_teller, 'winx_count': winx_count, 
         'average_winx': average_winx, 'enable_teller': enable_teller, 'enable_count': enable_count, 'enable': enable,
         'average_enable': average_enable, 'arkle': arkle, 'arkle_teller': arkle_teller, 'arkle_count': arkle_count, 'arkle': arkle,
-        'average_arkle': average_arkle, 'total_in_repair': total_in_repair, 'denman': denman, 'denman_teller': denman_teller, 
+        'average_arkle': average_arkle, 'total_count': total_count, 'average_all': average_all, 'denman': denman, 'denman_teller': denman_teller, 
         'arkle_count': arkle_count, 'arkle': arkle,
-        'average_denman': average_denman, 'denman_count': denman_count}
+        'average_denman': average_denman, 'denman_count': denman_count, 'teller_all': teller_all, 'frankel': frankel, 
+        'average_frankel': average_frankel, 'frankel_count': frankel_count, 'kauto': kauto, 
+        'average_kauto': average_kauto, 'kauto_count': kauto_count, 'other': other, 'other_count': other_count, 'other_teller': other_teller, 'average_other': average_other}
     
     
     return render(request, 'unit_logs/trackers_in_repair.html', context)
