@@ -7,6 +7,7 @@ from django.db.models import Avg, F, Max, Min, Sum
 from datetime import datetime as dt
 from datetime import timedelta
 import datetime
+from django.utils import timezone
 
 from .models import Winx, Arkle, Denman, Enable, Frankel, Kauto, Entry, Other
 from .forms import WinxForm, ArkleForm, DenmanForm, EnableForm, FrankelForm, KautoForm, EntryForm, EnableEntryForm, ArkleEntryForm, DenmanEntryForm, KautoEntryForm, FrankelEntryForm, OtherForm, OtherEntryForm
@@ -1051,5 +1052,17 @@ def trackers_in_repair(request):
     
     
     return render(request, 'unit_logs/trackers_in_repair.html', context)
+
+def sticks_missing(request):
+    """Show all sticks and missing units from 30 days ago"""
+    arkle_entries = Arkle_Entry.objects.order_by('date_added').filter(date_added__gte=dt.now(tz=timezone.utc)-timedelta(days=30))
+    denman_entries = Denman_Entry.objects.order_by('date_added').filter(date_added__gte=dt.now(tz=timezone.utc)-timedelta(days=30))
+    enable_entries = Enable_Entry.objects.order_by('date_added').filter(date_added__gte=dt.now(tz=timezone.utc)-timedelta(days=30))
+    winx_entries = Entry.objects.order_by('date_added').filter(date_added__gte=dt.now(tz=timezone.utc)-timedelta(days=30))
+    frankel_entries = Frankel_Entry.objects.order_by('date_added').filter(date_added__gte=dt.now(tz=timezone.utc)-timedelta(days=30))
+    kauto_entries = Kauto_Entry.objects.order_by('date_added').filter(date_added__gte=dt.now(tz=timezone.utc)-timedelta(days=30))
+    other_entries = Other_Entry.objects.order_by('date_added').filter(date_added__gte=dt.now(tz=timezone.utc)-timedelta(days=30))
+    context = {'arkle_entries': arkle_entries, 'denman_entries': denman_entries, 'enable_entries': enable_entries, 'winx_entries': winx_entries, 'frankel_entries': frankel_entries, 'kauto_entries': kauto_entries, 'other_entries': other_entries}
+    return render(request, 'unit_logs/sticks_missing.html', context )
 
 

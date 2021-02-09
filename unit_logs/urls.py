@@ -103,6 +103,9 @@ urlpatterns = [
 
     # Page that shows all the trackers in repair
     path('trackers_in_repair/', views.trackers_in_repair, name='trackers_in_repair'),
+
+    # Page that shows sticks and missing units
+    path('sticks_missing/', views.sticks_missing, name='sticks_missing'),
     
 ]
 
