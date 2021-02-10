@@ -1055,13 +1055,13 @@ def trackers_in_repair(request):
 
 def sticks_missing(request):
     """Show all sticks and missing units from 30 days ago"""
-    arkle_entries = Arkle_Entry.objects.order_by('date_added').filter(date_added__gte=dt.now(tz=timezone.utc)-timedelta(days=30))
-    denman_entries = Denman_Entry.objects.order_by('date_added').filter(date_added__gte=dt.now(tz=timezone.utc)-timedelta(days=30))
-    enable_entries = Enable_Entry.objects.order_by('date_added').filter(date_added__gte=dt.now(tz=timezone.utc)-timedelta(days=30))
-    winx_entries = Entry.objects.order_by('date_added').filter(date_added__gte=dt.now(tz=timezone.utc)-timedelta(days=30))
-    frankel_entries = Frankel_Entry.objects.order_by('date_added').filter(date_added__gte=dt.now(tz=timezone.utc)-timedelta(days=30))
-    kauto_entries = Kauto_Entry.objects.order_by('date_added').filter(date_added__gte=dt.now(tz=timezone.utc)-timedelta(days=30))
-    other_entries = Other_Entry.objects.order_by('date_added').filter(date_added__gte=dt.now(tz=timezone.utc)-timedelta(days=30))
+    arkle_entries = Arkle_Entry.objects.order_by('-date_added').filter(date_added__gte=dt.now(tz=timezone.utc)-timedelta(days=30))
+    denman_entries = Denman_Entry.objects.order_by('-date_added').filter(date_added__gte=dt.now(tz=timezone.utc)-timedelta(days=30))
+    enable_entries = Enable_Entry.objects.order_by('-date_added').filter(date_added__gte=dt.now(tz=timezone.utc)-timedelta(days=30))
+    winx_entries = Entry.objects.order_by('-date_added').filter(date_added__gte=dt.now(tz=timezone.utc)-timedelta(days=30))
+    frankel_entries = Frankel_Entry.objects.order_by('-date_added').filter(date_added__gte=dt.now(tz=timezone.utc)-timedelta(days=30))
+    kauto_entries = Kauto_Entry.objects.order_by('-date_added').filter(date_added__gte=dt.now(tz=timezone.utc)-timedelta(days=30))
+    other_entries = Other_Entry.objects.order_by('-date_added').filter(date_added__gte=dt.now(tz=timezone.utc)-timedelta(days=30))
     context = {'arkle_entries': arkle_entries, 'denman_entries': denman_entries, 'enable_entries': enable_entries, 'winx_entries': winx_entries, 'frankel_entries': frankel_entries, 'kauto_entries': kauto_entries, 'other_entries': other_entries}
     return render(request, 'unit_logs/sticks_missing.html', context )
 
