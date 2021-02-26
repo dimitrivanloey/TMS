@@ -41,12 +41,9 @@ INSTALLED_APPS = [
     'users',
     'bootstrap4',
     'django.contrib.humanize',
-    'bootstrap_datepicker_plus',
 ]
 
-BOOTSTRAP4 = {
-    'include_jquery': True,
-}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
