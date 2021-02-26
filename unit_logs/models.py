@@ -86,6 +86,7 @@ class Kauto(models.Model):
     number = models.PositiveSmallIntegerField(unique=True)
     date_added = models.DateField(auto_now=True)
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='In Service')
+    entry_date = models.DateField(default='2020-01-01')
 
     def __str__(self):
         """Returning a sring representation of the model"""
