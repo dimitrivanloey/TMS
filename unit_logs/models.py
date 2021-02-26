@@ -48,6 +48,7 @@ class Arkle(models.Model):
     number = models.PositiveSmallIntegerField(unique=True)
     date_added = models.DateField(auto_now=True)
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='In Service')
+    in_service_date = models.DateField()
 
     def __str__(self):
         """Returning a sring representation of the model"""
