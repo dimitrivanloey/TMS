@@ -15,7 +15,7 @@ class EnableForm(forms.ModelForm):
 class ArkleForm(forms.ModelForm):
     class Meta:
         model = Arkle
-        fields = ['number', 'status', 'in_service_date']
+        fields = ['number', 'status']
         
 
 class DenmanForm(forms.ModelForm):
