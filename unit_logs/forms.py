@@ -26,7 +26,7 @@ class DenmanForm(forms.ModelForm):
 class KautoForm(forms.ModelForm):
     class Meta:
         model = Kauto
-        fields = ['number', 'status', 'date']
+        fields = ['number', 'status']
 
 class FrankelForm(forms.ModelForm):
     class Meta:
