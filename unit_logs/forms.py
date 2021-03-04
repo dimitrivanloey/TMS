@@ -5,23 +5,23 @@ from .models import Winx, Enable, Arkle, Denman, Kauto, Frankel, Entry, Enable_E
 class WinxForm(forms.ModelForm):
     class Meta:
         model = Winx
-        fields = ['number', 'status']
+        fields = ['number', 'status', 'start_date']
 
 class EnableForm(forms.ModelForm):
     class Meta:
         model = Enable
-        fields = ['number', 'status']
+        fields = ['number', 'status', 'start_date']
 
 class ArkleForm(forms.ModelForm):
     class Meta:
         model = Arkle
-        fields = ['number', 'status']
+        fields = ['number', 'status', 'start_date']
         
 
 class DenmanForm(forms.ModelForm):
     class Meta:
         model = Denman
-        fields = ['number', 'status']
+        fields = ['number', 'status', 'start_date']
 
 class KautoForm(forms.ModelForm):
     class Meta:
@@ -31,7 +31,7 @@ class KautoForm(forms.ModelForm):
 class FrankelForm(forms.ModelForm):
     class Meta:
         model = Frankel
-        fields = ['number', 'status']
+        fields = ['number', 'status', 'start_date']
 
 class EntryForm(forms.ModelForm):
     class Meta:
@@ -66,7 +66,7 @@ class FrankelEntryForm(forms.ModelForm):
 class OtherForm(forms.ModelForm):
     class Meta:
         model = Other
-        fields = ['number', 'status']
+        fields = ['number', 'status', 'start_date']
 
 class OtherEntryForm(forms.ModelForm):
     class Meta:

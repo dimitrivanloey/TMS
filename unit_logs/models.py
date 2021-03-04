@@ -12,6 +12,7 @@ class Winx(models.Model):
     date_added = models.DateField(auto_now=True)
     
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='In Service')
+    start_date = models.DateField(blank=True, null=True)
 
     def __str__(self):
         """Returning a sring representation of the model"""
@@ -30,6 +31,7 @@ class Enable(models.Model):
     number = models.PositiveSmallIntegerField(unique=True)
     date_added = models.DateField(auto_now=True)
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='In Service')
+    start_date = models.DateField(blank=True, null=True)
 
     def __str__(self):
         """Returning a sring representation of the model"""
@@ -48,6 +50,7 @@ class Arkle(models.Model):
     number = models.PositiveSmallIntegerField(unique=True)
     date_added = models.DateField(auto_now=True)
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='In Service')
+    start_date = models.DateField(blank=True, null=True)
     
 
     def __str__(self):
@@ -67,6 +70,7 @@ class Denman(models.Model):
     number = models.PositiveSmallIntegerField(unique=True)
     date_added = models.DateField(auto_now=True)
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='In Service')
+    start_date = models.DateField(blank=True, null=True)
 
     def __str__(self):
         """Returning a sring representation of the model"""
@@ -106,6 +110,7 @@ class Frankel(models.Model):
     number = models.PositiveSmallIntegerField(unique=True)
     date_added = models.DateField(auto_now=True)
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='In Service')
+    start_date = models.DateField(blank=True, null=True)
 
     def __str__(self):
         """Returning a sring representation of the model"""
