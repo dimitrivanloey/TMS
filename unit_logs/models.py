@@ -86,7 +86,6 @@ class Kauto(models.Model):
     number = models.PositiveSmallIntegerField(unique=True)
     date_added = models.DateField(auto_now=True)
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='In Service')
-    date = models.DateField(default='2021-01-01')
     
 
     def __str__(self):
