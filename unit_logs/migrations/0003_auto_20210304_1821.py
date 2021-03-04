@@ -10,10 +10,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='kauto',
-            name='date',
-        ),
         migrations.AddField(
             model_name='kauto',
             name='start_date',
