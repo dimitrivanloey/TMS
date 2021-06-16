@@ -50,6 +50,7 @@ class Arkle(models.Model):
         ('Lost', 'Lost'),
     }
 
+
     number = models.PositiveSmallIntegerField(unique=True)
     date_added = models.DateField(auto_now=True)
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='In Service')
@@ -142,6 +143,8 @@ class Entry(models.Model):
         ('In Refurb - Fixed and returning to course', 'In Refurb - Fixed and returning to course'),
         ('Out of Service and Returned for Refurb', 'Out of Service and returned for Refurb'),
     }
+
+    
 
     VENUES = {
         ('Aintree', 'Aintree'),
@@ -323,10 +326,23 @@ class Arkle_Entry(models.Model):
         ('York', 'York'),
     }
 
+    FAILURE_CODES = {
+        ('Battery Failure', 'Battery Failure'),
+        ('USB Connector Broken', 'USB Connector Broken'),
+        ('Switch Broken', 'Switch Broken'),
+        ('Case Damaged', 'Case Damaged'),
+        ('Lights in Grey State', 'Lights in Grey State'),
+        ('Clear Water Ingress Damage', 'Clear Water Ingress Damage'),
+        ('Antenna Broken', "Antenna Broken"),
+        ('Unknown', 'Unknown'),
+    }
+
     arkle = models.ForeignKey(Arkle, on_delete=models.CASCADE)
     date_added = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=41, choices=STATUS_CHOICES, default='In Service')
-    venue = models.CharField(max_length=18, choices=VENUES, default='Kempton Park', blank=True, null=True)
+    status = models.CharField(max_length=41, choices=STATUS_CHOICES, default=None)
+    failure_codes = models.CharField(max_length=30, choices=FAILURE_CODES, default=None , blank=True, null=True)
+    venue = models.CharField(max_length=18, choices=VENUES, default=None, blank=True, null=True)
+    start_date = models.DateField(blank=True, null=True)
     comments = models.TextField(blank=True)
 
     class Meta:

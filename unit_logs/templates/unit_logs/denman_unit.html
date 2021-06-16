@@ -37,7 +37,7 @@
     <div class="card-body">
 
         {% for entry in entries %}
-
+            
             <a href="{% url 'unit_logs:edit_denman_entry' entry.id %}">{{ entry.date_added|date:'M d, Y H:i' }} - {{ entry.venue }} - {{entry.status}} {{ entry.comments|linebreaks }}</a>
 
 

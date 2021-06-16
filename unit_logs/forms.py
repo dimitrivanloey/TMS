@@ -46,7 +46,7 @@ class EnableEntryForm(forms.ModelForm):
 class ArkleEntryForm(forms.ModelForm):
     class Meta:
         model = Arkle_Entry
-        fields = ['status', 'venue', 'comments']
+        fields = ['status', 'venue', 'failure_codes', 'start_date', 'comments']
 
 class DenmanEntryForm(forms.ModelForm):
     class Meta:
