@@ -37,7 +37,7 @@
 
 <table>
     {% for a in arkle %}
-    <tr><td>{{ a }}</td> 
+    <tr><td><a href="{% url 'unit_logs:arkle' a.id %}">{{ a }}</a></td> 
         {% if a.start_date == None %}
         <td>No start date added yet</td>
         {% else %}
@@ -61,7 +61,7 @@
 
 <table>
     {% for d in denman %}
-    <tr><td>{{ d }}</td> 
+    <tr><td><a href="{% url 'unit_logs:denman' d.id %}">{{ d }}</a></td> 
         {% if d.start_date == None %}
         <td>No start date added yet</td>
         {% else %}
@@ -87,7 +87,7 @@
 
 <table>
     {% for e in enable %}
-    <tr><td>{{ e }}</td> 
+    <tr><td><a href="{% url 'unit_logs:enable' e.id %}">{{ e }}</a></td> 
         {% if e.start_date == None %}
         <td>No start date added yet</td>
         {% else %}
@@ -111,7 +111,7 @@
 
 <table>
     {% for w in winx %}
-    <tr><td>{{ w }}</td> 
+    <tr><td><a href="{% url 'unit_logs:winx' w.id %}">{{ w }}</a></td> 
         {% if w.start_date == None %}
         <td>No start date added yet</td>
         {% else %}
@@ -135,7 +135,7 @@
 
 <table>
     {% for f in frankel %}
-    <tr><td>{{ f }}</td> 
+    <tr><td><a href="{% url 'unit_logs:frankel' f.id %}">{{ f }}</a></td> 
         {% if f.start_date == None %}
         <td>No start date added yet</td>
         {% else %}
@@ -159,7 +159,7 @@
 
 <table>
     {% for k in kauto %}
-    <tr><td>{{ k }}</td> 
+    <tr><td><a href="{% url 'unit_logs:kauto' k.id %}">{{ k }}</a></td> 
         {% if k.start_date == None %}
         <td>No start date added yet</td>
         {% else %}
@@ -183,7 +183,7 @@
 
 <table>
     {% for o in other %}
-    <tr><td>{{ o }}</td> 
+    <tr><td><a href="{% url 'unit_logs:other' o.id %}">{{ o }}</a></td> 
         {% if o.start_date == None %}
         <td>No start date added yet</td>
         {% else %}
