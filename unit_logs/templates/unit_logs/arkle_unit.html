@@ -42,7 +42,7 @@
             {% if entry.start_date != None %}
             {{ entry.start_date|date:'M d, Y' }} - {{ entry.venue|default:"" }}   {{entry.status|default:""}} {{ entry.failure_codes|default:"" }} {{ entry.comments|linebreaks }}
             {% else %}
-            {{ entry.start_date|date:'M d, Y' }} - {{ entry.venue|default:"" }}   {{entry.status|default:""}} {{ entry.failure_codes|default:"" }} {{ entry.comments|linebreaks }}
+            {{ entry.date_added|date:'M d, Y' }} - {{ entry.venue|default:"" }}   {{entry.status|default:""}} {{ entry.failure_codes|default:"" }} {{ entry.comments|linebreaks }}
             {% endif %} 
             
         </a>

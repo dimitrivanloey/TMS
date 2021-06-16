@@ -17,7 +17,6 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterField(
             model_name='arkle_entry',
-            name='failure_codes',
             field=models.CharField(blank=True, choices=[('Case Damaged', 'Case Damaged'), ('USB Connector Broken', 'USB Connector Broken'), ('Clear Water Ingress Damage', 'Clear Water Ingress Damage'), ('Antenna Broken', 'Antenna Broken'), ('Lights in Grey State', 'Lights in Grey State'), ('Switch Broken', 'Switch Broken'), ('Unknown', 'Unknown'), ('Battery Failure', 'Battery Failure')], default=None, max_length=30, null=True),
         ),
         migrations.AlterField(
