@@ -6,6 +6,7 @@ class Winx(models.Model):
         ('In Service', 'In Service'),
         ('In Repair', 'In Repair'),
         ('Not In Service', 'Not In Service'),
+        ('Lost', 'Lost'),
     }
 
     number = models.PositiveSmallIntegerField(unique=True)
@@ -26,6 +27,7 @@ class Enable(models.Model):
         ('In Service', 'In Service'),
         ('In Repair', 'In Repair'),
         ('Not In Service', 'Not In Service'),
+        ('Lost', 'Lost'),
     }
 
     number = models.PositiveSmallIntegerField(unique=True)
@@ -45,6 +47,7 @@ class Arkle(models.Model):
         ('In Service', 'In Service'),
         ('In Repair', 'In Repair'),
         ('Not In Service', 'Not In Service'),
+        ('Lost', 'Lost'),
     }
 
     number = models.PositiveSmallIntegerField(unique=True)
@@ -65,6 +68,7 @@ class Denman(models.Model):
         ('In Service', 'In Service'),
         ('In Repair', 'In Repair'),
         ('Not In Service', 'Not In Service'),
+        ('Lost', 'Lost'),
     }
 
     number = models.PositiveSmallIntegerField(unique=True)
@@ -85,6 +89,7 @@ class Kauto(models.Model):
         ('In Service', 'In Service'),
         ('In Repair', 'In Repair'),
         ('Not In Service', 'Not In Service'),
+        ('Lost', 'Lost'),
     }
 
     number = models.PositiveSmallIntegerField(unique=True)
@@ -105,6 +110,7 @@ class Frankel(models.Model):
         ('In Service', 'In Service'),
         ('In Repair', 'In Repair'),
         ('Not In Service', 'Not In Service'),
+        ('Lost', 'Lost'),
     }
 
     number = models.PositiveSmallIntegerField(unique=True)

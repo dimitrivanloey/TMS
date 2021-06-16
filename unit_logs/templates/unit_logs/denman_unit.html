@@ -18,11 +18,16 @@
         {{ error }}
 
     <h4>
-    {{ denman }} - {{ denman.status }} since {{ denman.date_added }} 
-    {% if delta.days == 1 %}
+        {{ denman }} - {{ denman.status }} 
+        {% if denman.start_date == None %}
+        since {{ denman.date_added }}
+        {% else %}
+        since {{ denman.start_date }} 
+        {% if delta.days == 1 %}
         ({{ delta.days }} day)
         {% else %}
         ({{ delta.days }} days)
+        {% endif %}
         {% endif %}
     </h4>
     <a class="btn btn-info" href="{% url 'unit_logs:new_denman_entry' denman.id %}" role="button">Add Entry</a>

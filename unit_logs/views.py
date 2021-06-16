@@ -72,51 +72,61 @@ def index(request):
     winxes_in_service = Winx.objects.filter(status='In Service').count()
     winxes_not_in_service = Winx.objects.filter(status='Not In Service').count()
     winxes_in_repair = Winx.objects.filter(status='In Repair').count()
+    winxes_lost = Winx.objects.filter(status='Lost').count()
     
 
     enables_total = Enable.objects.count()
     enables_in_service = Enable.objects.filter(status='In Service').count()
     enables_not_in_service = Enable.objects.filter(status='Not In Service').count()
     enables_in_repair = Enable.objects.filter(status='In Repair').count()
+    enables_lost = Enable.objects.filter(status='Lost').count()
 
     arkles_total = Arkle.objects.count()
     arkles_in_service = Arkle.objects.filter(status='In Service').count()
     arkles_not_in_service = Arkle.objects.filter(status='Not In Service').count()
     arkles_in_repair = Arkle.objects.filter(status='In Repair').count()
+    arkles_lost = Arkle.objects.filter(status='Lost').count()
 
     denmans_total = Denman.objects.count()
     denmans_in_service = Denman.objects.filter(status='In Service').count()
     denmans_not_in_service = Denman.objects.filter(status='Not In Service').count()
     denmans_in_repair = Denman.objects.filter(status='In Repair').count()
+    denmans_lost = Denman.objects.filter(status='Lost').count()
 
     kautos_total = Kauto.objects.count()
     kautos_in_service = Kauto.objects.filter(status='In Service').count()
     kautos_not_in_service = Kauto.objects.filter(status='Not In Service').count()
     kautos_in_repair = Kauto.objects.filter(status='In Repair').count()
+    kautos_lost = Kauto.objects.filter(status='Lost').count()
 
     frankels_total = Frankel.objects.count()
     frankels_in_service = Frankel.objects.filter(status='In Service').count()
     frankels_not_in_service = Frankel.objects.filter(status='Not In Service').count()
     frankels_in_repair = Frankel.objects.filter(status='In Repair').count()
+    frankels_lost = Frankel.objects.filter(status='Lost').count()
 
     others_total = Other.objects.count()
     others_in_service = Other.objects.filter(status='In Service').count()
     others_not_in_service = Other.objects.filter(status='Not In Service').count()
     others_in_repair = Other.objects.filter(status='In Repair').count()
+    others_lost = Other.objects.filter(status='Lost').count()
 
     total_trackers = winxes_total + enables_total + arkles_total + denmans_total + kautos_total + frankels_total + others_total
     total_in_service = winxes_in_service + enables_in_service + arkles_in_service + denmans_in_service + kautos_in_service + frankels_in_service + others_in_service
     total_not_in_service = winxes_not_in_service + enables_not_in_service + arkles_not_in_service + denmans_not_in_service + kautos_not_in_service + frankels_not_in_service + others_not_in_service
     total_in_repair = winxes_in_repair + enables_in_repair + arkles_in_repair + denmans_in_repair + kautos_in_repair + frankels_in_repair + others_in_repair
+    total_lost = winxes_lost + enables_lost + arkles_lost + denmans_lost + kautos_lost + frankels_lost + others_lost
 
     if total_trackers == 0:
         percentage_total_in_repair = 1
         percentage_total_in_service = 1
         percentage_total_not_in_service = 1
+        percentage_total_lost = 1
     else:
         percentage_total_in_service = round( total_in_service/ total_trackers * 100, 2)
         percentage_total_not_in_service = round( total_not_in_service/ total_trackers * 100, 2)
         percentage_total_in_repair = round( total_in_repair/ total_trackers * 100, 2)
+        percentage_total_lost = round( total_lost/ total_trackers * 100, 2)
 
 
     arkles = Arkle.objects.order_by('number')
@@ -130,9 +140,11 @@ def index(request):
         'total_in_service': total_in_service,
         'total_not_in_service': total_not_in_service,
         'total_in_repair': total_in_repair,
+        'total_lost': total_lost,
         'percentage_total_in_service': percentage_total_in_service,
         'percentage_total_not_in_service': percentage_total_not_in_service,
         'percentage_total_in_repair': percentage_total_in_repair,
+        'percentage_total_lost': percentage_total_lost,
         'winxes' : winxes, 
         'arkles' : arkles, 
         'denmans' : denmans, 
@@ -167,7 +179,13 @@ def index(request):
         'others_in_service': others_in_service,
         'others_not_in_service': others_not_in_service,
         'others_in_repair': others_in_repair,
-        
+        'winxes_lost': winxes_lost,
+        'arkles_lost': arkles_lost,
+        'denmans_lost': denmans_lost,
+        'enables_lost': enables_lost,
+        'frankels_lost': frankels_lost,
+        'kautos_lost': kautos_lost,
+        'others_lost': others_lost,
 
 
     }
@@ -196,7 +214,10 @@ def others(request):
 def other(request, other_id):
     other = Other.objects.get(id=other_id)
     d0 = dt.now().date()
-    d1 = other.date_added
+    if other.start_date != None:
+        d1 = other.start_date
+    else:
+        d1 = other.date_added
     delta = d0 - d1
 
     entries = other.other_entry_set.order_by('-date_added')
@@ -219,7 +240,10 @@ def other(request, other_id):
 def winx(request, winx_id):
     winx = Winx.objects.get(id=winx_id)
     d0 = dt.now().date()
-    d1 = winx.date_added
+    if winx.start_date != None:
+        d1 = winx.start_date
+    else:
+        d1 = winx.date_added
     delta = d0 - d1
 
     entries = winx.entry_set.order_by('-date_added')
@@ -241,7 +265,10 @@ def enable(request, enable_id):
     enable = Enable.objects.get(id=enable_id)
     entries = enable.enable_entry_set.order_by('-date_added')
     d0 = dt.now().date()
-    d1 = enable.date_added
+    if enable.start_date != None:
+        d1 = enable.start_date
+    else:
+        d1 = enable.date_added
     delta = d0 - d1
 
     if request.method == 'GET':
@@ -260,7 +287,10 @@ def arkle(request, arkle_id):
     arkle = Arkle.objects.get(id=arkle_id)
     entries = arkle.arkle_entry_set.order_by('-date_added')
     d0 = dt.now().date()
-    d1 = arkle.date_added
+    if arkle.start_date != None:
+        d1 = arkle.start_date
+    else:
+        d1 = arkle.date_added
     delta = d0 - d1
 
     if request.method == 'GET':
@@ -279,7 +309,10 @@ def denman(request, denman_id):
     denman = Denman.objects.get(id=denman_id)
     entries = denman.denman_entry_set.order_by('-date_added')
     d0 = dt.now().date()
-    d1 = denman.date_added
+    if denman.start_date != None:
+        d1 = denman.start_date
+    else:
+        d1 = denman.date_added
     delta = d0 - d1
 
     if request.method == 'GET':
@@ -298,7 +331,10 @@ def kauto(request, kauto_id):
     kauto = Kauto.objects.get(id=kauto_id)
     entries = kauto.kauto_entry_set.order_by('-date_added')
     d0 = dt.now().date()
-    d1 = kauto.date_added
+    if kauto.start_date != None:
+        d1 = kauto.start_date
+    else:
+        d1 = kauto.date_added
     delta = d0 - d1
 
     if request.method == 'GET':
@@ -317,7 +353,10 @@ def frankel(request, frankel_id):
     frankel = Frankel.objects.get(id=frankel_id)
     entries = frankel.frankel_entry_set.order_by('-date_added')
     d0 = dt.now().date()
-    d1 = frankel.date_added
+    if frankel.start_date != None:
+        d1 = frankel.start_date
+    else:
+        d1 = frankel.date_added
     delta = d0 - d1
 
     if request.method == 'GET':
@@ -933,10 +972,11 @@ def trackers_in_repair(request):
     winx_teller = 0
     average_winx = 0
     for w in Winx.objects.all().filter(status='In Repair'):
-        d0 = dt.now().date()
-        d1 = w.date_added
-        delta = d0 - d1
-        winx_teller = winx_teller + delta.days
+        if w.start_date != None:
+            d0 = dt.now().date()
+            d1 = w.start_date
+            delta = d0 - d1
+            winx_teller = winx_teller + delta.days
     if winx_count == 0:
         winx_count = 1
     else:
@@ -948,10 +988,11 @@ def trackers_in_repair(request):
     enable_teller = 0
     average_enable = 0
     for e in Enable.objects.all().filter(status='In Repair'):
-        d0 = dt.now().date()
-        d1 = e.date_added
-        delta = d0 - d1
-        enable_teller = enable_teller + delta.days
+        if e.start_date != None:
+            d0 = dt.now().date()
+            d1 = e.date_added
+            delta = d0 - d1
+            enable_teller = enable_teller + delta.days
     if enable_count == 0:
         enable_count = 1
     else:
@@ -963,10 +1004,11 @@ def trackers_in_repair(request):
     arkle_teller = 0
     average_arkle = 0
     for a in Arkle.objects.all().filter(status='In Repair'):
-        d0 = dt.now().date()
-        d1 = a.date_added
-        delta = d0 - d1
-        arkle_teller = arkle_teller + delta.days
+        if a.start_date != None:
+            d0 = dt.now().date()
+            d1 = a.date_added
+            delta = d0 - d1
+            arkle_teller = arkle_teller + delta.days
     if arkle_count == 0:
         arkle_count = 1
     else:
@@ -978,10 +1020,11 @@ def trackers_in_repair(request):
     denman_teller = 0
     average_denman = 0
     for d in Denman.objects.all().filter(status='In Repair'):
-        d0 = dt.now().date()
-        d1 = d.date_added
-        delta = d0 - d1
-        denman_teller = denman_teller + delta.days
+        if d.start_date != None:
+            d0 = dt.now().date()
+            d1 = d.date_added
+            delta = d0 - d1
+            denman_teller = denman_teller + delta.days
     if denman_count == 0:
         denman_count = 1
     else:
@@ -994,10 +1037,11 @@ def trackers_in_repair(request):
     frankel_teller = 0
     average_frankel = 0
     for f in Frankel.objects.all().filter(status='In Repair'):
-        d0 = dt.now().date()
-        d1 = f.date_added
-        delta = d0 - d1
-        frankel_teller = frankel_teller + delta.days
+        if f.start_date != None:
+            d0 = dt.now().date()
+            d1 = f.date_added
+            delta = d0 - d1
+            frankel_teller = frankel_teller + delta.days
     if frankel_count == 0:
         frankel_count = 1
     else:
@@ -1009,10 +1053,11 @@ def trackers_in_repair(request):
     kauto_teller = 0
     average_kauto = 0
     for k in Kauto.objects.all().filter(status='In Repair'):
-        d0 = dt.now().date()
-        d1 = k.date_added
-        delta = d0 - d1
-        kauto_teller = kauto_teller + delta.days
+        if k.start_date != None:
+            d0 = dt.now().date()
+            d1 = k.date_added
+            delta = d0 - d1
+            kauto_teller = kauto_teller + delta.days
     if kauto_count == 0:
         kauto_count = 1
     else:
@@ -1026,10 +1071,11 @@ def trackers_in_repair(request):
     other_teller = 0
     average_other = 0
     for o in Other.objects.all().filter(status='In Repair'):
-        d0 = dt.now().date()
-        d1 = o.date_added
-        delta = d0 - d1
-        other_teller = other_teller + delta.days
+        if o.start_date != None:
+            d0 = dt.now().date()
+            d1 = o.date_added
+            delta = d0 - d1
+            other_teller = other_teller + delta.days
     if other_count == 0:
         other_count = 1
     else:

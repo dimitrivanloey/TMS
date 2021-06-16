@@ -17,13 +17,18 @@
     <div class="card-header">
         {{ error }}
         <h4>
-    {{ kauto }} - {{ kauto.status }} since {{ kauto.date_added }} 
-    {% if delta.days == 1 %}
+        {{ kauto }} - {{ kauto.status }} 
+        {% if kauto.start_date == None %}
+        since {{ kauto.date_added }}
+        {% else %}
+        since {{ kauto.start_date }} 
+        {% if delta.days == 1 %}
         ({{ delta.days }} day)
         {% else %}
         ({{ delta.days }} days)
         {% endif %}
-    </h4>
+        {% endif %}
+        </h4>
     <a class="btn btn-info" href="{% url 'unit_logs:new_kauto_entry' kauto.id %}" role="button">Add Entry</a>
         
     </div>

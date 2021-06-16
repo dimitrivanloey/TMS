@@ -18,11 +18,16 @@
         {{ error }}
 
     <h4>
-        {{ arkle }} - {{ arkle.status }} since {{ arkle.date_added }} 
-    {% if delta.days == 1 %}
+        {{ arkle }} - {{ arkle.status }} 
+        {% if arkle.start_date == None %}
+        since {{ arkle.date_added }}
+        {% else %}
+        since {{ arkle.start_date }} 
+        {% if delta.days == 1 %}
         ({{ delta.days }} day)
         {% else %}
         ({{ delta.days }} days)
+        {% endif %}
         {% endif %}
     </h4>
         <a class="btn btn-info" href="{% url 'unit_logs:new_arkle_entry' arkle.id %}" role="button">Add Entry</a>

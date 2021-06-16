@@ -25,7 +25,7 @@
     <p>Total number of Kauto in repair: {{ kauto_count }} </p>
     <p>Total number of Other Units in repair: {{ other_count }} </p>
     <p><strong>Total number of trackers in repair: {{ total_count }}</strong></p>
-    <p><strong>Average Days in Repair: {{ average_all }}</strong></p>
+    
 
 
 <br>
@@ -37,15 +37,20 @@
 
 <table>
     {% for a in arkle %}
-    <tr><td>{{ a }}</td> <td>  since {{ a.date_added }}</td> <td> ({{ a.date_added|timesince }}) 
-    </td></tr>
+    <tr><td>{{ a }}</td> 
+        {% if a.start_date == None %}
+        <td>No start date added yet</td>
+        {% else %}
+        <td>  since {{ a.start_date }}</td> <td> ({{ a.start_date|timesince }}) </td>
+        {% endif %}
+    </tr>
    
     {% empty %}
     <tr>No Arkle has been added yet.</tr>
     {% endfor %}
 </table>
 <br>
-<p>Average days: {{ average_arkle }}</p>
+
 
 <br>
 <br>
@@ -56,15 +61,20 @@
 
 <table>
     {% for d in denman %}
-    <tr><td>{{ d }}</td> <td>  since {{ d.date_added }}</td> <td> ({{ d.date_added|timesince }}) 
-    </td></tr>
+    <tr><td>{{ d }}</td> 
+        {% if d.start_date == None %}
+        <td>No start date added yet</td>
+        {% else %}
+        <td>  since {{ d.start_date }}</td> <td> ({{ d.start_date|timesince }}) </td>
+        {% endif %}
+    </tr>
    
     {% empty %}
-    <li>No Denman has been added yet.</li>
+    <tr>No Denman has been added yet.</tr>
     {% endfor %}
 </table>
 <br>
-<p>Average days: {{ average_denman }}</p>
+
 
 <br>
 <br>
@@ -77,15 +87,20 @@
 
 <table>
     {% for e in enable %}
-    <tr><td>{{ e }}</td> <td>  since {{ e.date_added }}</td> <td> ({{ e.date_added|timesince }}) 
-    </td></tr>
+    <tr><td>{{ e }}</td> 
+        {% if e.start_date == None %}
+        <td>No start date added yet</td>
+        {% else %}
+        <td>  since {{ e.start_date }}</td> <td> ({{ e.start_date|timesince }}) </td>
+        {% endif %}
+    </tr>
    
     {% empty %}
-    <li>No Enable has been added yet.</li>
+    <tr>No Enable has been added yet.</tr>
     {% endfor %}
 </table>
 <br>
-<p>Average days: {{ average_enable }}</p>
+
 
 <br>
 <br>
@@ -96,15 +111,20 @@
 
 <table>
     {% for w in winx %}
-    <tr><td>{{ w }}</td> <td>  since {{ w.date_added }}</td> <td> ({{ w.date_added|timesince }}) 
-    </td></tr>
+    <tr><td>{{ w }}</td> 
+        {% if w.start_date == None %}
+        <td>No start date added yet</td>
+        {% else %}
+        <td>  since {{ w.start_date }}</td> <td> ({{ w.start_date|timesince }}) </td>
+        {% endif %}
+    </tr>
    
     {% empty %}
-    <li>No Winx has been added yet.</li>
+    <tr>No Winx has been added yet.</tr>
     {% endfor %}
 </table>
 <br>
-<p>Average days: {{ average_winx }}</p>
+
 
 <br>
 <br>
@@ -115,15 +135,20 @@
 
 <table>
     {% for f in frankel %}
-    <tr><td>{{ f }}</td> <td>  since {{ f.date_added }}</td> <td> ({{ f.date_added|timesince }}) 
-    </td></tr>
+    <tr><td>{{ f }}</td> 
+        {% if f.start_date == None %}
+        <td>No start date added yet</td>
+        {% else %}
+        <td>  since {{ f.start_date }}</td> <td> ({{ f.start_date|timesince }}) </td>
+        {% endif %}
+    </tr>
    
     {% empty %}
-    <li>No Frankel has been added yet.</li>
+    <tr>No Frankel has been added yet.</tr>
     {% endfor %}
 </table>
 <br>
-<p>Average days: {{ average_frankel }}</p>
+
 
 <br>
 <br>
@@ -134,15 +159,20 @@
 
 <table>
     {% for k in kauto %}
-    <tr><td>{{ k }}</td> <td>  since {{ k.date_added }}</td> <td> ({{ k.date_added|timesince }}) 
-    </td></tr>
+    <tr><td>{{ k }}</td> 
+        {% if k.start_date == None %}
+        <td>No start date added yet</td>
+        {% else %}
+        <td>  since {{ k.start_date }}</td> <td> ({{ k.start_date|timesince }}) </td>
+        {% endif %}
+    </tr>
    
     {% empty %}
-    <li>No Kauto has been added yet.</li>
+    <tr>No Kauto has been added yet.</tr>
     {% endfor %}
 </table>
 <br>
-<p>Average days: {{ average_kauto }}</p>
+
 
 <br>
 <br>
@@ -153,14 +183,19 @@
 
 <table>
     {% for o in other %}
-    <tr><td>{{ o }}</td> <td>  since {{ o.date_added }}</td> <td> ({{ o.date_added|timesince }}) 
-    </td></tr>
+    <tr><td>{{ o }}</td> 
+        {% if o.start_date == None %}
+        <td>No start date added yet</td>
+        {% else %}
+        <td>  since {{ o.start_date }}</td> <td> ({{ o.start_date|timesince }}) </td>
+        {% endif %}
+    </tr>
    
     {% empty %}
-    <li>No Other Unit has been added yet.</li>
+    <tr>No Other has been added yet.</tr>
     {% endfor %}
 </table>
 <br>
-<p>Average days: {{ average_other }}</p>
+
 
 {% endblock content %}
