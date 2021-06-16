@@ -340,7 +340,7 @@ class Arkle_Entry(models.Model):
     arkle = models.ForeignKey(Arkle, on_delete=models.CASCADE)
     date_added = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=41, choices=STATUS_CHOICES, default=None)
-    failure_codes = models.CharField(max_length=30, choices=FAILURE_CODES, default=None , blank=True, null=True)
+    failure_codes = models.CharField(max_length=30, default=None , blank=True, null=True, choices=FAILURE_CODES)
     venue = models.CharField(max_length=18, choices=VENUES, default=None, blank=True, null=True)
     start_date = models.DateField(blank=True, null=True)
     comments = models.TextField(blank=True)
