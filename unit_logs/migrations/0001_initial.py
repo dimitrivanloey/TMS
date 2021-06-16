@@ -55,7 +55,7 @@ class Migration(migrations.Migration):
                 ('number', models.PositiveSmallIntegerField(unique=True)),
                 ('date_added', models.DateField(auto_now=True)),
                 ('status', models.CharField(choices=[('In Repair', 'In Repair'), ('Not In Service', 'Not In Service'), ('In Service', 'In Service')], default='In Service', max_length=15)),
-                ('date', models.DateField()),
+                ('date_added', models.DateField()),
             ],
         ),
         migrations.CreateModel(
