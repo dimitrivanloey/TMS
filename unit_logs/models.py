@@ -326,21 +326,12 @@ class Arkle_Entry(models.Model):
         ('York', 'York'),
     }
 
-    FAILURE_CODES = {
-        ('Battery Failure', 'Battery Failure'),
-        ('USB Connector Broken', 'USB Connector Broken'),
-        ('Switch Broken', 'Switch Broken'),
-        ('Case Damaged', 'Case Damaged'),
-        ('Lights in Grey State', 'Lights in Grey State'),
-        ('Clear Water Ingress Damage', 'Clear Water Ingress Damage'),
-        ('Antenna Broken', "Antenna Broken"),
-        ('Unknown', 'Unknown'),
-    }
+    
 
     arkle = models.ForeignKey(Arkle, on_delete=models.CASCADE)
     date_added = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=41, choices=STATUS_CHOICES, default=None)
-    failure_codes = models.CharField(max_length=30, default=None , blank=True, null=True, choices=FAILURE_CODES)
+    
     venue = models.CharField(max_length=18, choices=VENUES, default=None, blank=True, null=True)
     start_date = models.DateField(blank=True, null=True)
     comments = models.TextField(blank=True)
