@@ -333,7 +333,7 @@ class Arkle_Entry(models.Model):
     status = models.CharField(max_length=41, choices=STATUS_CHOICES, default=None)
     
     venue = models.CharField(max_length=18, choices=VENUES, default=None, blank=True, null=True)
-    start_date = models.DateField(blank=True, null=True)
+    
     comments = models.TextField(blank=True)
 
     class Meta:
