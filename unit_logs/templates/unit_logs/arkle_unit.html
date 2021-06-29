@@ -30,6 +30,7 @@
         {% endif %}
         {% endif %}
     </h4>
+        <a class="btn btn-info" href="{% url 'unit_logs:arkle_failures' arkle.id %}" role="button">Failures</a>
         <a class="btn btn-info" href="{% url 'unit_logs:new_arkle_entry' arkle.id %}" role="button">Add Entry</a>
        
     </div>

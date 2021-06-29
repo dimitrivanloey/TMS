@@ -9,8 +9,8 @@ from datetime import timedelta
 import datetime
 from django.utils import timezone
 
-from .models import Winx, Arkle, Denman, Enable, Frankel, Kauto, Entry, Other
-from .forms import WinxForm, ArkleForm, DenmanForm, EnableForm, FrankelForm, KautoForm, EntryForm, EnableEntryForm, ArkleEntryForm, DenmanEntryForm, KautoEntryForm, FrankelEntryForm, OtherForm, OtherEntryForm
+from .models import Winx, Arkle, Denman, Enable, Frankel, Kauto, Entry, Other, Failures
+from .forms import WinxForm, ArkleForm, DenmanForm, EnableForm, FrankelForm, KautoForm, EntryForm, EnableEntryForm, ArkleEntryForm, DenmanEntryForm, KautoEntryForm, FrankelEntryForm, OtherForm, OtherEntryForm, ArkleFailureEntryForm
 from unit_logs.models import Arkle_Entry, Denman_Entry, Enable_Entry, Frankel_Entry, Kauto_Entry, Other_Entry
 
 
@@ -1112,3 +1112,64 @@ def sticks_missing(request):
     return render(request, 'unit_logs/sticks_missing.html', context )
 
 
+@xframe_options_exempt
+@login_required
+def arkle_failures(request, arkle_id):
+    arkle = Arkle.objects.get(id=arkle_id)
+    failures = arkle.failures_set.all().order_by('-start_date')
+
+    context = {'arkle': arkle, 'failures': failures}
+
+    return render(request, 'unit_logs/arkle_failures.html', context)
+
+
+@xframe_options_exempt
+@login_required
+def new_arkle_failure_entry(request, arkle_id):
+    """Add a new failure entry for a particular arkle"""
+    arkle = Arkle.objects.get(id=arkle_id)
+
+    if request.method != 'POST':
+        # No data submitted, create a blank form
+        form = ArkleFailureEntryForm()
+    else:
+        # POST data submitted; process data
+        form = ArkleFailureEntryForm(data=request.POST)
+        if form.is_valid():
+            new_arkle_failure_entry = form.save(commit=False)
+            new_arkle_failure_entry.arkle = arkle
+            new_arkle_failure_entry.save()
+            return redirect('unit_logs:arkle_failures', arkle_id=arkle_id)
+
+    # Display a blank or invalid form
+    context = {'arkle': arkle, 'form': form}
+    return render(request, 'unit_logs/new_arkle_failure_entry.html', context)
+
+# Edit arkle failure entry pages
+@xframe_options_exempt
+@login_required
+def edit_arkle_failure_entry(request, entry_id):
+    """Edit an exiting arkle failure entry"""
+    entry = Failures.objects.get(id=entry_id)
+    arkle = entry.arkle
+
+    if request.method != 'POST':
+        form = ArkleFailureEntryForm(instance=entry)
+    else:
+        form = ArkleFailureEntryForm(instance=entry, data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('unit_logs:arkle_failures', arkle_id=arkle.id)
+
+    context = {'entry': entry, 'arkle': arkle, 'form': form}
+    return render(request, 'unit_logs/edit_arkle_failure_entry.html', context)
+
+# Delete arkle failure entry pages
+@xframe_options_exempt
+@login_required
+def delete_arkle_failure_entry(request, entry_id):
+    entry = Failures.objects.get(id=entry_id)
+    arkle = entry.arkle
+    if request.method == 'POST':
+        entry.delete()
+        return redirect('unit_logs:arkle_failures', arkle_id=arkle.id)

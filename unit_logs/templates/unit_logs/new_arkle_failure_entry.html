@@ -9,9 +9,9 @@
 
 <div class="card-body">
 
-<p>Add a new entry:</p>
+<p>Add a new failure:</p>
 
-<form class="form" action="{% url 'unit_logs:new_arkle_entry' arkle.id %}" method="post">
+<form class="form" action="{% url 'unit_logs:new_arkle_failure_entry' arkle.id %}" method="post">
     {% csrf_token %}
     {% bootstrap_form form %}
     {% buttons %}

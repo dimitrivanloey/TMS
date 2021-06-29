@@ -106,6 +106,18 @@ urlpatterns = [
 
     # Page that shows sticks and missing units
     path('sticks_missing/', views.sticks_missing, name='sticks_missing'),
+
+    # Page that shows failures for an individual Arkle
+    path('arkle_failures/<int:arkle_id>', views.arkle_failures, name='arkle_failures'),
+
+    # New Arkle Failure entry
+    path('new_arkle_failure_entry/<int:arkle_id>', views.new_arkle_failure_entry, name='new_arkle_failure_entry'),
+
+    # Edit Arkle Failure entry
+    path('edit_arkle_failure_entry/<int:entry_id>', views.edit_arkle_failure_entry, name='edit_arkle_failure_entry'),
+
+     # Delete Arkle Failure entry
+    path('delete_arkle_failure_entry/<int:entry_id>', views.delete_arkle_failure_entry, name='delete_arkle_failure_entry'),
     
 ]
 

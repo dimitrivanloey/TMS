@@ -636,3 +636,28 @@ class Other_Entry(models.Model):
 
     def __str__(self):
         return f"Entry: {self.date_added}"
+
+class Failures(models.Model):
+    """Specifies a list of failures"""
+
+    FAILURE_CODES = {
+        ('Battery Failure', 'Battery Failure'),
+        ('USB Connector Broken', 'USB Connector Broken'),
+        ('Switch Broken', 'Switch Broken'),
+        ('Case Damaged', 'Case Damaged'),
+        ('Lights in Grey State', 'Lights in Grey State'),
+        ('Clear Water Ingress Damage', 'Clear Water Ingress Damage'),
+        ('Antenna Broken', 'Antenna Broken'),
+        ('Unknown', 'Unknown')
+    }
+
+    arkle = models.ForeignKey(Arkle, on_delete=models.CASCADE)
+    code = models.CharField(max_length=41, choices=FAILURE_CODES, blank=True, null=True)
+    start_date = models.DateField(blank=True, null=True)
+    end_date = models.DateField(blank=True, null=True)
+
+    class Meta:
+        verbose_name_plural = 'Failures'
+
+    def __str__(self):
+        return f"Failure Code: {self.code}"

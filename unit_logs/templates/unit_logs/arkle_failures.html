@@ -1,0 +1,20 @@
+{% extends "unit_logs/base.html" %}
+{% load bootstrap4 %}
+
+{% block content %} 
+
+<h1>Failures {{ arkle }}</h1>
+
+<br>
+<a class="btn btn-info" href="{% url 'unit_logs:new_arkle_failure_entry' arkle.id %}" role="button">Add Failure</a>
+<br>
+
+{% for failure in failures %}
+<a href="{% url 'unit_logs:edit_arkle_failure_entry' failure.id %}">{{ failure.code }} - Out of service from {{ failure.start_date }} - till {{ failure.end_date }}</a>
+
+<br>
+{% endfor %}
+
+<br>
+
+{% endblock content %}
