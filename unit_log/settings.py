@@ -81,18 +81,9 @@ WSGI_APPLICATION = 'unit_log.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'djongo',
-        'NAME': 'unitdb',
-        'CLIENT': {
-            'name': 'unitdb',
-            #'host': MONGODB_URI,
-            'host': 'mongodb+srv://dimitrivanloey:Caemaex01@cluster0.uystz.mongodb.net/unitdb?retryWrites=true&w=majority',
-            'username': 'dimitrivanloey',
-            'password':'Caemaex01',
-            "authMechanism": "SCRAM-SHA-1",
-        },
-
-}
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
 }
 
 
