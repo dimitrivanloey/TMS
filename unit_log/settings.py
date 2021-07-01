@@ -79,11 +79,18 @@ WSGI_APPLICATION = 'unit_log.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+# This gets overwritten by heroku later on, so this is just local config
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'tms_dev',
+        'USER': 'postgres',
+        'PASSWORD': 'abcDEF123',
+        'HOST': 'postgresql',
+        'PORT': '5432',
+
     }
+
 }
 
 
