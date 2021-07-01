@@ -79,6 +79,7 @@ WSGI_APPLICATION = 'unit_log.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+# This gets overwritten by heroku later on, so this is just local config
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',

@@ -12,6 +12,8 @@ RUN apt-get update
 RUN apt-get install -y nodejs
 RUN curl https://cli-assets.heroku.com/install.sh | sh
 
+# for debugging
+CMD [ "tail", "-f", "/dev/null" ]
 
-# CMD [ "tail", "-f", "/dev/null" ]
-CMD ["/usr/local/bin/heroku", "local"]
+# for running
+# CMD ["/usr/local/bin/heroku", "local"]
