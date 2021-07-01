@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - '5000:5000'
+    volumes:
+      - .:/usr/src/app
+    links:
+      - postgresql
+    environment:
+      PGUSER: postgres
+      DB_HOST: postgresql
+      DB_PORT: 5432
+      DB_PASSWORD: abcDEF123
+  postgresql:
+    image: postgres:12.7
+    environment:
+      POSTGRES_PASSWORD: abcDEF123
+      POSTGRES_DB: tms_dev
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+      - ./db/tms-backup-2.sql:/tms-backup-2.sql
+    ports:
+      - "5433:5432"
