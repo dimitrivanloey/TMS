@@ -54,23 +54,10 @@ def index(request):
     total_trackers_in_repair = tracker_objects.filter(status='In Repair').count()
     total_trackers_lost = tracker_objects.filter(status='Lost').count()
 
-#     if total_trackers == 0:
-#         percentage_total_in_repair = 1
-#         percentage_total_in_service = 1
-#         percentage_total_not_in_service = 1
-#         percentage_total_lost = 1
-#     else:
     percentage_in_service = round( total_trackers_in_service/ total_trackers * 100, 2)
     percentage_not_in_service = round( total_trackers_not_in_service/ total_trackers * 100, 2)
     percentage_in_repair = round( total_trackers_in_repair/ total_trackers * 100, 2)
     percentage_lost = round( total_trackers_lost / total_trackers * 100, 2)
-
-
-#     arkles = Arkle.objects.order_by('number')
-#     denmans = Denman.objects.order_by('number')
-#     enables = Enable.objects.order_by('number')
-#     frankels = Frankel.objects.order_by('number')
-#     kautos = Kauto.objects.order_by('number')
 
     context = {
         'total_trackers': total_trackers,
@@ -82,49 +69,6 @@ def index(request):
         'percentage_not_in_service': percentage_not_in_service,
         'percentage_in_repair': percentage_in_repair,
         'percentage_lost': percentage_lost
-#         'winxes' : winxes,
-#         'arkles' : arkles,
-#         'denmans' : denmans,
-#         'enables' : enables,
-#         'frankels' : frankels,
-#         'kautos' : kautos,
-#         'winxes_total': winxes_total,
-#         'winxes_in_service': winxes_in_service,
-#         'winxes_not_in_service': winxes_not_in_service,
-#         'winxes_in_repair': winxes_in_repair,
-#         'enables_total': enables_total,
-#         'enables_in_service': enables_in_service,
-#         'enables_not_in_service': enables_not_in_service,
-#         'enables_in_repair': enables_in_repair,
-#         'arkles_total': arkles_total,
-#         'arkles_in_service': arkles_in_service,
-#         'arkles_not_in_service': arkles_not_in_service,
-#         'arkles_in_repair': arkles_in_repair,
-#         'denmans_total': denmans_total,
-#         'denmans_in_service': denmans_in_service,
-#         'denmans_not_in_service': denmans_not_in_service,
-#         'denmans_in_repair': denmans_in_repair,
-#         'kautos_total': kautos_total,
-#         'kautos_in_service': kautos_in_service,
-#         'kautos_not_in_service': kautos_not_in_service,
-#         'kautos_in_repair': kautos_in_repair,
-#         'frankels_total': frankels_total,
-#         'frankels_in_service': frankels_in_service,
-#         'frankels_not_in_service': frankels_not_in_service,
-#         'frankels_in_repair': frankels_in_repair,
-#         'others_total': others_total,
-#         'others_in_service': others_in_service,
-#         'others_not_in_service': others_not_in_service,
-#         'others_in_repair': others_in_repair,
-#         'winxes_lost': winxes_lost,
-#         'arkles_lost': arkles_lost,
-#         'denmans_lost': denmans_lost,
-#         'enables_lost': enables_lost,
-#         'frankels_lost': frankels_lost,
-#         'kautos_lost': kautos_lost,
-#         'others_lost': others_lost,
-
-
     }
     return render(request, 'unit_logs/index.html', context)
 
