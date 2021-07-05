@@ -2,7 +2,7 @@ Setup db
 
 ```bash
 docker-compose exec postgresql bash
-psql -U postgres tms_dev < tms-backup-1.sql
+psql -U postgres tms_dev < tms-dry-backup.sql
 ```
 
 Connect to the local db with a Visual viewer
