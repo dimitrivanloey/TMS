@@ -3,14 +3,14 @@
 {% bootstrap_css %}
 {% bootstrap_javascript jquery='full' %}
 
-{% block content %} 
+{% block content %}
 
 <div class="card mb-3">
     <h4 class="card-header">
-    Add a new Arkle</h4> 
+    Add a new {{group}}</h4>
 
     <div class="card-body">
-        <form action="{% url 'unit_logs:new_arkle' %}" method='POST'>
+        <form action="new" method='POST'>
             {% csrf_token %}
             {% bootstrap_form form %}
             {% buttons %}

@@ -10,7 +10,7 @@
     {% bootstrap_css %}
     {% bootstrap_javascript jquery='full' %}
 
-    
+
 </head>
 <body>
 
@@ -25,18 +25,19 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
-                    
-                    <a class="nav-link" href="{% url 'unit_logs:arkles' %}">Arkle</a>
-                    <a class="nav-link" href="{% url 'unit_logs:denmans' %}">Denman</a>
-                    <a class="nav-link" href="{% url 'unit_logs:enables' %}">Enable</a>
-                    <a class="nav-link" href="{% url 'unit_logs:winxes' %}">Winx</a>
-                    <a class="nav-link" href="{% url 'unit_logs:frankels' %}">Frankel</a>  
-                    <a class="nav-link" href="{% url 'unit_logs:kautos' %}">Kauto</a>
-                    <a class="nav-link" href="{% url 'unit_logs:others' %}">Other</a>
-                    <a class="nav-link" href="{% url 'unit_logs:trackers_in_repair' %}">In Repair</a>
-                    <a class="nav-link" href="{% url 'unit_logs:sticks_missing' %}">Sticks & Missing</a>
-                    
-                    
+
+              <a class="nav-link" href="/trackers/Arkle">Arkle</a>
+              <a class="nav-link" href="/trackers/Denman">Denman</a>
+              <a class="nav-link" href="/trackers/Enable">Enable</a>
+              <a class="nav-link" href="/trackers/Winx">Winx</a>
+              <a class="nav-link" href="/trackers/Frankel">Frankel</a>
+              <a class="nav-link" href="/trackers/Kauto">Kauto</a>
+              <a class="nav-link" href="/trackers/Other">Other</a>
+              <a class="nav-link" href="/trackers_in_repair">In Repair</a>
+              <a class="nav-link" href="/sticks_missing">Sticks & Missing</a>
+
+
+
             </ul>
             <ul class="navbar-nav ml-auto">
                 {% if user.is_authenticated %}
@@ -62,7 +63,7 @@
 
 
 <main role="main" class="container">
-        
+
     <div>
         {% block content %}{% endblock content %}
     </div>

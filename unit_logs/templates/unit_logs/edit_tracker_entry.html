@@ -1,13 +1,13 @@
 {% extends "unit_logs/base.html" %}
 {% load bootstrap4 %}
 
-{% block content %} 
+{% block content %}
 
 <div class="card mb-3">
     <h4 class="card-header">
 
 
-<a href="{% url 'unit_logs:arkle' arkle.id %}">{{ arkle }}</a>
+<a href="{% url 'unit_logs:tracker_show' tracker.group tracker.id %}">{{ tracker }}</a>
 
 </h4>
 
@@ -15,7 +15,7 @@
 
 
 
-<form class="form" action="{% url 'unit_logs:edit_arkle_entry' entry.id %}" method='post'>
+<form class="form" action="{{entry.id}}" method='post'>
     {% csrf_token %}
     {% bootstrap_form form %}
     {% buttons %}
@@ -24,7 +24,7 @@
 </form>
 
 
-<form method="POST" action="{% url 'unit_logs:delete_arkle_entry' entry.id %}">
+<form method="POST" action="{{entry.id}}/delete">
     {% csrf_token %}
     <button type="submit" class="btn btn-secondary btn-block">Delete</button>
 </form>
@@ -35,4 +35,4 @@
 </div>
 </div>
 
-{% endblock content %} 
+{% endblock content %}

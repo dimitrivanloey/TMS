@@ -1,0 +1,46 @@
+{% extends "unit_logs/base.html" %}
+{% block content %}
+
+<style>
+    .flex-container {
+        display: flex;
+        flex-wrap: wrap;
+        align-content: center;
+    }
+    .flex-container > div {
+        width: 100px;
+        margin: 5px;
+        text-align: center;
+        line-height: 25px;
+        font-size: 30px;
+        font-family: Arial, Helvetica, sans-serif;
+        flex-basis: 8%;
+    }
+
+    a {
+        width: 100px;
+    }
+    .btn-dark {
+        width: 125px;
+    }
+</style>
+
+<div class="pb-2 mb-2 border-bottom">
+  <a class="btn btn-dark" href="{{group}}/new" role="button">Add Tracker</a>
+</div>
+
+<div class="flex-container">
+  {% for tracker in trackers %}
+    <div>
+      {% if tracker.status == 'In Service' %}
+        <a class="btn btn-success" href="{{group}}/{{tracker.id}}">{{ tracker }}</a>
+      {% elif tracker.status == 'Not In Service' %}
+        <a class="btn btn-danger" href="{{group}}/{{tracker.id}}">{{ tracker }}</a>
+      {% else %}
+        <a class="btn btn-warning" href="{{group}}/{{tracker.id}}">{{ tracker }}</a>
+      {% endif %}
+    </div>
+  {% endfor %}
+</div>
+
+{% endblock content %}

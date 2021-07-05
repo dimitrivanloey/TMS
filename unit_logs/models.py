@@ -1,152 +1,57 @@
 from django.db import models
 
-class Winx(models.Model):
+class Tracker(models.Model):
+    STATUS_CHOICES = (
+      ('In Service', 'In Service'),
+      ('In Repair', 'In Repair'),
+      ('Not In Service', 'Not In Service'),
+      ('Lost', 'Lost')
+    )
 
-    STATUS_CHOICES = {
-        ('In Service', 'In Service'),
-        ('In Repair', 'In Repair'),
-        ('Not In Service', 'Not In Service'),
-        ('Lost', 'Lost'),
-    }
+    TRACKER_TYPES = (
+      ('Arkle', 'Arkle'),
+      ('Enable', 'Enable'),
+      ('Denman', 'Denman'),
+      ('Frankel', 'Frankel'),
+      ('Kauto', 'Kauto'),
+      ('Winx', 'Winx'),
+      ('Other', 'Other')
+    )
 
-    number = models.PositiveSmallIntegerField(unique=True)
+    number = models.PositiveSmallIntegerField()
+    group = models.CharField(max_length=15, choices=TRACKER_TYPES, null=False)
     date_added = models.DateField(auto_now=True)
-    
+
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='In Service')
+
     start_date = models.DateField(blank=True, null=True)
+    class Meta:
+      unique_together = ('number', 'group')
 
     def __str__(self):
         """Returning a sring representation of the model"""
-        name = f"W{self.number}"
+        name = f"{self.group[0]}{self.number}"
         return name
-
-
-class Enable(models.Model):
-
-    STATUS_CHOICES = {
-        ('In Service', 'In Service'),
-        ('In Repair', 'In Repair'),
-        ('Not In Service', 'Not In Service'),
-        ('Lost', 'Lost'),
-    }
-
-    number = models.PositiveSmallIntegerField(unique=True)
-    date_added = models.DateField(auto_now=True)
-    status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='In Service')
-    start_date = models.DateField(blank=True, null=True)
-
-    def __str__(self):
-        """Returning a sring representation of the model"""
-        name = f"E{self.number}"
-        return name
-
-
-class Arkle(models.Model):
-
-    STATUS_CHOICES = {
-        ('In Service', 'In Service'),
-        ('In Repair', 'In Repair'),
-        ('Not In Service', 'Not In Service'),
-        ('Lost', 'Lost'),
-    }
-
-
-    number = models.PositiveSmallIntegerField(unique=True)
-    date_added = models.DateField(auto_now=True)
-    status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='In Service')
-    start_date = models.DateField(blank=True, null=True)
-    
-
-    def __str__(self):
-        """Returning a sring representation of the model"""
-        name = f"A{self.number}"
-        return name
-
-
-class Denman(models.Model):
-
-    STATUS_CHOICES = {
-        ('In Service', 'In Service'),
-        ('In Repair', 'In Repair'),
-        ('Not In Service', 'Not In Service'),
-        ('Lost', 'Lost'),
-    }
-
-    number = models.PositiveSmallIntegerField(unique=True)
-    date_added = models.DateField(auto_now=True)
-    status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='In Service')
-    start_date = models.DateField(blank=True, null=True)
-
-    def __str__(self):
-        """Returning a sring representation of the model"""
-        name = f"D{self.number}"
-        return name
-
-
-
-class Kauto(models.Model):
-
-    STATUS_CHOICES = {
-        ('In Service', 'In Service'),
-        ('In Repair', 'In Repair'),
-        ('Not In Service', 'Not In Service'),
-        ('Lost', 'Lost'),
-    }
-
-    number = models.PositiveSmallIntegerField(unique=True)
-    date_added = models.DateField(auto_now=True)
-    status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='In Service')
-    start_date = models.DateField(blank=True, null=True)
-    
-
-    def __str__(self):
-        """Returning a sring representation of the model"""
-        name = f"K{self.number}"
-        return name
-
-
-class Frankel(models.Model):
-
-    STATUS_CHOICES = {
-        ('In Service', 'In Service'),
-        ('In Repair', 'In Repair'),
-        ('Not In Service', 'Not In Service'),
-        ('Lost', 'Lost'),
-    }
-
-    number = models.PositiveSmallIntegerField(unique=True)
-    date_added = models.DateField(auto_now=True)
-    status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='In Service')
-    start_date = models.DateField(blank=True, null=True)
-
-    def __str__(self):
-        """Returning a sring representation of the model"""
-        name = f"F{self.number}"
-        return name
-
 
 class Entry(models.Model):
 
+    STATUS = (
+      ('On Course - Test: No Solid White', 'On course - Test: No Solid White'),
+      ('On Course - Test: No Orange', 'On course - Test: No Orange'),
+      ('On Course - Test: Broken Switch', 'On course - Test: Broken Switch'),
+      ('On Course - Test: Broken Connector', 'On course - Test: Broken Connector'),
+      ('On Course - Racing: Not to course', 'On course - racing: Not to course'),
+      ('On Course - Racing: Stuck on track', 'On course - racing: Stuck on track'),
+      ('On Course - Racing: Good Performance', 'On course - racing: Good Performance'),
+      ('On Course - Test: No Red', 'On Course - Test: No Red'),
+      ('In Refurb - Send for mechanical repair', 'In Refurb - Send for mechanical repair'),
+      ('In Refurb - No reply from modem', 'In Refurb - No reply from modem'),
+      ('In Refurb - Broken beyond repair', 'In Refurb - Broken beyond repair'),
+      ('In Refurb - Fixed and returning to course', 'In Refurb - Fixed and returning to course'),
+      ('Out of Service and Returned for Refurb', 'Out of Service and returned for Refurb'),
+    )
 
-    STATUS = {
-        ('On Course - Test: No Solid White', 'On course - Test: No Solid White'),
-        ('On Course - Test: No Orange', 'On course - Test: No Orange'),
-        ('On Course - Test: Broken Switch', 'On course - Test: Broken Switch'),
-        ('On Course - Test: Broken Connector', 'On course - Test: Broken Connector'),
-        ('On Course - Racing: Not to course', 'On course - racing: Not to course'),
-        ('On Course - Racing: Stuck on track', 'On course - racing: Stuck on track'),
-        ('On Course - Racing: Good Performance', 'On course - racing: Good Performance'),
-        ('On Course - Test: No Red', 'On Course - Test: No Red'),
-        ('In Refurb - Send for mechanical repair', 'In Refurb - Send for mechanical repair'),
-        ('In Refurb - No reply from modem', 'In Refurb - No reply from modem'),
-        ('In Refurb - Broken beyond repair', 'In Refurb - Broken beyond repair'),
-        ('In Refurb - Fixed and returning to course', 'In Refurb - Fixed and returning to course'),
-        ('Out of Service and Returned for Refurb', 'Out of Service and returned for Refurb'),
-    }
-
-    
-
-    VENUES = {
+    VENUES = (
         ('Aintree', 'Aintree'),
         ('Ayr', 'Ayr'),
         ('Beverly', 'Beverly'),
@@ -183,9 +88,9 @@ class Entry(models.Model):
         ('Wetherby', 'Wetherby'),
         ('Wincanton', 'Wincanton'),
         ('York', 'York'),
-    }
+    )
 
-    winx = models.ForeignKey(Winx, on_delete=models.CASCADE)
+    tracker = models.ForeignKey(Tracker, on_delete=models.CASCADE, default=1)
     date_added = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=41, choices=STATUS, blank=True, null=True)
     venue = models.CharField(max_length=18, choices=VENUES, blank=True, null=True)
@@ -199,448 +104,10 @@ class Entry(models.Model):
         return f"Entry: {self.date_added}"
 
 
-class Enable_Entry(models.Model):
-
-    STATUS_CHOICES = {
-        ('On Course - Test: No Solid White', 'On course - Test: No Solid White'),
-        ('On Course - Test: No Orange', 'On course - Test: No Orange'),
-        ('On Course - Test: Broken Switch', 'On course - Test: Broken Switch'),
-        ('On Course - Test: Broken Connector', 'On course - Test: Broken Connector'),
-        ('On Course - Racing: Not to course', 'On course - racing: Not to course'),
-        ('On Course - Racing: Stuck on track', 'On course - racing: Stuck on track'),
-        ('On Course - Racing: Good Performance', 'On course - racing: Good Performance'),
-        ('On Course - Test: No Red', 'On Course - Test: No Red'),
-        ('In Refurb - Send for mechanical repair', 'In Refurb - Send for mechanical repair'),
-        ('In Refurb - No reply from modem', 'In Refurb - No reply from modem'),
-        ('In Refurb - Broken beyond repair', 'In Refurb - Broken beyond repair'),
-        ('In Refurb - Fixed and returning to course', 'In Refurb - Fixed and returning to course'),
-        ('Out of Service and Returned for Refurb', 'Out of Service and returned for Refurb'),
-    }
-
-    VENUES = {
-        ('Aintree', 'Aintree'),
-        ('Ayr', 'Ayr'),
-        ('Beverly', 'Beverly'),
-        ('Carlisle', 'Carlisle'),
-        ('Cartmel', 'Cartmel'),
-        ('Catterick Bridge', 'Catterick Bridge'),
-        ('Cheltenham', 'Cheltenham'),
-        ('Chester', 'Chester'),
-        ('Dundalk', 'Dundalk'),
-        ('Epsom Downs', 'Epsom Downs'),
-        ('Exeter', 'Exeter'),
-        ('Goodwood', 'Goodwood'),
-        ('Hamilton', 'Hamilton Park'),
-        ('Haydock', 'Haydock Park'),
-        ('Huntingdon', 'Huntingdon'),
-        ('Kelso', 'Kelso'),
-        ('Kempton Park', 'Kempton Park'),
-        ('Leicester', 'Leicester'),
-        ('Ludlow', 'Ludlow'),
-        ('Market Rasen', 'Market Rasen'),
-        ('Musselburgh', 'Musselburgh'),
-        ('Newbury', 'Newbury'),
-        ('Newmarket', 'Newmarket'),
-        ('Nottingham', 'Nottingham'),
-        ('Perth', 'Perth'),
-        ('Pontefract', 'Pontefract'),
-        ('Salisbury', 'Salisbury'),
-        ('Redcar', 'Redcar'),
-        ('Sandown Park', 'Sandown Park'),
-        ('Stratford-On-Avon', 'Stratford-On-Avon'),
-        ('Taunton', 'Taunton'),
-        ('Thirsk', 'Thirsk'),
-        ('Warwick', 'Warwick'),
-        ('Wetherby', 'Wetherby'),
-        ('Wincanton', 'Wincanton'),
-        ('York', 'York'),
-    }
-
-    enable = models.ForeignKey(Enable, on_delete=models.CASCADE)
-    date_added = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=41, choices=STATUS_CHOICES, default='In Service')
-    venue = models.CharField(max_length=18, choices=VENUES, default='Kempton Park', blank=True, null=True)
-    comments = models.TextField(blank=True)
-
-    class Meta:
-        verbose_name_plural = 'enable entries'
-
-    def __str__(self):
-        return f"Entry: {self.date_added}"
-
-
-class Arkle_Entry(models.Model):
-
-    STATUS_CHOICES = {
-       ('On Course - Test: No Solid White', 'On course - Test: No Solid White'),
-        ('On Course - Test: No Orange', 'On course - Test: No Orange'),
-        ('On Course - Test: Broken Switch', 'On course - Test: Broken Switch'),
-        ('On Course - Test: Broken Connector', 'On course - Test: Broken Connector'),
-        ('On Course - Racing: Not to course', 'On course - racing: Not to course'),
-        ('On Course - Racing: Stuck on track', 'On course - racing: Stuck on track'),
-        ('On Course - Racing: Good Performance', 'On course - racing: Good Performance'),
-        ('On Course - Test: No Red', 'On Course - Test: No Red'),
-        ('In Refurb - Send for mechanical repair', 'In Refurb - Send for mechanical repair'),
-        ('In Refurb - No reply from modem', 'In Refurb - No reply from modem'),
-        ('In Refurb - Broken beyond repair', 'In Refurb - Broken beyond repair'),
-        ('In Refurb - Fixed and returning to course', 'In Refurb - Fixed and returning to course'),
-        ('Out of Service and Returned for Refurb', 'Out of Service and returned for Refurb'),
-    }
-
-    VENUES = {
-        ('Aintree', 'Aintree'),
-        ('Ayr', 'Ayr'),
-        ('Beverly', 'Beverly'),
-        ('Carlisle', 'Carlisle'),
-        ('Cartmel', 'Cartmel'),
-        ('Catterick Bridge', 'Catterick Bridge'),
-        ('Cheltenham', 'Cheltenham'),
-        ('Chester', 'Chester'),
-        ('Dundalk', 'Dundalk'),
-        ('Epsom Downs', 'Epsom Downs'),
-        ('Exeter', 'Exeter'),
-        ('Goodwood', 'Goodwood'),
-        ('Hamilton', 'Hamilton Park'),
-        ('Haydock', 'Haydock Park'),
-        ('Huntingdon', 'Huntingdon'),
-        ('Kelso', 'Kelso'),
-        ('Kempton Park', 'Kempton Park'),
-        ('Leicester', 'Leicester'),
-        ('Ludlow', 'Ludlow'),
-        ('Market Rasen', 'Market Rasen'),
-        ('Musselburgh', 'Musselburgh'),
-        ('Newbury', 'Newbury'),
-        ('Newmarket', 'Newmarket'),
-        ('Nottingham', 'Nottingham'),
-        ('Perth', 'Perth'),
-        ('Pontefract', 'Pontefract'),
-        ('Salisbury', 'Salisbury'),
-        ('Redcar', 'Redcar'),
-        ('Sandown Park', 'Sandown Park'),
-        ('Stratford-On-Avon', 'Stratford-On-Avon'),
-        ('Taunton', 'Taunton'),
-        ('Thirsk', 'Thirsk'),
-        ('Warwick', 'Warwick'),
-        ('Wetherby', 'Wetherby'),
-        ('Wincanton', 'Wincanton'),
-        ('York', 'York'),
-    }
-
-    
-
-    arkle = models.ForeignKey(Arkle, on_delete=models.CASCADE)
-    date_added = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=41, choices=STATUS_CHOICES, default=None)
-    
-    venue = models.CharField(max_length=18, choices=VENUES, default=None, blank=True, null=True)
-    
-    comments = models.TextField(blank=True)
-
-    class Meta:
-        verbose_name_plural = 'arkle entries'
-
-    def __str__(self):
-        return f"Entry: {self.date_added}"
-
-class Denman_Entry(models.Model):
-
-    STATUS_CHOICES = {
-        ('On Course - Test: No Solid White', 'On course - Test: No Solid White'),
-        ('On Course - Test: No Orange', 'On course - Test: No Orange'),
-        ('On Course - Test: Broken Switch', 'On course - Test: Broken Switch'),
-        ('On Course - Test: Broken Connector', 'On course - Test: Broken Connector'),
-        ('On Course - Racing: Not to course', 'On course - racing: Not to course'),
-        ('On Course - Racing: Stuck on track', 'On course - racing: Stuck on track'),
-        ('On Course - Racing: Good Performance', 'On course - racing: Good Performance'),
-        ('On Course - Test: No Red', 'On Course - Test: No Red'),
-        ('In Refurb - Send for mechanical repair', 'In Refurb - Send for mechanical repair'),
-        ('In Refurb - No reply from modem', 'In Refurb - No reply from modem'),
-        ('In Refurb - Broken beyond repair', 'In Refurb - Broken beyond repair'),
-        ('In Refurb - Fixed and returning to course', 'In Refurb - Fixed and returning to course'),
-        ('Out of Service and Returned for Refurb', 'Out of Service and returned for Refurb'),
-    }
-
-    VENUES = {
-        ('Aintree', 'Aintree'),
-        ('Ayr', 'Ayr'),
-        ('Beverly', 'Beverly'),
-        ('Carlisle', 'Carlisle'),
-        ('Cartmel', 'Cartmel'),
-        ('Catterick Bridge', 'Catterick Bridge'),
-        ('Cheltenham', 'Cheltenham'),
-        ('Chester', 'Chester'),
-        ('Dundalk', 'Dundalk'),
-        ('Epsom Downs', 'Epsom Downs'),
-        ('Exeter', 'Exeter'),
-        ('Goodwood', 'Goodwood'),
-        ('Hamilton', 'Hamilton Park'),
-        ('Haydock', 'Haydock Park'),
-        ('Huntingdon', 'Huntingdon'),
-        ('Kelso', 'Kelso'),
-        ('Kempton Park', 'Kempton Park'),
-        ('Leicester', 'Leicester'),
-        ('Ludlow', 'Ludlow'),
-        ('Market Rasen', 'Market Rasen'),
-        ('Musselburgh', 'Musselburgh'),
-        ('Newbury', 'Newbury'),
-        ('Newmarket', 'Newmarket'),
-        ('Nottingham', 'Nottingham'),
-        ('Perth', 'Perth'),
-        ('Pontefract', 'Pontefract'),
-        ('Salisbury', 'Salisbury'),
-        ('Redcar', 'Redcar'),
-        ('Sandown Park', 'Sandown Park'),
-        ('Stratford-On-Avon', 'Stratford-On-Avon'),
-        ('Taunton', 'Taunton'),
-        ('Thirsk', 'Thirsk'),
-        ('Warwick', 'Warwick'),
-        ('Wetherby', 'Wetherby'),
-        ('Wincanton', 'Wincanton'),
-        ('York', 'York'),
-    }
-
-    denman = models.ForeignKey(Denman, on_delete=models.CASCADE)
-    date_added = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=41, choices=STATUS_CHOICES, default='In Service')
-    venue = models.CharField(max_length=18, choices=VENUES, default='Kempton Park', blank=True, null=True)
-    comments = models.TextField(blank=True)
-
-    class Meta:
-        verbose_name_plural = 'denman entries'
-
-    def __str__(self):
-        return f"Entry: {self.date_added}"
-
-class Kauto_Entry(models.Model):
-
-    STATUS_CHOICES = {
-        ('On Course - Test: No Solid White', 'On course - Test: No Solid White'),
-        ('On Course - Test: No Orange', 'On course - Test: No Orange'),
-        ('On Course - Test: Broken Switch', 'On course - Test: Broken Switch'),
-        ('On Course - Test: Broken Connector', 'On course - Test: Broken Connector'),
-        ('On Course - Racing: Not to course', 'On course - racing: Not to course'),
-        ('On Course - Racing: Stuck on track', 'On course - racing: Stuck on track'),
-        ('On Course - Racing: Good Performance', 'On course - racing: Good Performance'),
-        ('On Course - Test: No Red', 'On Course - Test: No Red'),
-        ('In Refurb - Send for mechanical repair', 'In Refurb - Send for mechanical repair'),
-        ('In Refurb - No reply from modem', 'In Refurb - No reply from modem'),
-        ('In Refurb - Broken beyond repair', 'In Refurb - Broken beyond repair'),
-        ('In Refurb - Fixed and returning to course', 'In Refurb - Fixed and returning to course'),
-        ('Out of Service and Returned for Refurb', 'Out of Service and returned for Refurb'),
-    }
-
-    VENUES = {
-        ('Aintree', 'Aintree'),
-        ('Ayr', 'Ayr'),
-        ('Beverly', 'Beverly'),
-        ('Carlisle', 'Carlisle'),
-        ('Cartmel', 'Cartmel'),
-        ('Catterick Bridge', 'Catterick Bridge'),
-        ('Cheltenham', 'Cheltenham'),
-        ('Chester', 'Chester'),
-        ('Dundalk', 'Dundalk'),
-        ('Epsom Downs', 'Epsom Downs'),
-        ('Exeter', 'Exeter'),
-        ('Goodwood', 'Goodwood'),
-        ('Hamilton', 'Hamilton Park'),
-        ('Haydock', 'Haydock Park'),
-        ('Huntingdon', 'Huntingdon'),
-        ('Kelso', 'Kelso'),
-        ('Kempton Park', 'Kempton Park'),
-        ('Leicester', 'Leicester'),
-        ('Ludlow', 'Ludlow'),
-        ('Market Rasen', 'Market Rasen'),
-        ('Musselburgh', 'Musselburgh'),
-        ('Newbury', 'Newbury'),
-        ('Newmarket', 'Newmarket'),
-        ('Nottingham', 'Nottingham'),
-        ('Perth', 'Perth'),
-        ('Pontefract', 'Pontefract'),
-        ('Salisbury', 'Salisbury'),
-        ('Redcar', 'Redcar'),
-        ('Sandown Park', 'Sandown Park'),
-        ('Stratford-On-Avon', 'Stratford-On-Avon'),
-        ('Taunton', 'Taunton'),
-        ('Thirsk', 'Thirsk'),
-        ('Warwick', 'Warwick'),
-        ('Wetherby', 'Wetherby'),
-        ('Wincanton', 'Wincanton'),
-        ('York', 'York'),
-    }
-
-    kauto = models.ForeignKey(Kauto, on_delete=models.CASCADE)
-    date_added = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=41, choices=STATUS_CHOICES, default='In Service')
-    venue = models.CharField(max_length=18, choices=VENUES, default='Kempton Park', blank=True, null=True)
-    comments = models.TextField(blank=True)
-
-    class Meta:
-        verbose_name_plural = 'kauto entries'
-
-    def __str__(self):
-        return f"Entry: {self.date_added}"
-
-class Frankel_Entry(models.Model):
-
-    STATUS_CHOICES = {
-        ('On Course - Test: No Solid White', 'On course - Test: No Solid White'),
-        ('On Course - Test: No Orange', 'On course - Test: No Orange'),
-        ('On Course - Test: Broken Switch', 'On course - Test: Broken Switch'),
-        ('On Course - Test: Broken Connector', 'On course - Test: Broken Connector'),
-        ('On Course - Racing: Not to course', 'On course - racing: Not to course'),
-        ('On Course - Racing: Stuck on track', 'On course - racing: Stuck on track'),
-        ('On Course - Racing: Good Performance', 'On course - racing: Good Performance'),
-        ('On Course - Test: No Red', 'On Course - Test: No Red'),
-        ('In Refurb - Send for mechanical repair', 'In Refurb - Send for mechanical repair'),
-        ('In Refurb - No reply from modem', 'In Refurb - No reply from modem'),
-        ('In Refurb - Broken beyond repair', 'In Refurb - Broken beyond repair'),
-        ('In Refurb - Fixed and returning to course', 'In Refurb - Fixed and returning to course'),
-        ('Out of Service and Returned for Refurb', 'Out of Service and returned for Refurb'),
-    }
-
-    VENUES = {
-        ('Aintree', 'Aintree'),
-        ('Ayr', 'Ayr'),
-        ('Beverly', 'Beverly'),
-        ('Carlisle', 'Carlisle'),
-        ('Cartmel', 'Cartmel'),
-        ('Catterick Bridge', 'Catterick Bridge'),
-        ('Cheltenham', 'Cheltenham'),
-        ('Chester', 'Chester'),
-        ('Dundalk', 'Dundalk'),
-        ('Epsom Downs', 'Epsom Downs'),
-        ('Exeter', 'Exeter'),
-        ('Goodwood', 'Goodwood'),
-        ('Hamilton', 'Hamilton Park'),
-        ('Haydock', 'Haydock Park'),
-        ('Huntingdon', 'Huntingdon'),
-        ('Kelso', 'Kelso'),
-        ('Kempton Park', 'Kempton Park'),
-        ('Leicester', 'Leicester'),
-        ('Ludlow', 'Ludlow'),
-        ('Market Rasen', 'Market Rasen'),
-        ('Musselburgh', 'Musselburgh'),
-        ('Newbury', 'Newbury'),
-        ('Newmarket', 'Newmarket'),
-        ('Nottingham', 'Nottingham'),
-        ('Perth', 'Perth'),
-        ('Pontefract', 'Pontefract'),
-        ('Salisbury', 'Salisbury'),
-        ('Redcar', 'Redcar'),
-        ('Sandown Park', 'Sandown Park'),
-        ('Stratford-On-Avon', 'Stratford-On-Avon'),
-        ('Taunton', 'Taunton'),
-        ('Thirsk', 'Thirsk'),
-        ('Warwick', 'Warwick'),
-        ('Wetherby', 'Wetherby'),
-        ('Wincanton', 'Wincanton'),
-        ('York', 'York'),
-    }
-
-    frankel = models.ForeignKey(Frankel, on_delete=models.CASCADE)
-    date_added = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=41, choices=STATUS_CHOICES, default='In Service')
-    venue = models.CharField(max_length=18, choices=VENUES, default='Kempton Park', blank=True, null=True)
-    comments = models.TextField(blank=True)
-
-    class Meta:
-        verbose_name_plural = 'frankel entries'
-
-    def __str__(self):
-        return f"Entry: {self.date_added}"
-
-
-class Other(models.Model):
-
-    STATUS_CHOICES = {
-        ('In Service', 'In Service'),
-        ('In Repair', 'In Repair'),
-        ('Not In Service', 'Not In Service'),
-    }
-
-    number = models.PositiveSmallIntegerField(unique=True)
-    date_added = models.DateField(auto_now=True)
-    status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='In Service')
-    start_date = models.DateField(blank=True, null=True)
-
-    def __str__(self):
-        """Returning a sring representation of the model"""
-        name = f"Unit {self.number}"
-        return name
-
-class Other_Entry(models.Model):
-
-    STATUS_CHOICES = {
-        ('On Course - Test: No Solid White', 'On course - Test: No Solid White'),
-        ('On Course - Test: No Orange', 'On course - Test: No Orange'),
-        ('On Course - Test: Broken Switch', 'On course - Test: Broken Switch'),
-        ('On Course - Test: Broken Connector', 'On course - Test: Broken Connector'),
-        ('On Course - Racing: Not to course', 'On course - racing: Not to course'),
-        ('On Course - Racing: Stuck on track', 'On course - racing: Stuck on track'),
-        ('On Course - Racing: Good Performance', 'On course - racing: Good Performance'),
-        ('On Course - Test: No Red', 'On Course - Test: No Red'),
-        ('In Refurb - Send for mechanical repair', 'In Refurb - Send for mechanical repair'),
-        ('In Refurb - No reply from modem', 'In Refurb - No reply from modem'),
-        ('In Refurb - Broken beyond repair', 'In Refurb - Broken beyond repair'),
-        ('In Refurb - Fixed and returning to course', 'In Refurb - Fixed and returning to course'),
-        ('Out of Service and Returned for Refurb', 'Out of Service and returned for Refurb'),
-    }
-
-    VENUES = {
-        ('Aintree', 'Aintree'),
-        ('Ayr', 'Ayr'),
-        ('Beverly', 'Beverly'),
-        ('Carlisle', 'Carlisle'),
-        ('Cartmel', 'Cartmel'),
-        ('Catterick Bridge', 'Catterick Bridge'),
-        ('Cheltenham', 'Cheltenham'),
-        ('Chester', 'Chester'),
-        ('Dundalk', 'Dundalk'),
-        ('Epsom Downs', 'Epsom Downs'),
-        ('Exeter', 'Exeter'),
-        ('Goodwood', 'Goodwood'),
-        ('Hamilton', 'Hamilton Park'),
-        ('Haydock', 'Haydock Park'),
-        ('Huntingdon', 'Huntingdon'),
-        ('Kelso', 'Kelso'),
-        ('Kempton Park', 'Kempton Park'),
-        ('Leicester', 'Leicester'),
-        ('Ludlow', 'Ludlow'),
-        ('Market Rasen', 'Market Rasen'),
-        ('Musselburgh', 'Musselburgh'),
-        ('Newbury', 'Newbury'),
-        ('Newmarket', 'Newmarket'),
-        ('Nottingham', 'Nottingham'),
-        ('Perth', 'Perth'),
-        ('Pontefract', 'Pontefract'),
-        ('Salisbury', 'Salisbury'),
-        ('Redcar', 'Redcar'),
-        ('Sandown Park', 'Sandown Park'),
-        ('Stratford-On-Avon', 'Stratford-On-Avon'),
-        ('Taunton', 'Taunton'),
-        ('Thirsk', 'Thirsk'),
-        ('Warwick', 'Warwick'),
-        ('Wetherby', 'Wetherby'),
-        ('Wincanton', 'Wincanton'),
-        ('York', 'York'),
-    }
-
-    other = models.ForeignKey(Other, on_delete=models.CASCADE)
-    date_added = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=41, choices=STATUS_CHOICES, default='In Service')
-    venue = models.CharField(max_length=18, choices=VENUES, default='Kempton Park', blank=True, null=True)
-    comments = models.TextField(blank=True)
-
-    class Meta:
-        verbose_name_plural = 'other entries'
-
-    def __str__(self):
-        return f"Entry: {self.date_added}"
-
-class Failures(models.Model):
+class Failure(models.Model):
     """Specifies a list of failures"""
 
-    FAILURE_CODES = {
+    FAILURE_CODES = (
         ('Battery Failure', 'Battery Failure'),
         ('USB Connector Broken', 'USB Connector Broken'),
         ('Switch Broken', 'Switch Broken'),
@@ -649,15 +116,15 @@ class Failures(models.Model):
         ('Clear Water Ingress Damage', 'Clear Water Ingress Damage'),
         ('Antenna Broken', 'Antenna Broken'),
         ('Unknown', 'Unknown')
-    }
+    )
 
-    arkle = models.ForeignKey(Arkle, on_delete=models.CASCADE)
+    tracker = models.ForeignKey(Tracker, on_delete=models.CASCADE)
     code = models.CharField(max_length=41, choices=FAILURE_CODES, blank=True, null=True)
     start_date = models.DateField(blank=True, null=True)
     end_date = models.DateField(blank=True, null=True)
 
     class Meta:
-        verbose_name_plural = 'Failures'
+        verbose_name_plural = 'failures'
 
     def __str__(self):
         return f"Failure Code: {self.code}"

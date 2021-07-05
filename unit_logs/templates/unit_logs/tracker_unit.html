@@ -1,0 +1,72 @@
+{% extends "unit_logs/base.html" %}
+{% load bootstrap4 %}
+
+{% block content %}
+
+<style>
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+    }
+    a {
+        color:black;
+    }
+</style>
+
+<div class="card mb-3">
+    <div class="card-header">
+        {{ error }}
+
+    <h4>
+        {{ tracker }} - {{ tracker.status }}
+        {% if tracker.start_date == None %}
+          since {{ tracker.date_added }}
+        {% else %}
+          since {{ tracker.start_date }}
+        {% if delta.days == 1 %}
+          ({{ delta.days }} day)
+        {% else %}
+          ({{ delta.days }} days)
+        {% endif %}
+        {% endif %}
+    </h4>
+        <a class="btn btn-info" href="{{tracker.id}}/failures/new" role="button">Add Failure</a>
+        <a class="btn btn-info" href="{{tracker.id}}/entries/new" role="button">Add Entry</a>
+
+    </div>
+
+    <div class="card-body">
+      <h3>Failures</h3>
+      <div class="failures">
+        {% for failure in failures %}
+        <p><a href="{{tracker.id}}/failures/{{failure.id}}/edit">{{failure.code}} - {{ failure.start_date }} until {{ failure.end_date }}</a></p>
+        {% endfor %}
+
+
+      </div>
+      <h3>Entries</h3>
+      <div class="entries">
+        {% for entry in entries %}
+          <a href="{{tracker.id}}/entries/{{entry.id}}">{{ entry.date_added|date:'M d, Y H:i' }} - {{ entry.venue }} - {{entry.status}} {{ entry.comments|linebreaks }}</a>
+        {% endfor %}
+      </div>
+      <br>
+      <form method="POST" class="form">
+          {% csrf_token %}
+          {% bootstrap_form form %}
+          {% buttons %}
+          <button type="submit" class="btn btn-primary btn-block">Save New Status</button>
+          {% endbuttons %}
+      </form>
+
+      <form method="POST" action="{{tracker.id}}/delete">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-secondary btn-block">Delete</button>
+      </form>
+
+    </div>
+</div>
+
+
+
+{% endblock content %}
