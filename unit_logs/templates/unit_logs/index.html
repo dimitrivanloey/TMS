@@ -22,106 +22,16 @@
         width: 100px;
         color: black;
     }
-
-    
 </style>
 
 <div class="pb-2 mb-2 border-bottom">
-    <h1>Welcome to the Tracker Management System</h1>
+  <h1>Welcome to the Tracker Management System</h1>
 </div>
-   <br>
-    <p>Total number of trackers in service: {{ total_in_service }} ({{ percentage_total_in_service }}%)</p>
-    <p><a href="{% url 'unit_logs:trackers_in_repair' %}">Total number of trackers in repair: {{ total_in_repair }} ({{ percentage_total_in_repair }}%)</a></p>
-    <p>Total number of trackers not in service: {{ total_not_in_service }} ({{ percentage_total_not_in_service }}%)</p>
-    <p>Total number of trackers lost: {{ total_lost }} ({{ percentage_total_lost }}%)</p>
-    <p><strong>Total number of trackers: {{ total_trackers }}</strong></p>
-    
-
-
 <br>
-<br>
-
-<div class="pb-2 mb-2 border-bottom">
-    <h3>Arkle</h3>
-</div>
-    <p>Arkle in service: {{ arkles_in_service }}</p>
-    <p>Arkle in repair: {{ arkles_in_repair }}</p>
-    <p>Arkle not in service: {{ arkles_not_in_service }}</p>
-    <p>Arkle lost: {{ arkles_lost }}</p>
-    <p><strong>Total number of Arkle: {{ arkles_total }}</strong></p>
-
-<br>
-
-<div class="pb-2 mb-2 border-bottom">
-    <h3>Denman</h3>
-</div>
-    <p>Denman in service: {{ denmans_in_service }}</p>
-    <p>Denman in repair: {{ denmans_in_repair }}</p>
-    <p>Denman not in service: {{ denmans_not_in_service }}</p>
-    <p>Denman lost: {{ denmans_lost }}</p>
-    <p><strong>Total number of Denman: {{ denmans_total }}</strong></p>
-
-<br>
-
-<div class="pb-2 mb-2 border-bottom">
-    <h3>Enable</h3>
-</div>
-    <p>Enable in service: {{ enables_in_service }}</p>
-    <p>Enable in repair: {{ enables_in_repair }}</p>
-    <p>Enable not in service: {{ enables_not_in_service }}</p>
-    <p>Enable lost: {{ enables_lost }}</p>
-    <p><strong>Total number of Enable: {{ enables_total }}</strong></p>
-
-<br>
-
-<div class="pb-2 mb-2 border-bottom">
-    <h3>Winx</h3>
-    
-</div>
-    <p>Winx in service: {{ winxes_in_service }}</p>
-    <p>Winx in repair: {{ winxes_in_repair }}</p>
-    <p>Winx not in service: {{ winxes_not_in_service }}</p>
-    <p>Winx lost: {{ winxes_lost }}</p>
-    <p><strong>Total number of Winx: {{ winxes_total }}</strong></p>
-
-<br>
-
-
-<div class="pb-2 mb-2 border-bottom">
-    <h3>Frankel</h3>
-</div>
-    <p>Frankel in service: {{ frankels_in_service }}</p>
-    <p>Frankel in repair: {{ frankels_in_repair }}</p>
-    <p>Frankel not in service: {{ frankels_not_in_service }}</p>
-    <p>Frankel lost: {{ frankels_lost }}</p>
-    <p><strong>Total number of Frankel: {{ frankels_total }}</strong></p>
-
-<br>
-
-
-<div class="pb-2 mb-2 border-bottom">
-    <h3>Kauto</h3>
-</div>
-    <p>Kauto in service: {{ kautos_in_service }}</p>
-    <p>Kauto in repair: {{ kautos_in_repair }}</p>
-    <p>Kauto not in service: {{ kautos_not_in_service }}</p>
-    <p>Kauto lost: {{ kautos_lost }}</p>
-    <p><strong>Total number of Kauto: {{ kautos_total }}</strong></p>
-
-<br>
-
-<div class="pb-2 mb-2 border-bottom">
-    <h3>Other</h3>
-</div>
-    <p>Other in service: {{ others_in_service }}</p>
-    <p>Other in repair: {{ others_in_repair }}</p>
-    <p>Other not in service: {{ others_not_in_service }}</p>
-    <p>Other lost: {{ others_lost }}</p>
-    <p><strong>Total number of Other: {{ others_total }}</strong></p>
-
-<br>
-
-
-
+<p>Total number of trackers in service: {{ total_trackers }} ({{ percentage_in_service }}%)</p>
+<p><a href="{% url 'unit_logs:trackers_in_repair' %}">Total number of trackers in repair: {{ total_trackers_in_repair }} ({{ percentage_total_in_repair }}%)</a></p>
+<p>Total number of trackers not in service: {{ total_not_in_service }} ({{ percentage_not_in_service }}%)</p>
+<p>Total number of trackers lost: {{ total_lost }} ({{ percentage_lost }}%)</p>
+<p><strong>Total number of trackers: {{ total_trackers }}</strong></p>
 
 {% endblock content %}

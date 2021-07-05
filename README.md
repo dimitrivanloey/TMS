@@ -2,7 +2,7 @@ Setup db
 
 ```bash
 docker-compose exec postgresql bash
-psql -U postgres tms_dev < tms-backup-2.sql
+psql -U postgres tms_dev < tms-dry-backup.sql
 ```
 
 Connect to the local db with a Visual viewer
@@ -25,5 +25,5 @@ then place breakpoint(); where necessary in the app, then
 
 ```bash
 docker-compose exec app bash
-gunicorn unit_log.wsgi --log-file -
+gunicorn -b 0.0.0.0:5000 unit_log.wsgi --log-file -
 ```
