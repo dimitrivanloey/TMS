@@ -1,6 +1,8 @@
 from django.db import models
 import emoji
 from django.db import connection
+from django.utils import timezone
+import datetime
 
 class Tracker(models.Model):
     STATUS_CHOICES = (
@@ -125,7 +127,7 @@ class Entry(models.Model):
     )
 
     tracker = models.ForeignKey(Tracker, on_delete=models.CASCADE, default=1)
-    timestamp = models.DateTimeField(auto_now_add=True)
+    timestamp = models.DateTimeField(default=timezone.now)
     status = models.ForeignKey(Status, on_delete=models.PROTECT, null=True)
     venue = models.CharField(max_length=18, choices=VENUES, blank=True, null=True)
     comments = models.TextField(blank=True)
