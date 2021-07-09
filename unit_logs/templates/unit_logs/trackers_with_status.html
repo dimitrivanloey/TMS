@@ -1,0 +1,36 @@
+{% extends "unit_logs/base.html" %}
+{% block content %}
+
+<style>
+    .flex-container {
+        display: flex;
+        flex-wrap: wrap;
+        align-content: center;
+    }
+    .flex-container > div {
+        width: 100px;
+        margin: 5px;
+        text-align: center;
+        line-height: 25px;
+        font-size: 30px;
+        font-family: Arial, Helvetica, sans-serif;
+        flex-basis: 8%;
+    }
+
+    a {
+        width: 100px;
+    }
+
+</style>
+
+<h2>Trackers in {{ category_lower }} state ({{trackers_with_status|length }}) </h2>
+<hr>
+<div class="flex-container">
+  {% for tracker in trackers_with_status %}
+    <div>
+        <a class="btn btn-{{tracker.current_status.category_style}}" href="/trackers/{{tracker.tracker_group}}/{{tracker.id}}">{{ tracker }}</a>
+    </div>
+  {% endfor %}
+</div>
+
+{% endblock content %}

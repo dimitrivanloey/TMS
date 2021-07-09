@@ -12,8 +12,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.4.1/dist/chart.min.js"></script>
 </head>
 <body>
-
-
     <nav class="navbar navbar-expand-md navbar-light bg-light mb-4 border">
         <a class="navbar-brand" href="{% url 'unit_logs:index' %}">Home</a>
 
@@ -32,41 +30,46 @@
               <a class="nav-link" href="/trackers/Frankel">Frankel</a>
               <a class="nav-link" href="/trackers/Kauto">Kauto</a>
               <a class="nav-link" href="/trackers/Other">Other</a>
-              <a class="nav-link" href="/trackers_in_repair">In Repair</a>
-              <a class="nav-link" href="/sticks_missing">Sticks & Missing</a>
+              <!-- <a class="nav-link" href="/trackers_in_repair">In Repair</a> -->
+              <!-- <a class="nav-link" href="/sticks_missing">Sticks & Missing</a> -->
 
-
-
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  By Status
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="/status/Working">Working</a>
+                  <a class="dropdown-item" href="/status/Warning">Warning</a>
+                  <a class="dropdown-item" href="/status/Repair">Repair</a>
+                  <a class="dropdown-item" href="/status/OOA">Out of Action</a>
+                  <a class="dropdown-item" href="/status/OOS">Out Of Service</a>
+                  <a class="dropdown-item" href="/status/Failure">Failure</a>
+                </div>
+              </li>
             </ul>
-            <ul class="navbar-nav ml-auto">
-                {% if user.is_authenticated %}
+            <ul class="navbar-nav">
+              {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <span class="navbar-text">Hello, {{ user.username }}.</span>
+                  <span class="navbar-text">Hello, {{ user.username }}.</span>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'users:logout' %}">Log out</a>
+                  <a class="nav-link" href="{% url 'users:logout' %}">Log out</a>
                 </li>
                 {% else %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'users:register' %}">Register</a>
+                  <a class="nav-link" href="{% url 'users:register' %}">Register</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'users:login' %}">Log in</a>
+                  <a class="nav-link" href="{% url 'users:login' %}">Log in</a>
                 </li>
-                {% endif %}
+              {% endif %}
             </ul>
         </div>
     </nav>
-
-
-
-
-<main role="main" class="container">
-
-    <div>
-        {% block content %}{% endblock content %}
-    </div>
-</main>
-
+  <main role="main" class="container">
+      <div>
+          {% block content %}{% endblock content %}
+      </div>
+  </main>
 </body>
 </html>

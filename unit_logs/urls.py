@@ -25,5 +25,7 @@ urlpatterns = [
     path('trackers/<str:tracker_group>/<int:tracker_id>/failures', views.tracker_failures, name='tracker_failures'),
     path('trackers/<str:tracker_group>/<int:tracker_id>/failures/new', views.new_tracker_failure, name='new_tracker_failure'),
     path('trackers/<str:tracker_group>/<int:tracker_id>/failures/<int:failure_id>/edit', views.edit_tracker_failure, name='edit_tracker_failure'),
-    path('trackers/<str:tracker_group>/<int:tracker_id>/failures/<int:failure_id>/delete', views.delete_tracker_failure, name='delete_tracker_failure')
+    path('trackers/<str:tracker_group>/<int:tracker_id>/failures/<int:failure_id>/delete', views.delete_tracker_failure, name='delete_tracker_failure'),
+
+    path('status/<str:category>', views.trackers_with_status, name='trackers_with_status')
 ]
