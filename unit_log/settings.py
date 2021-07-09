@@ -88,7 +88,6 @@ DATABASES = {
         'PASSWORD': 'abcDEF123',
         'HOST': 'postgresql',
         'PORT': '5432',
-
     }
 
 }

@@ -26,18 +26,18 @@
 </style>
 
 <div class="pb-2 mb-2 border-bottom">
-  <a class="btn btn-dark" href="{{group}}/new" role="button">Add Tracker</a>
+  <a class="btn btn-dark" href="{{tracker_group}}/new" role="button">Add Tracker</a>
 </div>
 
 <div class="flex-container">
   {% for tracker in trackers %}
     <div>
       {% if tracker.status == 'In Service' %}
-        <a class="btn btn-success" href="{{group}}/{{tracker.id}}">{{ tracker }}</a>
+        <a class="btn btn-success" href="{{tracker_group}}/{{tracker.id}}">{{ tracker }}</a>
       {% elif tracker.status == 'Not In Service' %}
-        <a class="btn btn-danger" href="{{group}}/{{tracker.id}}">{{ tracker }}</a>
+        <a class="btn btn-danger" href="{{tracker_group}}/{{tracker.id}}">{{ tracker }}</a>
       {% else %}
-        <a class="btn btn-warning" href="{{group}}/{{tracker.id}}">{{ tracker }}</a>
+        <a class="btn btn-warning" href="{{tracker_group}}/{{tracker.id}}">{{ tracker }}</a>
       {% endif %}
     </div>
   {% endfor %}

@@ -1,4 +1,6 @@
 from django.db import models
+import emoji
+from django.db import connection
 
 class Tracker(models.Model):
     STATUS_CHOICES = (
@@ -19,19 +21,47 @@ class Tracker(models.Model):
     )
 
     number = models.PositiveSmallIntegerField()
-    group = models.CharField(max_length=15, choices=TRACKER_TYPES, null=False)
-    date_added = models.DateField(auto_now=True)
-
+    tracker_group = models.CharField(max_length=15, choices=TRACKER_TYPES, null=False)
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='In Service')
 
-    start_date = models.DateField(blank=True, null=True)
     class Meta:
-      unique_together = ('number', 'group')
+      unique_together = ('number', 'tracker_group')
 
     def __str__(self):
         """Returning a sring representation of the model"""
-        name = f"{self.group[0]}{self.number}"
+        name = f"{self.tracker_group[0]}{self.number}"
         return name
+
+    def number_per_category_before_date(given_datetime):
+      all_categories = [e.status.category for e in [res for res in [t.entry_set.filter(timestamp__lte=given_datetime).order_by('timestamp').last()  for t in Tracker.objects.all()] if res is not None]]
+      return [all_categories.count(particular_category) for particular_category in Status.all_categories()]
+
+class Status(models.Model):
+  CATEGORIES = (
+    ('Working', 'Working'),
+    ('Warning', 'Warning'),
+    ('Failure', 'Failure'),
+    ('Repair', 'Repair'),
+    ('OOA', 'Out of Action'),
+    ('OOS', 'Out of Service')
+  )
+
+  category = models.CharField(max_length=15, choices=CATEGORIES, null=False)
+  description = models.CharField(max_length=50, null=False)
+
+  def category_to_emoji(self):
+    return {
+      'Warning': emoji.emojize(':red_exclamation_mark:'),
+      'Failure': emoji.emojize(':cross_mark:'),
+      'Repair': emoji.emojize(':hammer_and_wrench:'),
+      'OOA': emoji.emojize(':skull_and_crossbones:'),
+      'OOS': emoji.emojize(':red_question_mark:'),
+      'Working': emoji.emojize(':check_mark_button:'),
+    }.get(self.category, emoji.emojize(':red_question_mark:'))    # 9 is default if x not found
+
+  def all_categories():
+    return [category['category'] for category in Status.objects.values('category').distinct()]
+
 
 class Entry(models.Model):
 
@@ -91,8 +121,8 @@ class Entry(models.Model):
     )
 
     tracker = models.ForeignKey(Tracker, on_delete=models.CASCADE, default=1)
-    date_added = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=41, choices=STATUS, blank=True, null=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    status = models.ForeignKey(Status, on_delete=models.PROTECT, null=True)
     venue = models.CharField(max_length=18, choices=VENUES, blank=True, null=True)
     comments = models.TextField(blank=True)
 
@@ -101,30 +131,4 @@ class Entry(models.Model):
 
 
     def __str__(self):
-        return f"Entry: {self.date_added}"
-
-
-class Failure(models.Model):
-    """Specifies a list of failures"""
-
-    FAILURE_CODES = (
-        ('Battery Failure', 'Battery Failure'),
-        ('USB Connector Broken', 'USB Connector Broken'),
-        ('Switch Broken', 'Switch Broken'),
-        ('Case Damaged', 'Case Damaged'),
-        ('Lights in Grey State', 'Lights in Grey State'),
-        ('Clear Water Ingress Damage', 'Clear Water Ingress Damage'),
-        ('Antenna Broken', 'Antenna Broken'),
-        ('Unknown', 'Unknown')
-    )
-
-    tracker = models.ForeignKey(Tracker, on_delete=models.CASCADE)
-    code = models.CharField(max_length=41, choices=FAILURE_CODES, blank=True, null=True)
-    start_date = models.DateField(blank=True, null=True)
-    end_date = models.DateField(blank=True, null=True)
-
-    class Meta:
-        verbose_name_plural = 'failures'
-
-    def __str__(self):
-        return f"Failure Code: {self.code}"
+        return f"Entry: {self.timestamp}"

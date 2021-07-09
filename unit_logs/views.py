@@ -19,27 +19,18 @@ yesterday = today - datetime.timedelta(days=1)
 # # Individual Tracker Page
 @xframe_options_exempt
 @login_required
-def tracker_show(request, group, tracker_id):
+def tracker_show(request, tracker_group, tracker_id):
     tracker = Tracker.objects.get(id=tracker_id)
-    d0 = dt.now().date()
-    if tracker.start_date != None:
-        d1 = tracker.start_date
-    else:
-        d1 = tracker.date_added
-    delta = d0 - d1
-
-    entries = tracker.entry_set.order_by('-date_added')
-    entries_count = tracker.entry_set.filter(status= 'On Course - Racing: Good Performance').count()
-    failures = tracker.failure_set.order_by('-start_date')
+    entries = tracker.entry_set.order_by('-timestamp')
 
     if request.method == 'GET':
         form = TrackerForm(instance=tracker)
-        context = {'tracker': tracker, 'form':form, 'entries':entries, 'failures':failures, 'entries_count': entries_count, 'delta': delta}
+        context = {'tracker': tracker, 'form':form, 'entries':entries}
         return render(request, 'unit_logs/tracker_unit.html', context)
     else:
         form = TrackerForm(request.POST, instance=tracker)
         form.save()
-        return redirect('unit_logs:tracker_show', group=group, tracker_id=tracker_id)
+        return redirect('unit_logs:tracker_show', tracker_group=tracker_group, tracker_id=tracker_id)
 
 # # Main index page
 @xframe_options_exempt
@@ -47,17 +38,12 @@ def tracker_show(request, group, tracker_id):
 def index(request):
     tracker_objects = Tracker.objects
 
-    trackers = tracker_objects.order_by('number')
-    total_trackers = tracker_objects.count()
-    total_trackers_in_service = tracker_objects.filter(status='In Service').count()
-    total_trackers_not_in_service = tracker_objects.filter(status='Not In Service').count()
-    total_trackers_in_repair = tracker_objects.filter(status='In Repair').count()
-    total_trackers_lost = tracker_objects.filter(status='Lost').count()
-
-    percentage_in_service = round( total_trackers_in_service/ total_trackers * 100, 2)
-    percentage_not_in_service = round( total_trackers_not_in_service/ total_trackers * 100, 2)
-    percentage_in_repair = round( total_trackers_in_repair/ total_trackers * 100, 2)
-    percentage_lost = round( total_trackers_lost / total_trackers * 100, 2)
+    jan_data = Tracker.number_per_category_before_date(datetime.datetime(2021, 2, 1, 0, 0, 0))
+    feb_data = Tracker.number_per_category_before_date(datetime.datetime(2021, 3, 1, 0, 0, 0))
+    mar_data = Tracker.number_per_category_before_date(datetime.datetime(2021, 4, 1, 0, 0, 0))
+    apr_data = Tracker.number_per_category_before_date(datetime.datetime(2021, 5, 1, 0, 0, 0))
+    may_data = Tracker.number_per_category_before_date(datetime.datetime(2021, 6, 1, 0, 0, 0))
+    jun_data = Tracker.number_per_category_before_date(datetime.datetime(2021, 7, 1, 0, 0, 0))
 
     context = {
         'total_trackers': total_trackers,
@@ -68,57 +54,65 @@ def index(request):
         'percentage_in_service': percentage_in_service,
         'percentage_not_in_service': percentage_not_in_service,
         'percentage_in_repair': percentage_in_repair,
-        'percentage_lost': percentage_lost
+        'percentage_lost': percentage_lost,
+        'data': {
+          'repair': [jan_data[0], feb_data[0], mar_data[0], apr_data[0], may_data[0], jun_data[0]],
+          'working': [jan_data[1], feb_data[1], mar_data[1], apr_data[1], may_data[1], jun_data[1]],
+          'warning': [jan_data[2], feb_data[2], mar_data[2], apr_data[2], may_data[2], jun_data[2]],
+          'ooa':  [jan_data[3], feb_data[3], mar_data[3], apr_data[3], may_data[3], jun_data[3]],
+          'oos': [jan_data[4], feb_data[4], mar_data[4], apr_data[4], may_data[4], jun_data[4]],
+          'failure': [jan_data[5], feb_data[5], mar_data[5], apr_data[5], may_data[5], jun_data[5]]
+        }
     }
-    return render(request, 'unit_logs/index.html', context)
 
+    return render(request, 'unit_logs/index.html', context)
 
 
 # # Individual Pages
 @xframe_options_exempt
 @login_required
-def trackers(request, group):
-    trackers = Tracker.objects.filter(group=group).order_by('number')
-    context = {'trackers' : trackers, 'group': group }
+def trackers(request, tracker_group):
+    trackers = Tracker.objects.filter(tracker_group=tracker_group).order_by('number')
+    context = {'trackers' : trackers, 'tracker_group': tracker_group }
     return render(request, 'unit_logs/trackers.html', context)
 
 @xframe_options_exempt
 @login_required
-def new_tracker(request, group):
+def new_tracker(request, tracker_group):
     """Add a new tracker"""
     if request.method != 'POST':
         # No data submitted, create a blank form
         form = TrackerForm()
-        form.fields["group"].initial = str(group)
+        form.fields["tracker_group"].initial = str(tracker_group)
     else:
         # POST data submitted; process data
         form = TrackerForm(data=request.POST)
         if form.is_valid():
             form.save()
-            return redirect('unit_logs:trackers', group=group)
+            return redirect('unit_logs:trackers', tracker_group=tracker_group)
 
     # Display a blank or invalid form
-    context = {'form': form, 'group': group}
+    context = {'form': form, 'tracker_group': tracker_group}
     return render(request, 'unit_logs/new_tracker.html', context)
 
 @xframe_options_exempt
 @login_required
-def delete_tracker(request, group, tracker_id):
+def delete_tracker(request, tracker_group, tracker_id):
     tracker = Tracker.objects.get(id=tracker_id)
     if request.method == 'POST':
         tracker.delete()
-        return redirect('unit_logs:trackers', group=group)
+        return redirect('unit_logs:trackers', tracker_group=tracker_group)
 
 
 @xframe_options_exempt
 @login_required
-def new_tracker_entry(request, group, tracker_id):
+def new_tracker_entry(request, tracker_group, tracker_id):
     """Add a new entry for a particular tracker"""
     tracker = Tracker.objects.get(id=tracker_id)
 
     if request.method != 'POST':
         # No data submitted, create a blank form
-        form = EntryForm()
+        form = EntryForm(initial={'tracker': tracker.id})
     else:
         # POST data submitted; process data
         form = EntryForm(data=request.POST)
@@ -126,17 +120,17 @@ def new_tracker_entry(request, group, tracker_id):
             new_tracker_entry = form.save(commit=False)
             new_tracker_entry.tracker = tracker
             new_tracker_entry.save()
-            return redirect('unit_logs:tracker_show', group=group, tracker_id=tracker_id)
+            return redirect('unit_logs:tracker_show', tracker_group=tracker_group, tracker_id=tracker_id)
 
     # Display a blank or invalid form
-    context = {'tracker': tracker, 'form': form, 'group': group}
+    context = {'tracker': tracker, 'form': form, 'tracker_group': tracker_group}
     return render(request, 'unit_logs/new_tracker_entry.html', context)
 
 
 # # Edit winx entry pages
 @xframe_options_exempt
 @login_required
-def edit_tracker_entry(request, group, tracker_id, entry_id):
+def edit_tracker_entry(request, tracker_group, tracker_id, entry_id):
     """Edit an exiting tracker entry"""
     entry = Entry.objects.get(id=entry_id)
     tracker = entry.tracker
@@ -147,24 +141,24 @@ def edit_tracker_entry(request, group, tracker_id, entry_id):
         form = EntryForm(instance=entry, data=request.POST)
         if form.is_valid():
             form.save()
-            # TODO: something wrong with this...!
-            return redirect('unit_logs:tracker_show', group=group, tracker_id=tracker.id)
+            return redirect('unit_logs:tracker_show', tracker_group=tracker_group, tracker_id=tracker.id)
 
     context = {'entry': entry, 'tracker': tracker, 'form': form}
     return render(request, 'unit_logs/edit_tracker_entry.html', context)
 
 @xframe_options_exempt
 @login_required
-def delete_tracker_entry(request, group, tracker_id, entry_id):
+def delete_tracker_entry(request, tracker_group, tracker_id, entry_id):
     entry = Entry.objects.get(id=entry_id)
     tracker = entry.tracker
     if request.method == 'POST':
       entry.delete()
-      return redirect('unit_logs:tracker_show', group=group, tracker_id=tracker_id)
+      return redirect('unit_logs:tracker_show', tracker_group=tracker_group, tracker_id=tracker_id)
 
 @xframe_options_exempt
 @login_required
 def trackers_in_repair(request):
+    breakpoint()
     trackers_in_repair = Tracker.objects.filter(status='In Repair')
 
     context = {
@@ -197,14 +191,13 @@ def tracker_failures(request, tracker_id):
 
 @xframe_options_exempt
 @login_required
-def new_tracker_failure(request, group, tracker_id):
+def new_tracker_failure(request, tracker_group, tracker_id):
     """Add a new failure entry for a particular tracker"""
     tracker = Tracker.objects.get(id=tracker_id)
 
     if request.method != 'POST':
         # No data submitted, create a blank form
         form = TrackerFailureForm(initial={'tracker': tracker.id, 'start_date': today})
-        # form.fields["tracker"].initial = str(tracker)
     else:
         # POST data submitted; process data
         form = TrackerFailureForm(data=request.POST)
@@ -212,16 +205,16 @@ def new_tracker_failure(request, group, tracker_id):
             new_tracker_failure = form.save(commit=False)
             new_tracker_failure.tracker = tracker
             new_tracker_failure.save()
-            return redirect('unit_logs:tracker_show', group=group, tracker_id=tracker_id)
+            return redirect('unit_logs:tracker_show', tracker_group=tracker_group, tracker_id=tracker_id)
 
     # Display a blank or invalid form
-    context = {'tracker': tracker, 'form': form, 'group': group}
+    context = {'tracker': tracker, 'form': form, 'tracker_group': tracker_group}
     return render(request, 'unit_logs/new_tracker_failure.html', context)
 
 # Edit arkle failure entry pages
 @xframe_options_exempt
 @login_required
-def edit_tracker_failure(request, group, tracker_id, failure_id):
+def edit_tracker_failure(request, tracker_group, tracker_id, failure_id):
     """Edit an exiting tracker failure"""
     failure = Failure.objects.get(id=failure_id)
     tracker = failure.tracker
@@ -232,7 +225,7 @@ def edit_tracker_failure(request, group, tracker_id, failure_id):
         form = TrackerFailureForm(instance=failure, data=request.POST)
         if form.is_valid():
             form.save()
-            return redirect('unit_logs:tracker_show', group=group, tracker_id=tracker_id)
+            return redirect('unit_logs:tracker_show', tracker_group=tracker_group, tracker_id=tracker_id)
 
     context = {'failure': failure, 'tracker': tracker, 'form': form}
     return render(request, 'unit_logs/edit_tracker_failure.html', context)
@@ -240,9 +233,9 @@ def edit_tracker_failure(request, group, tracker_id, failure_id):
 # Delete tracker failure  pages
 @xframe_options_exempt
 @login_required
-def delete_tracker_failure(request, group, tracker_id, failure_id):
+def delete_tracker_failure(request, tracker_group, tracker_id, failure_id):
     failure = Failure.objects.get(id=failure_id)
     tracker = failure.tracker
     if request.method == 'POST':
         failure.delete()
-        return redirect('unit_logs:tracker_show', group=group, tracker_id=tracker.id)
+        return redirect('unit_logs:tracker_show', tracker_group=tracker_group, tracker_id=tracker.id)
