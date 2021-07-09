@@ -9,7 +9,7 @@ class StatusChoiceField(forms.ModelChoiceField):
 class TrackerForm(forms.ModelForm):
     class Meta:
         model = Tracker
-        fields = ['tracker_group', 'number', 'status']
+        fields = ['tracker_group', 'number']
 
 class EntryForm(forms.ModelForm):
     status = StatusChoiceField(queryset=Status.objects.all().order_by('category'))

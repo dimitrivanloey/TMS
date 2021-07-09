@@ -26,7 +26,7 @@ def tracker_show(request, tracker_group, tracker_id):
     if request.method == 'GET':
         form = TrackerForm(instance=tracker)
         context = {'tracker': tracker, 'form':form, 'entries':entries}
-        return render(request, 'unit_logs/tracker_unit.html', context)
+        return render(request, 'unit_logs/tracker_show.html', context)
     else:
         form = TrackerForm(request.POST, instance=tracker)
         form.save()
