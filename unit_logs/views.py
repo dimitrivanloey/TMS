@@ -46,15 +46,6 @@ def index(request):
     jun_data = Tracker.number_per_category_before_date(datetime.datetime(2021, 7, 1, 0, 0, 0))
 
     context = {
-        'total_trackers': total_trackers,
-        'total_trackers_in_service': total_trackers_in_service,
-        'total_trackers_not_in_service': total_trackers_not_in_service,
-        'total_trackers_in_repair': total_trackers_in_repair,
-        'total_trackers_lost': total_trackers_lost,
-        'percentage_in_service': percentage_in_service,
-        'percentage_not_in_service': percentage_not_in_service,
-        'percentage_in_repair': percentage_in_repair,
-        'percentage_lost': percentage_lost,
         'data': {
           'repair': [jan_data[0], feb_data[0], mar_data[0], apr_data[0], may_data[0], jun_data[0]],
           'working': [jan_data[1], feb_data[1], mar_data[1], apr_data[1], may_data[1], jun_data[1]],
