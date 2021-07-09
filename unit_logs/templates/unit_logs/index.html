@@ -44,39 +44,40 @@
 
 <script>
 
+
 var ctx = document.getElementById('stackedBar').getContext('2d');
 var stackedBar = new Chart(ctx, {
     type: 'bar',
     data: {
-        labels: ['May', 'Jun'],
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
         datasets: [{
           label: 'Repair',
-          data: eval('{{ data.repair|safe }}'),
+          data: [],
           backgroundColor: 'rgba(160, 160, 160, 0.4)',
         },
         {
           label: 'Working',
-          data: eval('{{ data.working|safe }}'),
+          data: [],
           backgroundColor: 'rgba(42, 200, 0, 0.4)',
         },
         {
           label: 'Warning',
-          data: eval('{{ data.warning|safe }}'),
+          data: [],
           backgroundColor: 'rgba(250, 255, 0, 0.4)',
         },
         {
           label: 'Out Of Action',
-          data: eval('{{ data.ooa|safe }}'),
+          data: [],
           backgroundColor: 'rgba(160, 0, 80, 0.4)',
         },
         {
           label: 'OOS',
-          data: eval('{{ data.oos|safe }}'),
+          data: [],
           backgroundColor: 'rgba(0, 130, 160, 0.4)',
         },
         {
           label: 'Failure',
-          data: eval('{{ data.failure|safe }}'),
+          data: [],
           backgroundColor: 'rgba(255, 0, 0, 0.4)',
         }]
     },
@@ -110,6 +111,24 @@ var stackedBar = new Chart(ctx, {
         },
     }
 });
+
+
+fetch(window.location.href + 'api/v1/graphs/status_per_month')
+  .then(function (response) {
+    return response.json();
+  }).then(function (data) {
+    // This is the JSON from our response
+    console.log(data);
+    incoming_data = Object.values(data.data)
+
+    stackedBar.data.datasets.forEach((dataset) => {
+      dataset.data.push(...incoming_data.shift())
+    })
+    stackedBar.update()
+  }).catch(function (err) {
+
+    console.warn('Something went wrong.', err);
+  });
 
 </script>
 

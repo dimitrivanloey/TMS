@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.clickjacking import xframe_options_exempt
 from django.db.models import Count, Avg, F, Max, Min, Sum, Q
+from django.http import JsonResponse
 
 from datetime import datetime as dt
 from datetime import timedelta
@@ -42,28 +43,28 @@ def index(request):
     # feb_data = Tracker.number_per_category_before_date(datetime.datetime(2021, 3, 1, 0, 0, 0))
     # mar_data = Tracker.number_per_category_before_date(datetime.datetime(2021, 4, 1, 0, 0, 0))
     # apr_data = Tracker.number_per_category_before_date(datetime.datetime(2021, 5, 1, 0, 0, 0))
-    may_data = Tracker.number_per_category_before_date(datetime.datetime(2021, 6, 1, 0, 0, 0))
-    jun_data = Tracker.number_per_category_before_date(datetime.datetime(2021, 7, 1, 0, 0, 0))
+    # may_data = Tracker.number_per_category_before_date(datetime.datetime(2021, 6, 1, 0, 0, 0))
+    # jun_data = Tracker.number_per_category_before_date(datetime.datetime(2021, 7, 1, 0, 0, 0))
 
-    context = {
-        'data': {
-          # 'repair': [jan_data[0], feb_data[0], mar_data[0], apr_data[0], may_data[0], jun_data[0]],
-          # 'working': [jan_data[1], feb_data[1], mar_data[1], apr_data[1], may_data[1], jun_data[1]],
-          # 'warning': [jan_data[2], feb_data[2], mar_data[2], apr_data[2], may_data[2], jun_data[2]],
-          # 'ooa':  [jan_data[3], feb_data[3], mar_data[3], apr_data[3], may_data[3], jun_data[3]],
-          # 'oos': [jan_data[4], feb_data[4], mar_data[4], apr_data[4], may_data[4], jun_data[4]],
-          # 'failure': [jan_data[5], feb_data[5], mar_data[5], apr_data[5], may_data[5], jun_data[5]]
-          'repair': [ may_data[0], jun_data[0]],
-          'working': [ may_data[1], jun_data[1]],
-          'warning': [ may_data[2], jun_data[2]],
-          'ooa':  [ may_data[3], jun_data[3]],
-          'oos': [ may_data[4], jun_data[4]],
-          'failure': [may_data[5], jun_data[5]]
+    # context = {
+    #     'data': {
+    #       # 'repair': [jan_data[0], feb_data[0], mar_data[0], apr_data[0], may_data[0], jun_data[0]],
+    #       # 'working': [jan_data[1], feb_data[1], mar_data[1], apr_data[1], may_data[1], jun_data[1]],
+    #       # 'warning': [jan_data[2], feb_data[2], mar_data[2], apr_data[2], may_data[2], jun_data[2]],
+    #       # 'ooa':  [jan_data[3], feb_data[3], mar_data[3], apr_data[3], may_data[3], jun_data[3]],
+    #       # 'oos': [jan_data[4], feb_data[4], mar_data[4], apr_data[4], may_data[4], jun_data[4]],
+    #       # 'failure': [jan_data[5], feb_data[5], mar_data[5], apr_data[5], may_data[5], jun_data[5]]
+    #       'repair': [ may_data[0], jun_data[0]],
+    #       'working': [ may_data[1], jun_data[1]],
+    #       'warning': [ may_data[2], jun_data[2]],
+    #       'ooa':  [ may_data[3], jun_data[3]],
+    #       'oos': [ may_data[4], jun_data[4]],
+    #       'failure': [may_data[5], jun_data[5]]
 
-        }
-    }
+    #     }
+    # }
 
-    return render(request, 'unit_logs/index.html', context)
+    return render(request, 'unit_logs/index.html')
 
 
 # # Individual Pages
@@ -250,3 +251,30 @@ def trackers_with_status(request, category):
     }
 
     return render(request, 'unit_logs/trackers_with_status.html', context)
+
+def graph_status_per_month(request):
+    jan_data = Tracker.number_per_category_before_date(datetime.datetime(2021, 2, 1, 0, 0, 0))
+    feb_data = Tracker.number_per_category_before_date(datetime.datetime(2021, 3, 1, 0, 0, 0))
+    mar_data = Tracker.number_per_category_before_date(datetime.datetime(2021, 4, 1, 0, 0, 0))
+    apr_data = Tracker.number_per_category_before_date(datetime.datetime(2021, 5, 1, 0, 0, 0))
+    may_data = Tracker.number_per_category_before_date(datetime.datetime(2021, 6, 1, 0, 0, 0))
+    jun_data = Tracker.number_per_category_before_date(datetime.datetime(2021, 7, 1, 0, 0, 0))
+
+    context = {
+        'data': {
+          # 'repair': [ may_data[0], jun_data[0]],
+          # 'working': [ may_data[1], jun_data[1]],
+          # 'warning': [ may_data[2], jun_data[2]],
+          # 'ooa':  [ may_data[3], jun_data[3]],
+          # 'oos': [ may_data[4], jun_data[4]],
+          # 'failure': [may_data[5], jun_data[5]]
+          'repair': [jan_data[0], feb_data[0], mar_data[0], apr_data[0], may_data[0], jun_data[0]],
+          'working': [jan_data[1], feb_data[1], mar_data[1], apr_data[1], may_data[1], jun_data[1]],
+          'warning': [jan_data[2], feb_data[2], mar_data[2], apr_data[2], may_data[2], jun_data[2]],
+          'ooa':  [jan_data[3], feb_data[3], mar_data[3], apr_data[3], may_data[3], jun_data[3]],
+          'oos': [jan_data[4], feb_data[4], mar_data[4], apr_data[4], may_data[4], jun_data[4]],
+          'failure': [jan_data[5], feb_data[5], mar_data[5], apr_data[5], may_data[5], jun_data[5]]
+        }
+    }
+
+    return JsonResponse(context)
