@@ -149,11 +149,10 @@ def delete_tracker_entry(request, tracker_group, tracker_id, entry_id):
 @xframe_options_exempt
 @login_required
 def trackers_in_repair(request):
-    breakpoint()
-    trackers_in_repair = Tracker.objects.filter(status='In Repair')
+    entries_in_repair = Tracker.latest_entry_in_category('Repair')
 
     context = {
-      'trackers_in_repair': trackers_in_repair
+      'entries_in_repair': entries_in_repair
     }
 
     return render(request, 'unit_logs/trackers_in_repair.html', context)

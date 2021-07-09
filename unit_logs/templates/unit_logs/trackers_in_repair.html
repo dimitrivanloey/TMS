@@ -14,26 +14,21 @@
     </style>
 
 <div class="pb-2 mb-2 border-bottom">
-    <h1>Trackers in Repair ({{trackers_in_repair | length}})</h1>
+    <h1>Trackers in Repair ({{entries_in_repair | length}})</h1>
 </div>
 <br>
 <br>
 
-{% regroup trackers_in_repair by group as group_list %}
+{% regroup entries_in_repair by entry.tracker.tracker_group as group_list %}
 {% for group in group_list %}
-<div class="pb-2 mb-2 border-bottom">
-  <h2>{{ group.grouper }} ({{ group.list | length }})</h2>
-</div>
 <table>
-  {% for tracker in group.list %}
+  {% for entry in group.list %}
     <tr>
-      <td><a href="/trackers/{{group.grouper}}/{{ tracker.id }}">{{ tracker.number }}</a></td>
-      {% if tracker.start_date == None %}
-        <td>No start date added yet</td>
-      {% else %}
-        <td> since {{ tracker.start_date }}</td>
-        <td> ({{ tracker.start_date|timesince }})</td>
-      {% endif %}
+      <td><a href="/trackers/{{entry.tracker.tracker_group}}/{{ entry.tracker.id }}">{{ entry.tracker }}</a></td>
+
+      <td> since {{ entry.timestamp }}</td>
+      <td> ({{ entry.timestamp|timesince }})</td>
+
     </tr>
     {% empty %}
     <tr>No {{group.grouper }}s being repaired.</tr>
