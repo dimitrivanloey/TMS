@@ -27,10 +27,10 @@
       text-align: center;
     }
     canvas {
-      max-width: 900px;
-      max-height: 700px;
-      min-width: 900px;
-      min-height: 700px;
+      max-width: 700px;
+      max-height: 500px;
+      min-width: 700px;
+      min-height: 500px;
       margin: auto
     }
 </style>
@@ -48,7 +48,7 @@ var ctx = document.getElementById('stackedBar').getContext('2d');
 var stackedBar = new Chart(ctx, {
     type: 'bar',
     data: {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        labels: ['May', 'Jun'],
         datasets: [{
           label: 'Repair',
           data: eval('{{ data.repair|safe }}'),
@@ -89,7 +89,25 @@ var stackedBar = new Chart(ctx, {
             x: {
               stacked: true
             }
-        }
+        },
+        legend: {
+            display: false
+        },
+        legendCallback: function (chart) {
+            // Return the HTML string here.
+            console.log(chart.data.datasets);
+            var text = [];
+            text.push('<ul class="' + chart.id + '-legend">');
+            for (var i = 0; i < chart.data.datasets[0].data.length; i++) {
+                text.push('<li><span id="legend-' + i + '-item" style="background-color:' + chart.data.datasets[0].backgroundColor[i] + '"   onclick="updateDataset(event, ' + '\'' + i + '\'' + ')">');
+                if (chart.data.labels[i]) {
+                    text.push(chart.data.labels[i]);
+                }
+                text.push('</span></li>');
+            }
+            text.push('</ul>');
+            return text.join("");
+        },
     }
 });
 

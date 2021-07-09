@@ -24,6 +24,7 @@ class Tracker(models.Model):
     tracker_group = models.CharField(max_length=15, choices=TRACKER_TYPES, null=False)
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='In Service')
 
+
     class Meta:
       unique_together = ('number', 'tracker_group')
 
@@ -33,8 +34,16 @@ class Tracker(models.Model):
         return name
 
     def number_per_category_before_date(given_datetime):
-      all_categories = [e.status.category for e in [res for res in [t.entry_set.filter(timestamp__lte=given_datetime).order_by('timestamp').last()  for t in Tracker.objects.all()] if res is not None]]
+      all_categories = [entry.status.category for entry in [t.entry_set.filter(timestamp__lte=given_datetime).order_by('timestamp').last() for t in Tracker.objects.all()] if entry is not None]
       return [all_categories.count(particular_category) for particular_category in Status.all_categories()]
+
+    def latest_entry_in_category(category):
+      return [entry for entry in [t.entry_set.order_by('timestamp').last() for t in Tracker.objects.all()] if entry is not None and entry.status.category == category]
+
+    @property
+    def current_status(self):
+      return self.entry_set.order_by('timestamp').last().status
+
 
 class Status(models.Model):
   CATEGORIES = (
@@ -63,23 +72,18 @@ class Status(models.Model):
     return [category['category'] for category in Status.objects.values('category').distinct()]
 
 
-class Entry(models.Model):
+  @property
+  def category_style(self):
+    return {
+      'Warning': 'warning',
+      'Failure': 'danger',
+      'Repair': 'secondary',
+      'OOA': 'dark',
+      'OOS': 'light',
+      'Working': 'success'
+    }.get(self.category, 'primary')
 
-    STATUS = (
-      ('On Course - Test: No Solid White', 'On course - Test: No Solid White'),
-      ('On Course - Test: No Orange', 'On course - Test: No Orange'),
-      ('On Course - Test: Broken Switch', 'On course - Test: Broken Switch'),
-      ('On Course - Test: Broken Connector', 'On course - Test: Broken Connector'),
-      ('On Course - Racing: Not to course', 'On course - racing: Not to course'),
-      ('On Course - Racing: Stuck on track', 'On course - racing: Stuck on track'),
-      ('On Course - Racing: Good Performance', 'On course - racing: Good Performance'),
-      ('On Course - Test: No Red', 'On Course - Test: No Red'),
-      ('In Refurb - Send for mechanical repair', 'In Refurb - Send for mechanical repair'),
-      ('In Refurb - No reply from modem', 'In Refurb - No reply from modem'),
-      ('In Refurb - Broken beyond repair', 'In Refurb - Broken beyond repair'),
-      ('In Refurb - Fixed and returning to course', 'In Refurb - Fixed and returning to course'),
-      ('Out of Service and Returned for Refurb', 'Out of Service and returned for Refurb'),
-    )
+class Entry(models.Model):
 
     VENUES = (
         ('Aintree', 'Aintree'),

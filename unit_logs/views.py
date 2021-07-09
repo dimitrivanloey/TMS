@@ -26,7 +26,7 @@ def tracker_show(request, tracker_group, tracker_id):
     if request.method == 'GET':
         form = TrackerForm(instance=tracker)
         context = {'tracker': tracker, 'form':form, 'entries':entries}
-        return render(request, 'unit_logs/tracker_unit.html', context)
+        return render(request, 'unit_logs/tracker_show.html', context)
     else:
         form = TrackerForm(request.POST, instance=tracker)
         form.save()
@@ -38,30 +38,28 @@ def tracker_show(request, tracker_group, tracker_id):
 def index(request):
     tracker_objects = Tracker.objects
 
-    jan_data = Tracker.number_per_category_before_date(datetime.datetime(2021, 2, 1, 0, 0, 0))
-    feb_data = Tracker.number_per_category_before_date(datetime.datetime(2021, 3, 1, 0, 0, 0))
-    mar_data = Tracker.number_per_category_before_date(datetime.datetime(2021, 4, 1, 0, 0, 0))
-    apr_data = Tracker.number_per_category_before_date(datetime.datetime(2021, 5, 1, 0, 0, 0))
+    # jan_data = Tracker.number_per_category_before_date(datetime.datetime(2021, 2, 1, 0, 0, 0))
+    # feb_data = Tracker.number_per_category_before_date(datetime.datetime(2021, 3, 1, 0, 0, 0))
+    # mar_data = Tracker.number_per_category_before_date(datetime.datetime(2021, 4, 1, 0, 0, 0))
+    # apr_data = Tracker.number_per_category_before_date(datetime.datetime(2021, 5, 1, 0, 0, 0))
     may_data = Tracker.number_per_category_before_date(datetime.datetime(2021, 6, 1, 0, 0, 0))
     jun_data = Tracker.number_per_category_before_date(datetime.datetime(2021, 7, 1, 0, 0, 0))
 
     context = {
-        'total_trackers': total_trackers,
-        'total_trackers_in_service': total_trackers_in_service,
-        'total_trackers_not_in_service': total_trackers_not_in_service,
-        'total_trackers_in_repair': total_trackers_in_repair,
-        'total_trackers_lost': total_trackers_lost,
-        'percentage_in_service': percentage_in_service,
-        'percentage_not_in_service': percentage_not_in_service,
-        'percentage_in_repair': percentage_in_repair,
-        'percentage_lost': percentage_lost,
         'data': {
-          'repair': [jan_data[0], feb_data[0], mar_data[0], apr_data[0], may_data[0], jun_data[0]],
-          'working': [jan_data[1], feb_data[1], mar_data[1], apr_data[1], may_data[1], jun_data[1]],
-          'warning': [jan_data[2], feb_data[2], mar_data[2], apr_data[2], may_data[2], jun_data[2]],
-          'ooa':  [jan_data[3], feb_data[3], mar_data[3], apr_data[3], may_data[3], jun_data[3]],
-          'oos': [jan_data[4], feb_data[4], mar_data[4], apr_data[4], may_data[4], jun_data[4]],
-          'failure': [jan_data[5], feb_data[5], mar_data[5], apr_data[5], may_data[5], jun_data[5]]
+          # 'repair': [jan_data[0], feb_data[0], mar_data[0], apr_data[0], may_data[0], jun_data[0]],
+          # 'working': [jan_data[1], feb_data[1], mar_data[1], apr_data[1], may_data[1], jun_data[1]],
+          # 'warning': [jan_data[2], feb_data[2], mar_data[2], apr_data[2], may_data[2], jun_data[2]],
+          # 'ooa':  [jan_data[3], feb_data[3], mar_data[3], apr_data[3], may_data[3], jun_data[3]],
+          # 'oos': [jan_data[4], feb_data[4], mar_data[4], apr_data[4], may_data[4], jun_data[4]],
+          # 'failure': [jan_data[5], feb_data[5], mar_data[5], apr_data[5], may_data[5], jun_data[5]]
+          'repair': [ may_data[0], jun_data[0]],
+          'working': [ may_data[1], jun_data[1]],
+          'warning': [ may_data[2], jun_data[2]],
+          'ooa':  [ may_data[3], jun_data[3]],
+          'oos': [ may_data[4], jun_data[4]],
+          'failure': [may_data[5], jun_data[5]]
+
         }
     }
 
@@ -158,11 +156,10 @@ def delete_tracker_entry(request, tracker_group, tracker_id, entry_id):
 @xframe_options_exempt
 @login_required
 def trackers_in_repair(request):
-    breakpoint()
-    trackers_in_repair = Tracker.objects.filter(status='In Repair')
+    entries_in_repair = Tracker.latest_entry_in_category('Repair')
 
     context = {
-      'trackers_in_repair': trackers_in_repair
+      'entries_in_repair': entries_in_repair
     }
 
     return render(request, 'unit_logs/trackers_in_repair.html', context)
@@ -239,3 +236,17 @@ def delete_tracker_failure(request, tracker_group, tracker_id, failure_id):
     if request.method == 'POST':
         failure.delete()
         return redirect('unit_logs:tracker_show', tracker_group=tracker_group, tracker_id=tracker.id)
+
+
+# Delete tracker failure  pages
+@xframe_options_exempt
+@login_required
+def trackers_with_status(request, category):
+    trackers_with_status = [e.tracker for e in Tracker.latest_entry_in_category(category)]
+    # breakpoint()
+    context = {
+      'trackers_with_status': trackers_with_status,
+      'category_lower': category.lower()
+    }
+
+    return render(request, 'unit_logs/trackers_with_status.html', context)
