@@ -16,4 +16,4 @@ class EntryForm(forms.ModelForm):
 
     class Meta:
         model = Entry
-        fields = ['tracker', 'status','venue', 'comments', 'timestamp' ]
+        fields = ['tracker', 'status', 'timestamp', 'venue', 'comments']
