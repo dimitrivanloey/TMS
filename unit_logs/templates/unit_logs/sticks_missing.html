@@ -2,7 +2,7 @@
 {% load unit_extras %}
 {% block content %}
 
-{% regroup entries by tracker.group as group_list %}
+{% regroup entries by tracker.tracker_group as group_list %}
 {% for group in group_list %}
 
 <div class="pb-2 mb-2 border-bottom">
@@ -11,11 +11,12 @@
 
 <table>
     {% for entry in group.list %}
+
       {% if entry.status == 'On Course - Racing: Stuck on track' %}
         <tr>
           <td>
             <strong>
-              <a href="{% url 'unit_logs:tracker_show' entry.tracker.group entry.tracker.id %}">{{ entry.tracker }}</a> Stuck on track
+              <a href="{% url 'unit_logs:tracker_show' entry.tracker.tracker_group entry.tracker.id %}">{{ entry.tracker }}</a> Stuck on track
             </strong> at {{ entry.venue }} on {{ entry.date_added }}
           </td>
         </tr>
@@ -23,7 +24,7 @@
         <tr>
           <td>
             <strong>
-              <a href="{% url 'unit_logs:tracker_show' entry.tracker.group entry.tracker.id %}">{{ entry.tracker }}</a> Not to course
+              <a href="{% url 'unit_logs:tracker_show' entry.tracker.tracker_group entry.tracker.id %}">{{ entry.tracker }}</a> Not to course
             </strong> at {{ entry.venue }} on {{ entry.date_added }}
           </td>
         </tr>

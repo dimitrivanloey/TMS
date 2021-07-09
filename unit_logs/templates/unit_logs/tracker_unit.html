@@ -18,17 +18,7 @@
         {{ error }}
 
     <h4>
-        {{ tracker }} - {{ tracker.status }}
-        {% if tracker.start_date == None %}
-          since {{ tracker.date_added }}
-        {% else %}
-          since {{ tracker.start_date }}
-        {% if delta.days == 1 %}
-          ({{ delta.days }} day)
-        {% else %}
-          ({{ delta.days }} days)
-        {% endif %}
-        {% endif %}
+        {{ tracker }}
     </h4>
         <a class="btn btn-info" href="{{tracker.id}}/failures/new" role="button">Add Failure</a>
         <a class="btn btn-info" href="{{tracker.id}}/entries/new" role="button">Add Entry</a>
@@ -36,18 +26,12 @@
     </div>
 
     <div class="card-body">
-      <h3>Failures</h3>
-      <div class="failures">
-        {% for failure in failures %}
-        <p><a href="{{tracker.id}}/failures/{{failure.id}}/edit">{{failure.code}} - {{ failure.start_date }} until {{ failure.end_date }}</a></p>
-        {% endfor %}
-
-
-      </div>
       <h3>Entries</h3>
       <div class="entries">
         {% for entry in entries %}
-          <a href="{{tracker.id}}/entries/{{entry.id}}">{{ entry.date_added|date:'M d, Y H:i' }} - {{ entry.venue }} - {{entry.status}} {{ entry.comments|linebreaks }}</a>
+        <div>
+          <a href="{{tracker.id}}/entries/{{entry.id}}">{{ entry.status.category_to_emoji }} {{ entry.timestamp|date:'M d, Y H:i' }} - {{entry.status.description}} {{ entry.comments }} {{ entry.venue|default_if_none:""}}</a>
+        </div>
         {% endfor %}
       </div>
       <br>

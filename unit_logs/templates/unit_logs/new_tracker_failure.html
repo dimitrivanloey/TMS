@@ -4,12 +4,12 @@
 {% block content %}
 
 <div class="card mb-3">
-  <h4 class="card-header"><a href="{% url 'unit_logs:tracker_show' tracker.group tracker.id %}">{{ tracker }}</a></h4>
+  <h4 class="card-header"><a href="{% url 'unit_logs:tracker_show' tracker.tracker_group tracker.id %}">{{ tracker }}</a></h4>
 <div class="card-body">
 
 <p>Add a new failure:</p>
 
-<form class="form" action="{% url 'unit_logs:new_tracker_failure' tracker.group tracker.id %}" method="post">
+<form class="form" action="{% url 'unit_logs:new_tracker_failure' tracker.tracker_group tracker.id %}" method="post">
     {% csrf_token %}
     {% bootstrap_form form %}
     {% buttons %}

@@ -258,6 +258,15 @@ INSERT INTO "public"."django_content_type" ("id", "app_label", "model") VALUES
 (11, 'unit_logs', 'tracker'),
 (12, 'unit_logs', 'entry');
 
+INSERT INTO "public"."auth_user" ("id", "password", "last_login", "is_superuser", "username", "first_name", "last_name", "email", "is_staff", "is_active", "date_joined") VALUES
+(1, 'pbkdf2_sha256$180000$U2aFzsEEAdw4$ZA5Imq6SjSUHNgEevhVaPuvisoJzL3u90oqUmDv5mZI=', '2021-06-30 09:02:21.371865+00', 't', 'dimitrivanloey', '', '', '', 't', 't', '2020-12-31 18:51:37.515437+00'),
+(2, 'pbkdf2_sha256$180000$oOdfFw6Cz35F$L5/unC8hpqjEW5HkiluhqG4Vs9VDpCu25tnDN4s4wg8=', '2021-06-30 13:03:20.310518+00', 'f', 'dave', '', '', '', 'f', 't', '2021-01-02 10:43:45.005603+00'),
+(3, 'pbkdf2_sha256$180000$FzpUQRiWwLNW$9i0BR/xnJblEze7JWGofqPjGJfkq7BaDfG+iLeiCGvE=', '2021-06-06 12:50:44.399693+00', 'f', 'wdowling1', '', '', '', 'f', 't', '2021-01-18 10:58:55.749572+00'),
+(4, 'pbkdf2_sha256$180000$f1meSpOFY0P1$srYmi/NqdUjlP727VA69olCIL8ReGIa9q3oamoTNzKI=', '2021-06-14 10:19:11.746721+00', 'f', 'Mcoyle98', '', '', '', 'f', 't', '2021-06-14 10:19:11.570812+00'),
+(5, 'pbkdf2_sha256$180000$b4g6xzhuxZiA$tsIWillzBFJoPyw/W+izPQAWiXN85atRQJRZhYOIdZw=', '2021-06-28 14:01:51.778371+00', 'f', 'max.coyle', '', '', '', 'f', 't', '2021-06-23 14:05:18.080943+00'),
+(6, 'pbkdf2_sha256$180000$o0Ooo4Dv7MS3$Qe5M+QnlIULHSvqQMz50hpzwQ+zEk2/Jvwguja2lLqw=', '2021-06-30 17:40:19.576937+00', 'f', 'tom', '', '', '', 'f', 't', '2021-06-30 11:55:05.712651+00');
+
+
 INSERT INTO "public"."django_migrations" ("id", "app", "name", "applied") VALUES
 (1, 'contenttypes', '0001_initial', '2020-12-31 18:50:28.356037+00'),
 (2, 'auth', '0001_initial', '2020-12-31 18:50:29.333288+00'),
