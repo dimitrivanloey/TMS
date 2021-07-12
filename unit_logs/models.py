@@ -49,7 +49,7 @@ class Tracker(models.Model):
 
       ###########################
 
-      all_categories = [e.status.category for e in [entryset.prefetch_related('status').filter(timestamp__lte=given_datetime).last() for entryset in ordered_entry_sets] if e is not None]
+      all_categories = [e.status.category for e in [entryset.filter(timestamp__lte=given_datetime).last() for entryset in ordered_entry_sets] if e is not None]
       # breakpoint()
 
       res = [all_categories.count(particular_category) for particular_category in all_status_categories]

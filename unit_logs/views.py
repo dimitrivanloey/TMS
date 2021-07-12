@@ -270,6 +270,7 @@ def graph_status_per_month(request):
     datas = []
 
     ordered_entry_sets = [t.entry_set.order_by('timestamp') for t in Tracker.objects.all()]
+    ordered_entry_sets = [t.entry_set.prefetch_related('status').order_by('timestamp') for t in Tracker.objects.all()]
     all_status_categories = Status.all_categories()
 
     while len(last_months) > 0:
