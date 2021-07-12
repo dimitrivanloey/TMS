@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.clickjacking import xframe_options_exempt
 from django.db.models import Count, Avg, F, Max, Min, Sum, Q
+from django.http import JsonResponse
 
-from datetime import datetime as dt
+from datetime import datetime
 from datetime import timedelta
 import datetime
 from django.utils import timezone
@@ -38,28 +39,9 @@ def tracker_show(request, tracker_group, tracker_id):
 def index(request):
     tracker_objects = Tracker.objects
 
-    # jan_data = Tracker.number_per_category_before_date(datetime.datetime(2021, 2, 1, 0, 0, 0))
-    # feb_data = Tracker.number_per_category_before_date(datetime.datetime(2021, 3, 1, 0, 0, 0))
-    # mar_data = Tracker.number_per_category_before_date(datetime.datetime(2021, 4, 1, 0, 0, 0))
-    # apr_data = Tracker.number_per_category_before_date(datetime.datetime(2021, 5, 1, 0, 0, 0))
-    may_data = Tracker.number_per_category_before_date(datetime.datetime(2021, 6, 1, 0, 0, 0))
-    jun_data = Tracker.number_per_category_before_date(datetime.datetime(2021, 7, 1, 0, 0, 0))
-
     context = {
         'data': {
-          # 'repair': [jan_data[0], feb_data[0], mar_data[0], apr_data[0], may_data[0], jun_data[0]],
-          # 'working': [jan_data[1], feb_data[1], mar_data[1], apr_data[1], may_data[1], jun_data[1]],
-          # 'warning': [jan_data[2], feb_data[2], mar_data[2], apr_data[2], may_data[2], jun_data[2]],
-          # 'ooa':  [jan_data[3], feb_data[3], mar_data[3], apr_data[3], may_data[3], jun_data[3]],
-          # 'oos': [jan_data[4], feb_data[4], mar_data[4], apr_data[4], may_data[4], jun_data[4]],
-          # 'failure': [jan_data[5], feb_data[5], mar_data[5], apr_data[5], may_data[5], jun_data[5]]
-          'repair': [ may_data[0], jun_data[0]],
-          'working': [ may_data[1], jun_data[1]],
-          'warning': [ may_data[2], jun_data[2]],
-          'ooa':  [ may_data[3], jun_data[3]],
-          'oos': [ may_data[4], jun_data[4]],
-          'failure': [may_data[5], jun_data[5]]
-
+          'month_titles': month_titles(last_6_months(datetime.datetime.now())),
         }
     }
 
@@ -86,7 +68,15 @@ def new_tracker(request, tracker_group):
         # POST data submitted; process data
         form = TrackerForm(data=request.POST)
         if form.is_valid():
-            form.save()
+            tracker = form.save()
+            # assign birth event
+            tracker.entry_set.create(
+              timestamp=datetime.datetime.now(),
+              venue=None,
+              comments='automatic entry',
+              tracker_id=tracker.id,
+              status_id=1
+            )
             return redirect('unit_logs:trackers', tracker_group=tracker_group)
 
     # Display a blank or invalid form
@@ -243,10 +233,62 @@ def delete_tracker_failure(request, tracker_group, tracker_id, failure_id):
 @login_required
 def trackers_with_status(request, category):
     trackers_with_status = [e.tracker for e in Tracker.latest_entry_in_category(category)]
-    # breakpoint()
+
     context = {
       'trackers_with_status': trackers_with_status,
       'category_lower': category.lower()
     }
 
     return render(request, 'unit_logs/trackers_with_status.html', context)
+
+# last_6_months(datetime.datetime.fromisoformat('2021-12-04'))
+# last_6_months(datetime.datetime.fromisoformat('2021-8-04'))
+# last_6_months(datetime.datetime.fromisoformat('2021-1-04'))
+# This won't work going back more than 12 months..!
+def last_6_months(today):
+  # today = datetime.datetime.now()
+  mnth_counter = 0
+  dates = []
+  for x in range(-1, 6-1):
+    if today.month == 12 and x <0:
+      dates.append({'year': today.year + 1, 'month': 1})
+    elif  today.month - x > 0: # normal op - something like jun - 1 = july # its december, so we want all before jan 1st next year
+      dates.append({'year': today.year, 'month': today.month-x})
+    elif today.month - x <= 0: # its january
+      dates.append({'year': today.year - 1, 'month': (today.month - x)+12})
+    else: # not sure
+      raise Exception
+  return dates
+
+def month_titles(dates):
+  month_map = {'1': 'Jan', '2': 'Feb', '3': 'Mar', '4': 'Apr', '5': 'May', '6':'Jun', '7':'Jul', '8':'Aug', '9':'Sep', '10':'Oct', '11': 'Nov', '12': 'Dec'}
+  return (lambda month_map=month_map,dates=dates: [month_map[str(d['month']-1)] for d in dates])()[::-1]
+
+def graph_status_per_month(request):
+
+    last_months = last_6_months(datetime.datetime.now())
+    datas = []
+
+    while len(last_months) > 0:
+      next_month = last_months.pop()
+      datas.append(Tracker.number_per_category_before_date(datetime.datetime(next_month['year'], next_month['month'], 1, 0,0,0)))
+
+    month_1 = datas[0]
+    month_2 = datas[1]
+    month_3 = datas[2]
+    month_4 = datas[3]
+    month_5 = datas[4]
+    month_6 = datas[5]
+
+    context = {
+        'data': {
+          'repair': [month_1[0], month_2[0], month_3[0], month_4[0], month_5[0], month_6[0]],
+          'working': [month_1[1], month_2[1], month_3[1], month_4[1], month_5[1], month_6[1]],
+          'warning': [month_1[2], month_2[2], month_3[2], month_4[2], month_5[2], month_6[2]],
+          'ooa':  [month_1[3], month_2[3], month_3[3], month_4[3], month_5[3], month_6[3]],
+          'oos': [month_1[4], month_2[4], month_3[4], month_4[4], month_5[4], month_6[4]],
+          'failure': [month_1[5], month_2[5], month_3[5], month_4[5], month_5[5], month_6[5]]
+        }
+    }
+
+    return JsonResponse(context)

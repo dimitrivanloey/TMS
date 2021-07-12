@@ -27,5 +27,8 @@ urlpatterns = [
     path('trackers/<str:tracker_group>/<int:tracker_id>/failures/<int:failure_id>/edit', views.edit_tracker_failure, name='edit_tracker_failure'),
     path('trackers/<str:tracker_group>/<int:tracker_id>/failures/<int:failure_id>/delete', views.delete_tracker_failure, name='delete_tracker_failure'),
 
-    path('status/<str:category>', views.trackers_with_status, name='trackers_with_status')
+    path('status/<str:category>', views.trackers_with_status, name='trackers_with_status'),
+
+    # API
+    path('api/v1/graphs/status_per_month', views.graph_status_per_month, name='graph_status_per_month')
 ]

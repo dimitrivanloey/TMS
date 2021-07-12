@@ -32,13 +32,7 @@
 <div class="flex-container">
   {% for tracker in trackers %}
     <div>
-      {% if tracker.status == 'In Service' %}
-        <a class="btn btn-success" href="{{tracker_group}}/{{tracker.id}}">{{ tracker }}</a>
-      {% elif tracker.status == 'Not In Service' %}
-        <a class="btn btn-danger" href="{{tracker_group}}/{{tracker.id}}">{{ tracker }}</a>
-      {% else %}
-        <a class="btn btn-warning" href="{{tracker_group}}/{{tracker.id}}">{{ tracker }}</a>
-      {% endif %}
+        <a class="btn btn-{{tracker.current_status.category_style}}" href="/trackers/{{tracker.tracker_group}}/{{tracker.id}}">{{ tracker }}</a>
     </div>
   {% endfor %}
 </div>
