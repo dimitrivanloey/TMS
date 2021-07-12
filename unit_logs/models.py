@@ -35,9 +35,25 @@ class Tracker(models.Model):
         name = f"{self.tracker_group[0]}{self.number}"
         return name
 
-    def number_per_category_before_date(given_datetime):
-      all_categories = [entry.status.category for entry in [t.entry_set.filter(timestamp__lte=given_datetime).order_by('timestamp').last() for t in Tracker.objects.all()] if entry is not None]
-      return [all_categories.count(particular_category) for particular_category in Status.all_categories()]
+    def number_per_category_before_date(given_datetime, ordered_entry_sets, all_status_categories):
+      # all_categories = [entry.status.category for entry in [t.entry_set.filter(timestamp__lte=given_datetime).order_by('timestamp').last() for t in Tracker.objects.all()] if entry is not None]
+      # breakpoint()
+
+      #########################
+
+      # all_cs = []
+      # for t in Tracker.objects.all():
+      #   last_entry = t.entry_set.filter(timestamp__lte=given_datetime).order_by('timestamp').last()
+      #   if last_entry is not None:
+      #     all_cs.append(last_entry.status.category)
+
+      ###########################
+
+      all_categories = [e.status.category for e in [entryset.filter(timestamp__lte=given_datetime).last() for entryset in ordered_entry_sets] if e is not None]
+      # breakpoint()
+
+      res = [all_categories.count(particular_category) for particular_category in all_status_categories]
+      return res
 
     def latest_entry_in_category(category):
       return [entry for entry in [t.entry_set.order_by('timestamp').last() for t in Tracker.objects.all()] if entry is not None and entry.status.category == category]

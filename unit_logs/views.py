@@ -269,9 +269,16 @@ def graph_status_per_month(request):
     last_months = last_6_months(datetime.datetime.now())
     datas = []
 
+    ordered_entry_sets = [t.entry_set.order_by('timestamp') for t in Tracker.objects.all()]
+    all_status_categories = Status.all_categories()
+
     while len(last_months) > 0:
       next_month = last_months.pop()
-      datas.append(Tracker.number_per_category_before_date(datetime.datetime(next_month['year'], next_month['month'], 1, 0,0,0)))
+      datas.append(Tracker.number_per_category_before_date(
+        datetime.datetime(next_month['year'], next_month['month'], 1, 0,0,0),
+        ordered_entry_sets,
+        all_status_categories
+      ))
 
     month_1 = datas[0]
     month_2 = datas[1]
