@@ -39,32 +39,13 @@ def tracker_show(request, tracker_group, tracker_id):
 def index(request):
     tracker_objects = Tracker.objects
 
-    # jan_data = Tracker.number_per_category_before_date(datetime.datetime(2021, 2, 1, 0, 0, 0))
-    # feb_data = Tracker.number_per_category_before_date(datetime.datetime(2021, 3, 1, 0, 0, 0))
-    # mar_data = Tracker.number_per_category_before_date(datetime.datetime(2021, 4, 1, 0, 0, 0))
-    # apr_data = Tracker.number_per_category_before_date(datetime.datetime(2021, 5, 1, 0, 0, 0))
-    # may_data = Tracker.number_per_category_before_date(datetime.datetime(2021, 6, 1, 0, 0, 0))
-    # jun_data = Tracker.number_per_category_before_date(datetime.datetime(2021, 7, 1, 0, 0, 0))
+    context = {
+        'data': {
+          'month_titles': month_titles(last_6_months(datetime.datetime.now())),
+        }
+    }
 
-    # context = {
-    #     'data': {
-    #       # 'repair': [jan_data[0], feb_data[0], mar_data[0], apr_data[0], may_data[0], jun_data[0]],
-    #       # 'working': [jan_data[1], feb_data[1], mar_data[1], apr_data[1], may_data[1], jun_data[1]],
-    #       # 'warning': [jan_data[2], feb_data[2], mar_data[2], apr_data[2], may_data[2], jun_data[2]],
-    #       # 'ooa':  [jan_data[3], feb_data[3], mar_data[3], apr_data[3], may_data[3], jun_data[3]],
-    #       # 'oos': [jan_data[4], feb_data[4], mar_data[4], apr_data[4], may_data[4], jun_data[4]],
-    #       # 'failure': [jan_data[5], feb_data[5], mar_data[5], apr_data[5], may_data[5], jun_data[5]]
-    #       'repair': [ may_data[0], jun_data[0]],
-    #       'working': [ may_data[1], jun_data[1]],
-    #       'warning': [ may_data[2], jun_data[2]],
-    #       'ooa':  [ may_data[3], jun_data[3]],
-    #       'oos': [ may_data[4], jun_data[4]],
-    #       'failure': [may_data[5], jun_data[5]]
-
-    #     }
-    # }
-
-    return render(request, 'unit_logs/index.html')
+    return render(request, 'unit_logs/index.html', context)
 
 
 # # Individual Pages
@@ -278,6 +259,10 @@ def last_6_months(today):
     else: # not sure
       raise Exception
   return dates
+
+def month_titles(dates):
+  month_map = {'1': 'Jan', '2': 'Feb', '3': 'Mar', '4': 'Apr', '5': 'May', '6':'Jun', '7':'Jul', '8':'Aug', '9':'Sep', '10':'Oct', '11': 'Nov', '12': 'Dec'}
+  return (lambda month_map=month_map,dates=dates: [month_map[str(d['month']-1)] for d in dates])()[::-1]
 
 def graph_status_per_month(request):
 
