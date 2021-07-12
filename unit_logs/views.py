@@ -87,7 +87,15 @@ def new_tracker(request, tracker_group):
         # POST data submitted; process data
         form = TrackerForm(data=request.POST)
         if form.is_valid():
-            form.save()
+            tracker = form.save()
+            # assign birth event
+            tracker.entry_set.create(
+              timestamp=datetime.datetime.now(),
+              venue=None,
+              comments='automatic entry',
+              tracker_id=tracker.id,
+              status_id=1
+            )
             return redirect('unit_logs:trackers', tracker_group=tracker_group)
 
     # Display a blank or invalid form
