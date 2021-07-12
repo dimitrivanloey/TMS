@@ -14,6 +14,33 @@ from .forms import *
 from unit_logs.models import *
 
 
+
+from collections import namedtuple
+from django.db import connection
+def namedtuplefetchall(cursor):
+    "Return all rows from a cursor as a namedtuple"
+    desc = cursor.description
+    nt_result = namedtuple('Result', [col[0] for col in desc])
+    return [nt_result(*row) for row in cursor.fetchall()]
+
+def status_counts(yyyy, mm):
+  mm+=1 ## We are adding a month in order to query all the days of the current month
+  if(mm == 12):
+    mm = 1
+    yyyy += 1
+
+  with connection.cursor() as cursor:
+      cursor.execute('select count(tmp2.category), tmp2.category from ( \
+        select distinct on(tracker_id) tracker_id, "timestamp", tmp.status_id, unit_logs_status.category from ( \
+          select tracker_id, "timestamp", e.status_id from unit_logs_entry as e where "timestamp" < \'' + str(yyyy)+'-'+str(mm)+'-01' + '\' order by 1,"timestamp" desc \
+        ) as tmp \
+        inner join unit_logs_status on tmp.status_id=unit_logs_status.id \
+      ) as tmp2 GROUP BY tmp2.category \
+      ')
+      results = namedtuplefetchall(cursor)
+  return results
+
+
 today = datetime.date.today()
 yesterday = today - datetime.timedelta(days=1)
 
@@ -44,7 +71,6 @@ def index(request):
           'month_titles': month_titles(last_6_months(datetime.datetime.now())),
         }
     }
-
     return render(request, 'unit_logs/index.html', context)
 
 
@@ -245,49 +271,59 @@ def trackers_with_status(request, category):
 # last_6_months(datetime.datetime.fromisoformat('2021-8-04'))
 # last_6_months(datetime.datetime.fromisoformat('2021-1-04'))
 # This won't work going back more than 12 months..!
-def last_6_months(today):
+def last_6_months(today=datetime.datetime.now()):
   # today = datetime.datetime.now()
   mnth_counter = 0
   dates = []
-  for x in range(-1, 6-1):
-    if today.month == 12 and x <0:
-      dates.append({'year': today.year + 1, 'month': 1})
-    elif  today.month - x > 0: # normal op - something like jun - 1 = july # its december, so we want all before jan 1st next year
-      dates.append({'year': today.year, 'month': today.month-x})
-    elif today.month - x <= 0: # its january
-      dates.append({'year': today.year - 1, 'month': (today.month - x)+12})
-    else: # not sure
-      raise Exception
+  year = today.year
+  for x in range(0, 6):
+    mm = today.month-x
+    if(mm > 12):
+      mm = 1
+      dates.append({'year': year+1, 'month': mm})
+    else:
+      if(mm <= 0):
+        year -= 1
+        print(year)
+        if(mm == 0):
+          mm = 12
+        else:
+          mm = mm % 12
+      dates.append({'year': year, 'month': mm})
   return dates
 
 def month_titles(dates):
   month_map = {'1': 'Jan', '2': 'Feb', '3': 'Mar', '4': 'Apr', '5': 'May', '6':'Jun', '7':'Jul', '8':'Aug', '9':'Sep', '10':'Oct', '11': 'Nov', '12': 'Dec'}
-  return (lambda month_map=month_map,dates=dates: [month_map[str(d['month']-1)] for d in dates])()[::-1]
+  return (lambda month_map=month_map,dates=dates: [month_map[str(d['month'])] for d in dates])()[::-1]
+
+def filter(month_data, status):
+  l = [t for t in [r if r.category == status else None for r in month_data] if t is not None]
+  if(len(l) > 0):
+    return l[0].count
+  return 0
 
 def graph_status_per_month(request):
 
     last_months = last_6_months(datetime.datetime.now())
     datas = []
 
+    ordered_entry_sets = [t.entry_set.prefetch_related('status').order_by('timestamp') for t in Tracker.objects.all()]
+    all_status_categories = Status.all_categories()
+
+    months = []
     while len(last_months) > 0:
       next_month = last_months.pop()
-      datas.append(Tracker.number_per_category_before_date(datetime.datetime(next_month['year'], next_month['month'], 1, 0,0,0)))
+      months.append(status_counts(next_month['year'], next_month['month']))
 
-    month_1 = datas[0]
-    month_2 = datas[1]
-    month_3 = datas[2]
-    month_4 = datas[3]
-    month_5 = datas[4]
-    month_6 = datas[5]
 
     context = {
         'data': {
-          'repair': [month_1[0], month_2[0], month_3[0], month_4[0], month_5[0], month_6[0]],
-          'working': [month_1[1], month_2[1], month_3[1], month_4[1], month_5[1], month_6[1]],
-          'warning': [month_1[2], month_2[2], month_3[2], month_4[2], month_5[2], month_6[2]],
-          'ooa':  [month_1[3], month_2[3], month_3[3], month_4[3], month_5[3], month_6[3]],
-          'oos': [month_1[4], month_2[4], month_3[4], month_4[4], month_5[4], month_6[4]],
-          'failure': [month_1[5], month_2[5], month_3[5], month_4[5], month_5[5], month_6[5]]
+          'repair': [filter(months[0], 'Repair'), filter(months[1], 'Repair'), filter(months[2], 'Repair'), filter(months[3], 'Repair'), filter(months[4], 'Repair'), filter(months[5], 'Repair')],
+          'working': [filter(months[0], 'Working'), filter(months[1], 'Working'), filter(months[2], 'Working'), filter(months[3], 'Working'), filter(months[4], 'Working'), filter(months[5], 'Working')],
+          'warning': [filter(months[0], 'Warning'), filter(months[1], 'Warning'), filter(months[2], 'Warning'), filter(months[3], 'Warning'), filter(months[4], 'Warning'), filter(months[5], 'Warning')],
+          'ooa':  [filter(months[0], 'OOA'), filter(months[1], 'OOA'), filter(months[2], 'OOA'), filter(months[3], 'OOA'), filter(months[4], 'OOA'), filter(months[5], 'OOA')],
+          'oos': [filter(months[0], 'OOS'), filter(months[1], 'OOS'), filter(months[2], 'OOS'), filter(months[3], 'OOS'), filter(months[4], 'OOS'), filter(months[5], 'OOS')],
+          'failure': [filter(months[0], 'Failure'), filter(months[1], 'Failure'), filter(months[2], 'Failure'), filter(months[3], 'Failure'), filter(months[4], 'Failure'), filter(months[5], 'Failure')]
         }
     }
 
