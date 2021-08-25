@@ -3,11 +3,13 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.clickjacking import xframe_options_exempt
 from django.db.models import Count, Avg, F, Max, Min, Sum, Q
 from django.http import JsonResponse
-
+from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime
 from datetime import timedelta
 import datetime
-from django.utils import timezone
+import json
+import re
+from django.utils import timezone, datastructures
 
 from .models import *
 from .forms import *
@@ -328,3 +330,30 @@ def graph_status_per_month(request):
     }
 
     return JsonResponse(context)
+
+@csrf_exempt
+def bulk_add_entries(request):
+  if request.method == 'POST':
+    json.loads(request.body)
+    try:
+      data = json.loads(request.body)
+      for race in data:
+        for tracker in race['Trackers']:
+          # breakpoint()
+          tracker_record = Tracker.objects.get(tracker_group=re.split('(\d+)', tracker['name'])[0], number=re.split('(\d+)', tracker['name'])[1])
+          tracker_status_record = Status.objects.get(category=tracker['status'].split(" - ")[0], description=tracker['status'].split(" - ")[1])
+          Entry(venue=race['VenueName'], tracker=tracker_record, status=tracker_status_record, comments="automatic ocm").save()
+      return JsonResponse({'status': 'ok'}, status=200)
+    except:
+      return JsonResponse({'status': 'failed'}, status=501)
+
+
+@csrf_exempt
+def entries_for_venue_on_date(request):
+  if request.method == 'GET':
+    venue_name = request.GET.get('venue_name', False)
+    date = request.GET.get('date', False)
+    if not venue_name or not date:
+      return JsonResponse({'error': 'must pass venue_name and date as params' }, status=400)
+    entries = Entry.objects.filter(venue=venue_name, timestamp__contains=date)
+    return JsonResponse({'entries': [e.tracker.tracker_group + str(e.tracker.number) for e in entries]}, status=200)
