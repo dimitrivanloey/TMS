@@ -43,6 +43,12 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ]
+}
 
 
 MIDDLEWARE = [
@@ -74,7 +80,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'unit_log.wsgi.application'
-
+CSRF_TRUSTED_ORIGINS = ['*']
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
