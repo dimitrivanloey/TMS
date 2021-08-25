@@ -342,7 +342,7 @@ def bulk_add_entries(request):
           # breakpoint()
           tracker_record = Tracker.objects.get(tracker_group=re.split('(\d+)', tracker['name'])[0], number=re.split('(\d+)', tracker['name'])[1])
           tracker_status_record = Status.objects.get(category=tracker['status'].split(" - ")[0], description=tracker['status'].split(" - ")[1])
-          Entry(venue=race['VenueName'], tracker=tracker_record, status=tracker_status_record).save()
+          Entry(venue=race['VenueName'], tracker=tracker_record, status=tracker_status_record, comments="automatic ocm").save()
       return JsonResponse({'status': 'ok'}, status=200)
     except:
       return JsonResponse({'status': 'failed'}, status=501)
