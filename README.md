@@ -27,3 +27,15 @@ then place breakpoint(); where necessary in the app, then
 docker-compose exec app bash
 gunicorn -b 0.0.0.0:5000 unit_log.wsgi --log-file -
 ```
+
+Deploy
+
+There is currently no staging instance.
+
+`heroku login`
+
+Then to push a dev branch to prod:
+`git push heroku your-dev-branch-name:main`
+
+Or to simply push prod
+`git push heroku main`
