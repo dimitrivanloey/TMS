@@ -31,5 +31,6 @@ urlpatterns = [
     # API
     path('api/v1/graphs/status_per_month', views.graph_status_per_month, name='graph_status_per_month'),
     path('api/v1/trackers/bulk_add_entries', views.bulk_add_entries, name='bulk_add_entries'),
-    path('api/v1/entries', views.entries_for_venue_on_date, name='entries_for_venue_on_date')
+    path('api/v1/entries', views.entries_for_venue_on_date, name='entries_for_venue_on_date'),
+    path('api/v1/trackers/with_issue', views.trackers_with_issue, name='trackers_with_issue')
 ]
