@@ -375,4 +375,4 @@ def entries_for_venue_on_date(request):
 @csrf_exempt
 def trackers_with_issue(request):
   if request.method == 'GET':
-    return JsonResponse([{ 'friendlyName': x.tracker_group + str(x.number), 'status': x.category + ' - ' + x.description  } for x in trackers_with_issue_rows()], safe=False)
+    return JsonResponse([{ 'friendlyName': x.tracker_group + str(x.number), 'status': x.category + ' - ' + x.description  } for x in trackers_with_issue_rows()], status=200, safe=False)
