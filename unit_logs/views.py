@@ -46,6 +46,20 @@ def status_counts(yyyy, mm):
 today = datetime.date.today()
 yesterday = today - datetime.timedelta(days=1)
 
+def trackers_with_issue_rows():
+
+
+  with connection.cursor() as cursor:
+      cursor.execute('SELECT DISTINCT ON(tracker_id) ul_t.tracker_group, ul_t.number, ul_s.category, ul_s.description FROM \
+	                      ( SELECT tracker_id, e.status_id FROM unit_logs_entry AS e ORDER BY 1, "timestamp" DESC ) AS tmp    \
+	                    INNER JOIN unit_logs_status as ul_s ON tmp.status_id=ul_s.id                                        \
+	                    INNER JOIN unit_logs_tracker as ul_t ON tmp.tracker_id=ul_t.id                                       \
+                      WHERE category != \'Working\'')
+
+      results = namedtuplefetchall(cursor)
+
+  return results
+
 # # Individual Tracker Page
 @xframe_options_exempt
 @login_required
@@ -357,3 +371,8 @@ def entries_for_venue_on_date(request):
       return JsonResponse({'error': 'must pass venue_name and date as params' }, status=400)
     entries = Entry.objects.filter(venue=venue_name, timestamp__contains=date)
     return JsonResponse({'entries': [e.tracker.tracker_group + str(e.tracker.number) for e in entries]}, status=200)
+
+@csrf_exempt
+def trackers_with_issue(request):
+  if request.method == 'GET':
+    return JsonResponse([{ 'friendlyName': x.tracker_group + str(x.number), 'status': x.category + ' - ' + x.description  } for x in trackers_with_issue_rows()], status=200, safe=False)
